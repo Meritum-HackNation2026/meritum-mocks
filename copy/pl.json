@@ -1,5 +1,5 @@
 {
-  "$comment": "Meritum UI copy (pl). Keys mirror codes in the meritum-core contracts (src/meritum_core/checks/contracts.py; read-only copy in contracts/). Tone: DESIGN_SYSTEM.md section 8. Plain language for people without technical knowledge.",
+  "$comment": "Meritum UI copy (pl). Keys mirror codes in the meritum-core contracts (package src/meritum_core/checks/contracts/; read-only copy in contracts/). Tone: DESIGN_SYSTEM.md section 8. Plain language for people without technical knowledge.",
   "brand": {
     "name": "Meritum",
     "subtitle": "obywatelski radar dezinformacji",
@@ -9,6 +9,7 @@
     ]
   },
   "form": {
+    "$comment": "audio_transcription_warning is shown next to the audio field before sending; result.transcript_hint is shown on the result card next to the transcript (meritum-frontend#22, frontend/007).",
     "title": "Sprawdź informację",
     "lead": "Wklej tekst albo link. Sprawdzimy twierdzenia w opisanych źródłach i pokażemy, na czym opieramy odpowiedź.",
     "input_label": "Tekst albo link",
@@ -18,7 +19,9 @@
     "privacy": "Konto nie jest potrzebne. Oczywiste dane osobowe (telefon, e-mail, PESEL) ukrywamy przed analizą. Zapis sprawdzenia usuwamy po {days} dniach.",
     "delete_session": "Usuń moje sprawdzenia",
     "audio_label": "Albo nagranie (plik audio)",
-    "audio_note": "Nagranie zamienimy na tekst w regionie UE i pokażemy transkrypcję obok wyniku."
+    "audio_note": "Nagranie zamienimy na tekst w regionie UE i pokażemy transkrypcję obok wyniku.",
+    "audio_limits": "Plik do {max_mb} MB i {max_minutes} min nagrania. Formaty: {formats}.",
+    "audio_transcription_warning": "System z użyciem AI zamieni nagranie na tekst. Może się pomylić, więc porównaj transkrypcję z nagraniem."
   },
   "history": {
     "title": "Twoje sprawdzenia",
@@ -33,7 +36,11 @@
     "sign_in_microsoft": "Zaloguj się kontem Microsoft",
     "sign_out": "Wyloguj się",
     "delete_account": "Usuń konto i historię",
-    "stored": "Zapisujemy tylko identyfikator konta od Google albo Microsoft i historię sprawdzeń z ukrytymi danymi osobowymi."
+    "stored": "Zapisujemy imię i nazwisko, adres e-mail i identyfikator konta od Google albo Microsoft. Zapisujemy też historię sprawdzeń z ukrytymi danymi osobowymi.",
+    "signed_in_as": "Zalogowano jako {email}.",
+    "signed_out": "Wylogowano. Historia zostaje na koncie i zobaczysz ją po ponownym zalogowaniu.",
+    "sign_in_failed": "Nie udało się zalogować. Spróbuj jeszcze raz albo sprawdzaj bez konta.",
+    "session_expired": "Minął czas logowania. Zaloguj się ponownie, żeby zobaczyć historię."
   },
   "sms": {
     "$comment": "Polish characters force UCS-2: one SMS holds 70 characters. reply carries only the main claim's verdict and a link; transliteration to GSM-7 (160 characters) is an option. reply and failure must fit; fees is shown on the website and in README too.",
@@ -50,10 +57,20 @@
     "deleted": "Usunęliśmy zapisy twoich sprawdzeń."
   },
   "extension": {
+    "$comment": "popup_* show the popup's connection to the Meritum server; {api} is its address or version (design-system#16); popup_delete* delete the checks sent from this extension (design-system#22).",
     "check": "Sprawdź",
     "checked": "Sprawdzono",
     "popup_title": "Sprawdź tekst albo link",
-    "page_hint": "Wysyłamy treść posta dopiero po kliknięciu „Sprawdź”."
+    "page_hint": "Wysyłamy treść posta dopiero po kliknięciu „Sprawdź”.",
+    "popup_connecting": "Łączymy z serwerem Meritum…",
+    "popup_api_ok": "Połączono z serwerem Meritum ({api}).",
+    "popup_api_down": "Serwer Meritum nie odpowiada. Spróbuj za kilka minut.",
+    "popup_delete": "Usuń moje sprawdzenia",
+    "popup_delete_confirm": "Usunąć sprawdzenia wysłane z tej wtyczki? Tego nie da się cofnąć.",
+    "popup_delete_yes": "Usuń",
+    "popup_delete_cancel": "Anuluj",
+    "popup_deleted": "Usunęliśmy sprawdzenia wysłane z tej wtyczki.",
+    "popup_delete_failed": "Nie udało się usunąć sprawdzeń. Spróbuj za kilka minut."
   },
   "result": {
     "label": "Meritum",
@@ -236,26 +253,89 @@
     },
     "askers": "{count} różnych pytających"
   },
+  "staff": {
+    "$comment": "Staff panel. sign_in: meritum-frontend#24 (frontend/010) and meritum-backend#15; admin: meritum-frontend#31 (frontend/021). Sign-in buttons reuse account.sign_in_google, account.sign_in_microsoft and account.sign_out; role names are in moderation.role.",
+    "sign_in": {
+      "title": "Panel Meritum dla zespołu",
+      "lead": "Zaloguj się kontem Google albo Microsoft z adresem, któremu administrator nadał rolę.",
+      "no_access": "To konto nie ma dostępu do panelu. Poproś administratora o nadanie roli.",
+      "failed": "Nie udało się zalogować. Spróbuj jeszcze raz.",
+      "session_expired": "Minął czas logowania. Zaloguj się ponownie, żeby wrócić do panelu.",
+      "signed_in_as": "{email}, rola: {role}",
+      "signed_out": "Wylogowano z panelu."
+    },
+    "admin": {
+      "title": "Administracja",
+      "accounts": {
+        "title": "Konta personelu",
+        "lead": "Rolę nadajesz adresowi e-mail. Ta osoba loguje się kontem Google albo Microsoft z tym adresem.",
+        "email": "Adres e-mail",
+        "role": "Rola",
+        "add": "Dodaj konto",
+        "added": "Dodano konto {email} z rolą {role}.",
+        "remove": "Odbierz dostęp",
+        "remove_confirm": "Odebrać dostęp do panelu osobie {email}?",
+        "removed": "Odebrano dostęp osobie {email}.",
+        "empty": "Nie ma jeszcze kont personelu.",
+        "invalid_email": "To nie wygląda na adres e-mail. Sprawdź, czy ma znak @ i domenę.",
+        "duplicate": "To konto już jest na liście."
+      },
+      "topics": {
+        "title": "Tematy wysokiego ryzyka",
+        "lead": "Gdy w tych tematach brakuje dowodów, sprawa trafia do moderatorów. System sam rozpoznaje temat, a słowa kluczowe pomagają, gdy go nie rozpozna.",
+        "name": "Temat",
+        "keywords": "Słowa kluczowe",
+        "keywords_hint": "Oddziel je przecinkami, np. wybory, głosowanie, komisja wyborcza.",
+        "add": "Dodaj temat",
+        "added": "Dodano temat „{topic}”.",
+        "remove": "Usuń temat",
+        "removed": "Usunięto temat „{topic}”.",
+        "empty": "Lista tematów jest pusta. Żadna sprawa nie dostanie powodu „sprawa wysokiego ryzyka”."
+      }
+    }
+  },
+  "jury": {
+    "$comment": "One-time jury link with a read-only analyst role: meritum-backend#32, meritum-frontend#27 (frontend/011). contact is the team address from the submission materials.",
+    "welcome": "Witamy. Masz dostęp do panelu tylko do odczytu do {date}.",
+    "used": "Ten link działa tylko raz, a ktoś już z niego skorzystał. Napisz do zespołu Meritum: {contact}, a wyślemy nowy.",
+    "expired": "Ten link wygasł {date}, bo skończył się okres oceny. Jeśli potrzebujesz dostępu, napisz do zespołu Meritum: {contact}.",
+    "read_only": "Tryb tylko do odczytu. Widzisz przebiegi i porównania, ale nie uruchomisz przebiegu ani nie dodasz zestawu."
+  },
   "errors": {
     "empty": "Wklej tekst (co najmniej 3 znaki) albo link.",
     "invalid_url": "To nie wygląda na adres strony. Wklej pełny link zaczynający się od http:// albo https://.",
+    "url_too_long": "Link jest za długi. Wklej adres do 2083 znaków albo sam tekst.",
     "too_long": "Tekst jest za długi. Wklej najwyżej 4000 znaków albo sam link.",
     "rate_limited": "Za dużo sprawdzeń w krótkim czasie. Spróbuj za minutę.",
     "busy": "Mamy teraz bardzo dużo pytań. Spróbuj za kilka minut. To nie jest ocena treści.",
     "offline": "Brak połączenia. Spróbuj, gdy wrócisz do sieci.",
-    "unsupported_site": "Przycisk „Sprawdź” działa na X, Facebooku, Instagramie, Reddicie i TikToku. Tekst z innych stron wklej w okienku wtyczki."
+    "unsupported_site": "Przycisk „Sprawdź” działa na X, Facebooku, Instagramie, Reddicie i TikToku. Tekst z innych stron wklej w okienku wtyczki.",
+    "audio_too_large": "Plik jest za duży. Wyślij nagranie do {max_mb} MB albo je przytnij.",
+    "audio_too_long": "Nagranie jest za długie. Wyślij najwyżej {max_minutes} min albo je przytnij."
   },
   "ai_notice": {
-    "$comment": "AI Act art. 50: shown at first contact in every channel. sms must fit one UCS-2 SMS (70 characters).",
+    "$comment": "AI Act art. 50: shown at first contact in every channel. first_contact: above the web form field and in the extension popup; discord: first bot reply; sms: first SMS to a new number, must fit one UCS-2 SMS (70 characters); mcp: in every MCP tool result. The result card line is result.ai_disclosure.",
     "first_contact": "Odpowiada system AI. Sprawdza informacje w opisanych źródłach i pokazuje cytaty, ale może się mylić.",
     "discord": "Jestem botem Meritum, systemem AI. Sprawdzam informacje w opisanych źródłach i podaję cytaty.",
-    "sms": "Odpowiada system AI Meritum. Sprawdzamy w źródłach."
+    "sms": "Odpowiada system AI Meritum. Sprawdzamy w źródłach.",
+    "mcp": "Wynik przygotował system AI Meritum. Sprawdza informacje w opisanych źródłach i podaje cytaty, ale może się mylić."
   },
   "discord": {
     "$comment": "Message content max 2000 characters (API limit for bots). First message: summary with a link; then one message per claim. Never split inside a citation.",
-    "summary": "Wynik sprawdzenia ({count} twierdzeń). Pełna karta: {link}",
+    "summary": "Wynik sprawdzenia: {claims}. Pełna karta: {link}",
+    "claims": {
+      "$comment": "{claims} in summary: pick the form with Intl.PluralRules('pl').select(count).",
+      "one": "{count} twierdzenie",
+      "few": "{count} twierdzenia",
+      "many": "{count} twierdzeń",
+      "other": "{count} twierdzenia"
+    },
+    "user_author": "Ty",
     "summary_line": "{verdict}: {claim}",
     "claim": "{verdict}: {claim}\n„{fragment}” ({publisher}, {date})\nSiła podstawy: {strength}",
+    "claim_undated": "{verdict}: {claim}\n„{fragment}” ({publisher}, data publikacji nieznana)\nSiła podstawy: {strength}",
+    "claim_no_strength": "{verdict}: {claim}\n„{fragment}” ({publisher}, {date})",
+    "claim_undated_no_strength": "{verdict}: {claim}\n„{fragment}” ({publisher}, data publikacji nieznana)",
     "claim_unsettled": "{verdict}: {claim}\n{unresolved}"
   },
   "notifications": {

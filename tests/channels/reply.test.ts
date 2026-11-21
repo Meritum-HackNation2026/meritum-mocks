@@ -20,7 +20,7 @@ test('summary with every verdict and the card link, then one message per claim',
   })
   assert.equal(
     summary,
-    'Wynik sprawdzenia (2 twierdzeń). Pełna karta: https://meritum.example/c_01\n' +
+    'Wynik sprawdzenia: 2 twierdzenia. Pełna karta: https://meritum.example/c_01\n' +
       'Potwierdzone: Językiem urzędowym w Polsce jest język polski.\n' +
       'Brak wystarczających dowodów: Wrocław jako jedyny miał darmowe przejazdy dla 65-latków.',
   )
@@ -54,7 +54,33 @@ test('a quote without a publication date says so, a claim without strength skips
   assert.ok(citation)
   citation.source.published_at = null
   const [, message] = discordReply(doneResult([claim]), { cardUrl: card, firstContact: false })
-  assert.ok(message?.endsWith('(Sejm RP, data publikacji nieznana)'))
+  assert.equal(
+    message,
+    'Wprowadzające w błąd: Językiem urzędowym w Polsce jest język polski.\n' +
+      '„W Rzeczypospolitej Polskiej językiem urzędowym jest język polski.” (Sejm RP, data publikacji nieznana)',
+  )
+})
+
+test('an undated quote of a claim with strength keeps the strength line', () => {
+  const claim = decisiveClaim()
+  const citation = claim.citations?.[0]
+  assert.ok(citation)
+  citation.source.published_at = null
+  const [, message] = discordReply(doneResult([claim]), { cardUrl: card, firstContact: false })
+  assert.ok(message?.endsWith('(Sejm RP, data publikacji nieznana)\nSiła podstawy: Mocna'))
+})
+
+test('the summary names the claims in the right Polish plural form', () => {
+  const head = (count: number) =>
+    discordReply(doneResult(Array.from({ length: count }, () => decisiveClaim())), {
+      cardUrl: card,
+      firstContact: false,
+    })[0]?.split('\n')[0]
+  assert.equal(head(1), `Wynik sprawdzenia: 1 twierdzenie. Pełna karta: ${card}`)
+  assert.equal(head(3), `Wynik sprawdzenia: 3 twierdzenia. Pełna karta: ${card}`)
+  assert.equal(head(5), `Wynik sprawdzenia: 5 twierdzeń. Pełna karta: ${card}`)
+  assert.equal(head(12), `Wynik sprawdzenia: 12 twierdzeń. Pełna karta: ${card}`)
+  assert.equal(head(22), `Wynik sprawdzenia: 22 twierdzenia. Pełna karta: ${card}`)
 })
 
 test('a check without claims answers with the status and its hint from copy', () => {

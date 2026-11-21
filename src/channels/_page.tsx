@@ -74,7 +74,7 @@ function Message(props: { message: ChatMessage; isReply: boolean }): React.JSX.E
     <li {...target}>
       {/* biome-ignore lint/performance/noImgElement: Next.js rule; this page is plain server-rendered HTML */}
       {isBot ? <img src={avatar} alt="" /> : <span className="avatar" />}
-      <span className="author">{isBot ? copy.brand.name : copy.form.input_label}</span>
+      <span className="author">{isBot ? copy.brand.name : copy.discord.user_author}</span>
       <p className="text">
         <Linked text={props.message.text} />
       </p>

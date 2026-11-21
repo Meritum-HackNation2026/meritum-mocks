@@ -181,7 +181,8 @@
 
 /*
   Injected widget host skins. Put `data-host="x|facebook|instagram|reddit|tiktok"`
-  on the widget root inside the extension's Shadow DOM. The frame adapts to the
+  on the widget root inside the extension's Shadow DOM, and `data-host="discord"`
+  on the Discord mock's root. The frame adapts to the
   host; the Meritum mark, name, state colours and sources never change.
 */
 [data-host] { --host-font: system-ui, sans-serif; --host-radius: 16px; --host-button-radius: 9999px; --host-card: var(--card); --host-border: 1px solid var(--border); --host-link: var(--verified); }
@@ -190,3 +191,4 @@
 [data-host="instagram"] { --host-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; --host-radius: 0px; --host-button-radius: 8px; --host-border: 0; --host-card: transparent; }
 [data-host="reddit"]    { --host-font: "Reddit Sans", -apple-system, BlinkMacSystemFont, sans-serif; --host-radius: 16px; --host-button-radius: 9999px; }
 [data-host="tiktok"]    { --host-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; --host-radius: 8px; --host-button-radius: 4px; }
+[data-host="discord"]   { --host-font: "gg sans", "Noto Sans", "Helvetica Neue", Helvetica, Arial, sans-serif; --host-radius: 8px; --host-button-radius: 3px; }

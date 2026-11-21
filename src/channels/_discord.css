@@ -1,10 +1,6 @@
-/* Discord mock (meritum-ui: platform skin, DESIGN_SYSTEM.md section 7). The host gives the
-   font, radii and button shape; colours, the mark and the name stay Meritum's tokens. */
-[data-host="discord"] {
-  --host-font: "gg sans", "Noto Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  --host-radius: 8px;
-  --host-button-radius: 4px;
-}
+/* Discord mock (meritum-ui: platform skin, DESIGN_SYSTEM.md section 7). The skin
+   [data-host="discord"] in tokens/meritum.css gives the font, radii and button shape;
+   colours, the mark and the name stay Meritum's tokens. */
 * {
   box-sizing: border-box;
 }

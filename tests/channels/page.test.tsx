@@ -16,7 +16,7 @@ test('the conversation shows the user message and each bot message, announced li
   const log = screen.getByRole('log')
   const items = within(log).getAllByRole('listitem')
   assert.equal(items.length, 2)
-  assert.ok(within(items[0] as HTMLElement).getByText(copy.form.input_label))
+  assert.ok(within(items[0] as HTMLElement).getByText(copy.discord.user_author))
   assert.ok(within(items[1] as HTMLElement).getByText(copy.brand.name))
   assert.ok(within(items[1] as HTMLElement).getByText('Siła podstawy: Mocna', { exact: false }))
 })
