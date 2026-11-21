@@ -1,10 +1,10 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
 import { render, screen } from '@testing-library/react'
+import copy from '../../copy/pl.json' with { type: 'json' }
 import { BrandHeading } from './brand-heading.tsx'
 
-// brand.name in copy/pl.json; read it from the copy once it is synced (meritum-mocks#11).
-const brandName = 'Meritum'
+const brandName = copy.brand.name
 
 test('the heading shows the brand name', () => {
   render(<BrandHeading text={brandName} />)

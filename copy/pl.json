@@ -1,0 +1,295 @@
+{
+  "$comment": "Meritum UI copy (pl). Keys mirror codes in the meritum-core contracts (src/meritum_core/checks/contracts.py; read-only copy in contracts/). Tone: DESIGN_SYSTEM.md section 8. Plain language for people without technical knowledge.",
+  "brand": {
+    "name": "Meritum",
+    "subtitle": "obywatelski radar dezinformacji",
+    "taglines": [
+      "Sprawdź, zanim podasz dalej.",
+      "Każde ustalenie ma źródło. Gdy źródeł brak, mówimy to wprost."
+    ]
+  },
+  "form": {
+    "title": "Sprawdź informację",
+    "lead": "Wklej tekst albo link. Sprawdzimy twierdzenia w opisanych źródłach i pokażemy, na czym opieramy odpowiedź.",
+    "input_label": "Tekst albo link",
+    "input_placeholder": "Np. „Od stycznia nie zapłacisz w sklepie gotówką”",
+    "submit": "Sprawdź",
+    "checking": "Sprawdzamy…",
+    "privacy": "Konto nie jest potrzebne. Oczywiste dane osobowe (telefon, e-mail, PESEL) ukrywamy przed analizą. Zapis sprawdzenia usuwamy po {days} dniach.",
+    "delete_session": "Usuń moje sprawdzenia",
+    "audio_label": "Albo nagranie (plik audio)",
+    "audio_note": "Nagranie zamienimy na tekst w regionie UE i pokażemy transkrypcję obok wyniku."
+  },
+  "history": {
+    "title": "Twoje sprawdzenia",
+    "empty": "Tu pojawią się sprawdzenia z tej rozmowy.",
+    "session_note": "Historia jest zapisana tylko w tej karcie przeglądarki. Zniknie, gdy ją zamkniesz.",
+    "account_note": "Jesteś zalogowany, więc historię przechowujemy na naszym serwerze. Możesz ją usunąć w każdej chwili.",
+    "delete": "Usuń moją historię"
+  },
+  "account": {
+    "optional": "Logowanie nie jest potrzebne. Zaloguj się, jeśli chcesz zachować historię po zamknięciu przeglądarki.",
+    "sign_in_google": "Zaloguj się kontem Google",
+    "sign_in_microsoft": "Zaloguj się kontem Microsoft",
+    "sign_out": "Wyloguj się",
+    "delete_account": "Usuń konto i historię",
+    "stored": "Zapisujemy tylko identyfikator konta od Google albo Microsoft i historię sprawdzeń z ukrytymi danymi osobowymi."
+  },
+  "sms": {
+    "$comment": "Polish characters force UCS-2: one SMS holds 70 characters. reply carries only the main claim's verdict and a link; transliteration to GSM-7 (160 characters) is an option. reply and failure must fit; fees is shown on the website and in README too.",
+    "fees": "Usługa jest bezpłatna. Operator może pobrać standardową opłatę za SMS według twojej taryfy.",
+    "reply": "{verdict}. Wynik: {link}",
+    "too_long": "Za długi tekst. Wyślij krótszy albo sam link.",
+    "failure": "Nie udało się sprawdzić. To nie jest ocena. Spróbuj później.",
+    "delete_hint": "Wyślij USUN, a usuniemy zapisy sprawdzeń z tego numeru."
+  },
+  "channel_privacy": {
+    "title": "Polityka prywatności kanału",
+    "summary": "Liczymy tylko zbiorcze statystyki użycia. Twój identyfikator z Discorda albo numer telefonu służy tylko do odpowiedzi i liczenia powtórzeń. Przechowujemy go jako skrót przez {days} dni i nie pokazujemy moderatorom. Adres IP i region mogą służyć do ochrony przed atakami.",
+    "delete_discord": "Napisz /usun-moje-dane, a usuniemy zapisy twoich sprawdzeń.",
+    "deleted": "Usunęliśmy zapisy twoich sprawdzeń."
+  },
+  "extension": {
+    "check": "Sprawdź",
+    "checked": "Sprawdzono",
+    "popup_title": "Sprawdź tekst albo link",
+    "page_hint": "Wysyłamy treść posta dopiero po kliknięciu „Sprawdź”."
+  },
+  "result": {
+    "label": "Meritum",
+    "claims_title": "Co sprawdziliśmy",
+    "claim": "Twierdzenie",
+    "explanation": "Wyjaśnienie",
+    "explanation_hint": "To nasze wyjaśnienie, przygotowane z pomocą AI. Podstawą są cytaty ze źródeł poniżej.",
+    "sources_title": "Na czym się opieramy",
+    "source_meta": "{publisher}, {date}",
+    "source_undated": "{publisher}, data publikacji nieznana",
+    "fragment": "Fragment",
+    "strength_title": "Siła podstawy",
+    "premises": "Niezależne źródła: {independent}, w tym urzędowe lub pierwotne: {primary}. {agreement}",
+    "agreement": {
+      "consistent": "Źródła są zgodne.",
+      "conflicting": "Źródła podają różne informacje."
+    },
+    "conflict": "Wiarygodne źródła są tu sprzeczne, więc nie rozstrzygamy. Obie strony są poniżej. Różnica: {difference}",
+    "newest": "Najnowsze źródło jest z {source_date}, a twierdzenie dotyczy {claim_date} ({claim_date_source}).",
+    "claim_date_source": {
+      "text": "data z tekstu",
+      "input_published_at": "data publikacji sprawdzanej treści",
+      "today": "dzisiejsza data"
+    },
+    "unresolved": "Czego nie udało się ustalić",
+    "archival": "Uwaga: najnowszy dowód jest nieaktualny dla daty, której dotyczy twierdzenie. Informacja mogła się zmienić.",
+    "limitations": "Ograniczenia",
+    "incident": "Podobne do znanego przypadku dezinformacji z bazy {database}: {title} ({date}). To kontekst, a nie podstawa oceny.",
+    "incident_domain": "Ten link prowadzi do serwisu z bazy {database} ({title}). To informacja o serwisie, a nie ocena tej treści.",
+    "ai_disclosure": "Odpowiedź przygotował system z użyciem AI. Sprawdź źródła sam: linki prowadzą do oryginałów.",
+    "via_web": "znalezione w wyszukiwaniu w zatwierdzonych serwisach",
+    "superseded": "Ten dowód zastąpił nowszy dokument z {date}.",
+    "timeline_title": "Oś czasu dowodów",
+    "what_would_change": "Co zmieniłoby werdykt",
+    "transcript": "Transkrypcja nagrania",
+    "transcript_hint": "Transkrypcję przygotował system automatycznie. Może zawierać błędy.",
+    "claim_review": "Według {publisher}: „{rating}”.",
+    "claim_review_context": "Ocena fact-checkera {publisher}: „{rating}”. To kontekst, a nie podstawa naszej oceny.",
+    "fact_check_unavailable": "Nie mogę teraz sprawdzić indeksu Google Fact Check z powodu błędu dostępu. To nie znaczy, że takiej oceny nie ma.",
+    "no_result_hint": "Brak wyniku w naszych źródłach nie oznacza, że tak nie jest.",
+    "announced_only": "Zapowiedziano to na {date}. Nie mamy informacji, czy się odbyło.",
+    "image_date_hint": "Data widoczna na obrazie nie potwierdza sama w sobie rzeczywistej daty publikacji.",
+    "match_basis": "Podstawa dopasowania: zgadzają się {fields}.",
+    "different_quantities": "Te liczby mierzą co innego: {difference}. To nie są sprzeczne dane.",
+    "incident_database": {
+      "organiser": "incydentów organizatora",
+      "euvsdisinfo": "EUvsDisinfo (EEAS East StratCom Task Force)"
+    },
+    "euvsdisinfo_disclaimer": "Publikacje EUvsDisinfo nie są oficjalnym stanowiskiem UE. Wpis w bazie nie znaczy, że dany serwis jest powiązany z Kremlem.",
+    "report_error": "Zgłoś błąd",
+    "report_error_reason": "Co jest nie tak? (opcjonalnie)",
+    "report_error_done": "Dziękujemy. Zgłoszenie trafiło do moderatorów (sprawa {case}). Odpowiedź przyjdzie jako powiadomienie.",
+    "how_it_works": "Jak działa Meritum"
+  },
+  "verdict": {
+    "confirmed": "Potwierdzone",
+    "false": "Fałszywe",
+    "misleading": "Wprowadzające w błąd",
+    "insufficient_evidence": "Brak wystarczających dowodów",
+    "not_verifiable": "Nie podlega weryfikacji"
+  },
+  "verdict_hint": {
+    "confirmed": "Źródła potwierdzają to twierdzenie.",
+    "false": "Źródła przeczą temu twierdzeniu.",
+    "misleading": "Dane mogą być prawdziwe, ale prowadzą do błędnego wniosku albo brakuje im kontekstu.",
+    "insufficient_evidence": "Nie rozstrzygamy, bo nie mamy wystarczających źródeł.",
+    "not_verifiable": "To opinia, przewidywanie albo ocena. Faktów nie da się tu sprawdzić."
+  },
+  "strength": {
+    "strong": "Mocna",
+    "moderate": "Umiarkowana",
+    "weak": "Słaba"
+  },
+  "status": {
+    "needs_clarification": "Doprecyzuj pytanie",
+    "out_of_scope": "Poza zakresem",
+    "technical_failure": "Problem techniczny"
+  },
+  "status_hint": {
+    "needs_clarification": "Nie wiemy, które twierdzenie sprawdzić. Napisz je jednym zdaniem.",
+    "out_of_scope": "Sprawdzamy twierdzenia o faktach z życia publicznego. Tego pytania nie obsługujemy.",
+    "technical_failure": "Nie udało się sprawdzić. To nie jest ocena treści. Spróbuj za kilka minut.",
+    "out_of_scope_image": "Na razie nie sprawdzamy obrazów. Przepisz tekst z obrazka albo wklej link do źródła.",
+    "out_of_scope_audio_format": "Tego formatu nagrania nie obsługujemy. Wyślij inny plik audio albo przepisz tekst.",
+    "technical_failure_url": "Nie udało się otworzyć strony z linku: jest niedostępna albo wymaga logowania. To nie jest ocena treści. Wklej tekst."
+  },
+  "escalation": {
+    "recommended": "Ta sprawa nadaje się do sprawdzenia przez moderatora. Nie została jeszcze przekazana.",
+    "created": "Przekazaliśmy sprawę moderatorom (sprawa {case}).",
+    "updated": "Dołączyliśmy twoje pytanie do istniejącej sprawy {case}."
+  },
+  "source_warning": {
+    "eu_sanctioned_entity": "Ta treść pochodzi od podmiotu z listy sankcji UE ({entity}). To informacja o źródle, a nie ocena samej treści."
+  },
+  "analysis": {
+    "title": "Meritum sprawdza",
+    "draft": "Wersja wstępna. Werdykt pokażemy po sprawdzeniu cytatów.",
+    "steps": {
+      "receive": "Przyjmujemy pytanie",
+      "fetch_url": "Pobieramy stronę z linku",
+      "transcribe_audio": "Zamieniamy nagranie na tekst",
+      "screen_injection": "Sprawdzamy, czy treść nie zawiera ukrytych poleceń",
+      "extract_claims": "Wyodrębniamy twierdzenia do sprawdzenia",
+      "search_corpus": "Szukamy w bazie źródeł",
+      "search_web": "Szukamy świeżych publikacji w zatwierdzonych serwisach",
+      "search_fact_checks": "Szukamy ustaleń fact-checkerów",
+      "assess_evidence": "Porównujemy źródła z twierdzeniami",
+      "verify_citations": "Sprawdzamy, czy cytaty są dosłowne",
+      "write_answer": "Piszemy odpowiedź prostym językiem",
+      "save_record": "Zapisujemy przebieg sprawdzenia"
+    }
+  },
+  "techniques": {
+    "false_authority": {
+      "name": "Fałszywy autorytet",
+      "how_to_spot": "Ekspert bez nazwiska albo znana osoba bez potwierdzenia w jej oficjalnych kanałach."
+    },
+    "conspiracy_theory": {
+      "name": "Teoria spiskowa",
+      "how_to_spot": "Każdy dowód przeciw zostaje nazwany fałszerstwem, a „oni” ukrywają prawdę."
+    },
+    "out_of_context": {
+      "name": "Wyrwanie z kontekstu",
+      "how_to_spot": "Prawdziwe nagranie lub cytat z innego miejsca, czasu albo sensu. Sprawdź datę i źródło oryginału."
+    },
+    "outdated": {
+      "name": "Nieaktualna informacja",
+      "how_to_spot": "Coś było prawdą kiedyś, ale przepisy albo fakty się zmieniły. Sprawdź datę."
+    },
+    "fabricated_quote": {
+      "name": "Zmyślony cytat",
+      "how_to_spot": "Cytat bez linku do wypowiedzi. Szukaj go u autora, nie w udostępnieniach."
+    },
+    "manipulated_media": {
+      "name": "Zmanipulowane zdjęcie lub wideo",
+      "how_to_spot": "Nienaturalne usta i dłonie, rozjechany dźwięk, brak tego materiału w oficjalnych źródłach."
+    },
+    "impersonation": {
+      "name": "Podszywanie się",
+      "how_to_spot": "Nazwa i logo podobne do prawdziwych, ale inny adres strony lub konta."
+    },
+    "cherry_picking": {
+      "name": "Wybiórcze dane",
+      "how_to_spot": "Jedna liczba bez punktu odniesienia. Zapytaj: w porównaniu z czym?"
+    }
+  },
+  "source_kind": {
+    "akt_prawny": "akt prawny",
+    "dane_publiczne": "dane publiczne",
+    "instytucja": "instytucja",
+    "fact_check": "fact-checking",
+    "media": "media"
+  },
+  "source_tier": {
+    "primary": "źródło urzędowe lub pierwotne",
+    "secondary": "źródło wtórne"
+  },
+  "moderation": {
+    "queue_title": "Sprawy do sprawdzenia",
+    "reason": {
+      "insufficient_evidence": "brak wystarczających dowodów",
+      "high_risk": "sprawa wysokiego ryzyka",
+      "repeated_unanswered": "powtarzające się pytanie bez odpowiedzi",
+      "user_dispute": "zgłoszenie błędu przez użytkownika"
+    },
+    "similar": "{count} podobnych pytań",
+    "high_risk_by": {
+      "model": "temat rozpoznał model według listy administratora",
+      "keywords": "temat rozpoznany po słowach kluczowych"
+    },
+    "role": {
+      "moderator": "moderator",
+      "analyst": "analityk",
+      "admin": "administrator"
+    },
+    "state": {
+      "open": "otwarta",
+      "answered": "z odpowiedzią",
+      "closed": "zamknięta"
+    },
+    "askers": "{count} różnych pytających"
+  },
+  "errors": {
+    "empty": "Wklej tekst (co najmniej 3 znaki) albo link.",
+    "invalid_url": "To nie wygląda na adres strony. Wklej pełny link zaczynający się od http:// albo https://.",
+    "too_long": "Tekst jest za długi. Wklej najwyżej 4000 znaków albo sam link.",
+    "rate_limited": "Za dużo sprawdzeń w krótkim czasie. Spróbuj za minutę.",
+    "busy": "Mamy teraz bardzo dużo pytań. Spróbuj za kilka minut. To nie jest ocena treści.",
+    "offline": "Brak połączenia. Spróbuj, gdy wrócisz do sieci.",
+    "unsupported_site": "Przycisk „Sprawdź” działa na X, Facebooku, Instagramie, Reddicie i TikToku. Tekst z innych stron wklej w okienku wtyczki."
+  },
+  "ai_notice": {
+    "$comment": "AI Act art. 50: shown at first contact in every channel. sms must fit one UCS-2 SMS (70 characters).",
+    "first_contact": "Odpowiada system AI. Sprawdza informacje w opisanych źródłach i pokazuje cytaty, ale może się mylić.",
+    "discord": "Jestem botem Meritum, systemem AI. Sprawdzam informacje w opisanych źródłach i podaję cytaty.",
+    "sms": "Odpowiada system AI Meritum. Sprawdzamy w źródłach."
+  },
+  "discord": {
+    "$comment": "Message content max 2000 characters (API limit for bots). First message: summary with a link; then one message per claim. Never split inside a citation.",
+    "summary": "Wynik sprawdzenia ({count} twierdzeń). Pełna karta: {link}",
+    "summary_line": "{verdict}: {claim}",
+    "claim": "{verdict}: {claim}\n„{fragment}” ({publisher}, {date})\nSiła podstawy: {strength}",
+    "claim_unsettled": "{verdict}: {claim}\n{unresolved}"
+  },
+  "notifications": {
+    "title": "Powiadomienia",
+    "empty": "Nie masz powiadomień.",
+    "unread": "Nieprzeczytane: {count}",
+    "mark_read": "Oznacz jako przeczytane",
+    "retention": "Powiadomienia usuwamy po {days} dniach.",
+    "kind": {
+      "check_progress": "Sprawdzenie trwa: {step}",
+      "check_done": "Sprawdzenie gotowe. Zobacz wynik.",
+      "moderator_answer": "Moderator odpowiedział na sprawę {case}.",
+      "new_evidence": "Mamy nowy dowód do twojego wcześniejszego pytania.",
+      "case_assigned": "Nowa albo zaktualizowana sprawa {case}.",
+      "system": "{message}"
+    },
+    "status": {
+      "unread": "nieprzeczytane",
+      "read": "przeczytane"
+    }
+  },
+  "evaluation": {
+    "title": "Ewaluacja",
+    "golden_set": "golden set (zestaw deweloperski)",
+    "runs": "Przebiegi",
+    "new_run": "Uruchom na golden secie",
+    "upload": "Dodaj zestaw (JSON albo CSV)",
+    "compare": "Porównaj przebiegi",
+    "changed_cases": "Przypadki, które zmieniły wynik",
+    "status": {
+      "queued": "w kolejce",
+      "running": "trwa",
+      "done": "gotowy",
+      "failed": "nieudany"
+    }
+  }
+}

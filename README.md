@@ -18,7 +18,18 @@ Jeden kontener `meritum-mocks-prd` obsługuje wszystkie pięć adresów i wybier
 | `/assets/*`   | wspólne style, skrypt przewijania i obrazki                      |
 | `/api/health` | `{status, env, platform, database}`; 503, gdy baza nie odpowiada |
 
-Źródłem stron jest design system (`design-system/demo/platforms/`, razem z kontraktem selektorów `SELECTORS.md`). `platforms/` to kopia: nie edytuj jej tutaj, tylko zmień design system i uruchom `scripts/sync-platforms.sh [ścieżka-do-design-system]` (domyślnie `../design-system`). Skrypt zapisuje commit źródła w `platforms/SOURCE`. Biome nie lintuje kopii, bo nie trzyma się stylu kodu aplikacji.
+### Kopie z design systemu
+
+Teksty, tokeny, kontrakty i strony makiet pochodzą z [meritum-design-system](https://github.com/Meritum-HackNation2026/meritum-design-system) (ADR-33). W repo leżą ich kopie:
+
+| Kopia                  | Źródło w design systemie                                   |
+| ---------------------- | ---------------------------------------------------------- |
+| `contracts/meritum.ts` | `contracts/meritum.ts`                                     |
+| `copy/pl.json`         | `copy/pl.json`                                             |
+| `tokens/meritum.css`   | `tokens/meritum.css`                                       |
+| `platforms/`           | `demo/platforms/` (z kontraktem selektorów `SELECTORS.md`) |
+
+Kopii nie edytuj tutaj. Zmień design system i uruchom `pnpm sync` (albo `pnpm sync <gałąź|tag|commit>`; potrzebny `gh` z dostępem do repo design systemu). Skrypt zapisuje commit źródła w `SOURCE` i sumy plików w `SHA256SUMS`. CI uruchamia `pnpm sync:check`, który bez sieci porównuje kopie z `SHA256SUMS` i wypisuje plik, którego suma się nie zgadza. Biome, knip i testy architektury pomijają kopie, bo nie trzymają się stylu kodu aplikacji.
 
 ## Praca lokalna
 

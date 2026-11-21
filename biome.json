@@ -7,7 +7,7 @@
   },
   "files": {
     "ignoreUnknown": true,
-    "includes": ["**", "!!**/dist", "!!platforms"]
+    "includes": ["**", "!!**/dist", "!!platforms", "!!contracts", "!!copy", "!!tokens"]
   },
   "formatter": {
     "enabled": true,
