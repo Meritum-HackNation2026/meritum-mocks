@@ -32,6 +32,13 @@ const discordPage = (c: Context) => isDiscordPage(c.req.path, platformOf(c.req.h
 const discordHtml = (c: Context, messages: ChatMessage[]) =>
   c.html(renderDiscordPage({ messages, theme: c.req.query('theme') === 'dark' ? 'dark' : 'light' }))
 
+// Mock pages change with every deploy and are small: no edge or browser cache
+// (Cloudflare otherwise keeps .js/.css for 4 h and serves stale copies).
+app.use('*', async (c, next) => {
+  await next()
+  if (!c.req.path.startsWith('/api/')) c.header('Cache-Control', 'no-cache')
+})
+
 app.get('*', (c, next) => (discordPage(c) ? discordHtml(c, []) : next()))
 
 // One message to the bot; src/channels decides first contact from the mock user cookie.
@@ -61,13 +68,6 @@ app.get('/api/health', async (c) => {
   } catch {
     return c.json({ status: 'degraded', env, platform, database: 'unavailable' }, 503)
   }
-})
-
-// Mock pages change with every deploy and are small: no edge or browser cache
-// (Cloudflare otherwise keeps .js/.css for 4 h and serves stale copies).
-app.use('*', async (c, next) => {
-  await next()
-  if (!c.req.path.startsWith('/api/')) c.header('Cache-Control', 'no-cache')
 })
 
 app.use(

@@ -38,7 +38,7 @@ test('the reply is the focus target after sending, and links in it are clickable
     <DiscordPage
       messages={[
         { author: 'user', text: 'Pytanie' },
-        { author: 'bot', text: 'Pełna karta: https://meritum.example/c_01\nkoniec' },
+        { author: 'bot', text: 'Pełna karta: https://meritum.example/c_01.\nkoniec' },
         { author: 'bot', text: 'Druga' },
       ]}
     />,

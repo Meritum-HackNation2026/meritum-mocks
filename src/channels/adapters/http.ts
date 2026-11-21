@@ -22,11 +22,21 @@ const verdicts: ReadonlySet<unknown> = new Set<ClaimResult['verdict']>([
   'not_verifiable',
 ])
 
+const levels: ReadonlySet<unknown> = new Set(['strong', 'moderate', 'weak'])
+
 const isRecord = (value: unknown): value is Record<string, unknown> =>
   typeof value === 'object' && value !== null
 
 function isClaim(value: unknown): boolean {
-  return isRecord(value) && typeof value['claim'] === 'string' && verdicts.has(value['verdict'])
+  if (!isRecord(value)) {
+    return false
+  }
+  const strength = value['strength']
+  const hasKnownStrength =
+    strength === undefined ||
+    strength === null ||
+    (isRecord(strength) && levels.has(strength['level']))
+  return typeof value['claim'] === 'string' && verdicts.has(value['verdict']) && hasKnownStrength
 }
 
 // Trust boundary: the fields the channel reads must be there and known; the API owns the rest.

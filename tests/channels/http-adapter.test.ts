@@ -48,7 +48,20 @@ test('an error status or a missing check id is a failure', async () => {
 
 test('a result the channel cannot read is a failure', async () => {
   const unknownVerdict = doneResult([decisiveClaim({ verdict: 'maybe' as 'false' })])
-  const results = [{ status: 'done' }, unknownVerdict, { ...unknownVerdict, status: 'odd' }]
+  const unknownStrength = doneResult([
+    decisiveClaim({
+      strength: {
+        level: 'huge' as 'weak',
+        premises: { independent_sources: 1, primary_sources: 0, agreement: 'consistent' },
+      },
+    }),
+  ])
+  const results = [
+    { status: 'done' },
+    unknownVerdict,
+    { ...unknownVerdict, status: 'odd' },
+    unknownStrength,
+  ]
   const apis = results.map(
     (result) =>
       new HttpChecksApi({

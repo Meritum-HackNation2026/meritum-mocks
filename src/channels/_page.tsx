@@ -18,7 +18,8 @@ const marks = {
   light: svg('../../brand/meritum-mark.svg'),
   dark: svg('../../brand/meritum-mark-on-dark.svg'),
 }
-const url = /(https?:\/\/\S+)/
+// A URL ends before whitespace, a closing quote or bracket, and trailing punctuation.
+const url = /(https?:\/\/[^\s"”)]*[^\s"”).,;:!?])/
 
 /**
  * One message of the conversation.

@@ -58,16 +58,19 @@ function claimMessage(claim: ClaimResult): Lines {
     return fill(copy.discord.claim_unsettled, { verdict, claim: claim.claim, unresolved })
   }
   const published = citation.source.published_at
-  const lines = fill(copy.discord.claim, {
+  // Without a strength (non-decisive verdicts) the template's strength line is left out.
+  const template = copy.discord.claim
+    .split('\n')
+    .filter((line) => claim.strength || !line.includes('{strength}'))
+    .join('\n')
+  return fill(template, {
     verdict,
     claim: claim.claim,
     fragment: citation.fragment,
     publisher: citation.source.publisher,
     date: published ? publicationDate.format(new Date(published)) : undated,
-    strength: claim.strength ? copy.strength[claim.strength.level] : '{strength}',
+    strength: claim.strength ? copy.strength[claim.strength.level] : '',
   })
-  // Without a strength (non-decisive verdicts) the strength line is left out.
-  return lines.filter((line) => !line.includes('{strength}'))
 }
 
 /**
