@@ -12,22 +12,21 @@ Zasady wspólne dla wszystkich serwisów:
 
 ## X (x.com)
 
-| Element        | Selektor                                                                                                                                                         |
-| -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Kontener feedu | `div[aria-label^="Oś czasu"]` (pl: „Oś czasu: Twoja główna oś czasu”), w `section[role="region"]` w `[data-testid="primaryColumn"]`                              |
-| Wiersz feedu   | `[data-testid="cellInnerDiv"]`                                                                                                                                   |
-| Post           | `article[data-testid="tweet"]` (`role="article"`, `tabindex="0"`)                                                                                                |
-| Autor          | `[data-testid="User-Name"]`: pierwszy `a[role="link"]` to nazwa, drugi zawiera `@handle`; link do statusu to `a[href*="/status/"]` z `time[datetime]`            |
-| Awatar         | `[data-testid="Tweet-User-Avatar"]`, w środku `[data-testid^="UserAvatar-Container-"]` (sufiks = handle)                                                         |
-| Tekst          | `[data-testid="tweetText"]` (atrybut `lang`)                                                                                                                     |
-| Media          | `[data-testid="tweetPhoto"]` (zdjęcia), `[data-testid="card.wrapper"]` (karta linku; w makiecie `card.layoutLarge.media`)                                        |
-| Pasek akcji    | `[role="group"]` w poście; dzieci: `[data-testid="reply"]`, `"retweet"`, `"like"`, link statystyk `a[href$="/analytics"]`, `"bookmark"`, Udostępnij (bez testid) |
-| Reklama        | `[data-testid="placementTracking"]` obejmuje `article`; etykieta „Reklama” to `span` poza `User-Name`, obok `[data-testid="caret"]`; reklama nie ma `time`       |
+| Element | Selektor |
+| --- | --- |
+| Kontener feedu | `div[aria-label^="Oś czasu"]` (pl: „Oś czasu: Twoja główna oś czasu”), w `section[role="region"]` w `[data-testid="primaryColumn"]` |
+| Wiersz feedu | `[data-testid="cellInnerDiv"]` |
+| Post | `article[data-testid="tweet"]` (`role="article"`, `tabindex="0"`) |
+| Autor | `[data-testid="User-Name"]`: pierwszy `a[role="link"]` to nazwa, drugi zawiera `@handle`; link do statusu to `a[href*="/status/"]` z `time[datetime]` |
+| Awatar | `[data-testid="Tweet-User-Avatar"]`, w środku `[data-testid^="UserAvatar-Container-"]` (sufiks = handle) |
+| Tekst | `[data-testid="tweetText"]` (atrybut `lang`) |
+| Media | `[data-testid="tweetPhoto"]` (zdjęcia), `[data-testid="card.wrapper"]` (karta linku; w makiecie `card.layoutLarge.media`) |
+| Pasek akcji | `[role="group"]` w poście; dzieci: `[data-testid="reply"]`, `"retweet"`, `"like"`, link statystyk `a[href$="/analytics"]`, `"bookmark"`, Udostępnij (bez testid) |
+| Reklama | `[data-testid="placementTracking"]` obejmuje `article`; etykieta „Reklama” to `span` poza `User-Name`, obok `[data-testid="caret"]`; reklama nie ma `time` |
 
-Miejsce na „Zgłoś”: dopisz `div` jako dziecko `[role="group"]` przed slotem zakładki (pasek to flex: 4 równe sloty po ok. 113 px, potem zakładka i udostępnij). Bezpieczniej: wstaw osobny wiersz zaraz po `[role="group"]`, bo React może przerysować grupę.
+Miejsce na „Sprawdź”: dopisz `div` jako dziecko `[role="group"]` przed slotem zakładki (pasek to flex: 4 równe sloty po ok. 113 px, potem zakładka i udostępnij). Bezpieczniej: wstaw osobny wiersz zaraz po `[role="group"]`, bo React może przerysować grupę.
 
 Pułapki:
-
 - Lista jest wirtualizowana: `cellInnerDiv` ma `position:absolute; transform:translateY(...)`, kontener ma `min-height` całej listy. Komórki poza ekranem są usuwane, a węzły bywają używane ponownie dla innego posta. Makieta renderuje komórki w normalnym przepływie, bez recyklingu.
 - Atrybut `aria-labelledby` posta to lista losowych `id__...`, zmienia się przy każdym renderze.
 - Motyw: tylko `body style="background-color: rgb(0,0,0)"` (ciemny) albo biały, plus `meta[name="theme-color"]`.
@@ -35,45 +34,43 @@ Pułapki:
 
 ## Facebook (facebook.com)
 
-| Element        | Selektor                                                                                                                                                                                                                                   |
-| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Kontener feedu | brak stabilnego. W chwili pomiaru nie było `role="feed"` ani `aria-posinset`. Szukaj w `div[role="main"]`                                                                                                                                  |
-| Post           | najbliższy przodek `[data-virtualized]`, który zawiera `[data-ad-rendering-role="profile_name"]` (każda jednostka feedu ma własny `div[data-virtualized]`)                                                                                 |
-| Autor          | `[data-ad-rendering-role="profile_name"] h4 a[role="link"]`                                                                                                                                                                                |
-| Meta           | link z czasem obok nazwy (`a[role="link"]` z `aria-labelledby`); ikona widoczności `svg[role="img"]`                                                                                                                                       |
-| Tekst          | `[data-ad-preview="message"]` (też `[data-ad-rendering-role="story_message"]`)                                                                                                                                                             |
-| Media          | `a[role="link"] img` pod tekstem; karta linku: `[data-ad-rendering-role="meta"]` (domena), `"title"`, `"description"`                                                                                                                      |
-| Pasek akcji    | `[data-ad-rendering-role="like_button"]`, `"comment_button"`, `"share_button"`; każdy w `div[role="button"]` z `aria-label` „Zareaguj „Lubię to!” na post …”, „Skomentuj post …”, „Udostępnij post …”                                      |
-| Menu posta     | `div[role="button"][aria-label="Działania dotyczące tego posta"]`, `a[aria-label^="Ukryj post"]`                                                                                                                                           |
-| Reklama        | „Sponsorowane” w miejscu czasu w linii meta (wzorzec znany, nie zmierzony; reklamy ukrył bloker). Historycznie FB rozbija ten tekst na litery w ukrytych spanach, więc sprawdzaj `aria-label`/`aria-labelledby` linku, a nie `textContent` |
+| Element | Selektor |
+| --- | --- |
+| Kontener feedu | brak stabilnego. W chwili pomiaru nie było `role="feed"` ani `aria-posinset`. Szukaj w `div[role="main"]` |
+| Post | najbliższy przodek `[data-virtualized]`, który zawiera `[data-ad-rendering-role="profile_name"]` (każda jednostka feedu ma własny `div[data-virtualized]`) |
+| Autor | `[data-ad-rendering-role="profile_name"] h4 a[role="link"]` |
+| Meta | link z czasem obok nazwy (`a[role="link"]` z `aria-labelledby`); ikona widoczności `svg[role="img"]` |
+| Tekst | `[data-ad-preview="message"]` (też `[data-ad-rendering-role="story_message"]`) |
+| Media | `a[role="link"] img` pod tekstem; karta linku: `[data-ad-rendering-role="meta"]` (domena), `"title"`, `"description"` |
+| Pasek akcji | `[data-ad-rendering-role="like_button"]`, `"comment_button"`, `"share_button"`; każdy w `div[role="button"]` z `aria-label` „Zareaguj „Lubię to!” na post …”, „Skomentuj post …”, „Udostępnij post …” |
+| Menu posta | `div[role="button"][aria-label="Działania dotyczące tego posta"]`, `a[aria-label^="Ukryj post"]` |
+| Reklama | „Sponsorowane” w miejscu czasu w linii meta (wzorzec znany, nie zmierzony; reklamy ukrył bloker). Historycznie FB rozbija ten tekst na litery w ukrytych spanach, więc sprawdzaj `aria-label`/`aria-labelledby` linku, a nie `textContent` |
 
-Miejsce na „Zgłoś”: dopisz przycisk do rodzica `div[role="button"]`, który zawiera `share_button` (pasek to rząd kompaktowych przycisków ikona+liczba, 44x32, wyrównany do lewej).
+Miejsce na „Sprawdź”: dopisz przycisk do rodzica `div[role="button"]`, który zawiera `share_button` (pasek to rząd kompaktowych przycisków ikona+liczba, 44x32, wyrównany do lewej).
 
 Pułapki:
-
 - Wirtualizacja: jednostki daleko od ekranu dostają `data-virtualized="true"` i tracą treść (zostaje pusty kontener o tej samej wysokości). Gdy wracają, treść jest renderowana od nowa, więc wstrzyknięty przycisk znika.
 - `role="article"` występuje dziesiątki razy (komentarze, zagnieżdżone treści) i nie oznacza posta.
-- W feedzie są też jednostki bez autora (Rolki, propozycje) — pomijaj kontenery bez `profile_name`.
+- W feedzie są też jednostki bez autora (Rolki, propozycje): pomijaj kontenery bez `profile_name`.
 - Motyw: klasa `__fb-dark-mode` / `__fb-light-mode` na `html`. Dark: strona `#1C1C1D`, karta `#252728`, tekst drugorzędny `#B0B3B8`. Karty: promień 12, cień `0 1px 2px rgba(0,0,0,.2)`, odstęp 12. Kolumny: lewa 360, feed 680, prawa 360, górny pasek 56.
 
 ## Instagram (instagram.com)
 
-| Element        | Selektor                                                                                                                                        |
-| -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
-| Kontener feedu | `main` (bez atrybutów); posty to `article` jako potomkowie                                                                                      |
-| Post           | `article` (bez `role`, bez testid)                                                                                                              |
-| Autor          | pierwszy `a[href^="/"][role="link"]` w nagłówku posta; `img[alt^="Zdjęcie profilowe"]` to awatar                                                |
-| Czas           | `time[datetime]`                                                                                                                                |
-| Tekst          | podpis pod paskiem akcji: `span[dir="auto"]` po linku autora (bez stabilnego atrybutu)                                                          |
-| Media          | duże `img` (`alt` zaczyna się od „Photo by…”/„Zdjęcie:”) albo `video`                                                                           |
-| Pasek akcji    | `section` z `svg[aria-label="Lubię to!"]`, `"Skomentuj"`, `"Repostuj"`, `"Udostępnij"`, `"Zapisz"`; przyciski to `div[role="button"]` wokół svg |
-| Menu           | `svg[aria-label="Więcej opcji"]`                                                                                                                |
-| Reklama        | tekst „Sponsorowane” w drugiej linii nagłówka (był w DOM, ukryty przez bloker); pod mediami pasek CTA „Dowiedz się więcej”                      |
+| Element | Selektor |
+| --- | --- |
+| Kontener feedu | `main` (bez atrybutów); posty to `article` jako potomkowie |
+| Post | `article` (bez `role`, bez testid) |
+| Autor | pierwszy `a[href^="/"][role="link"]` w nagłówku posta; `img[alt^="Zdjęcie profilowe"]` to awatar |
+| Czas | `time[datetime]` |
+| Tekst | podpis pod paskiem akcji: `span[dir="auto"]` po linku autora (bez stabilnego atrybutu) |
+| Media | duże `img` (`alt` zaczyna się od „Photo by…”/„Zdjęcie:”) albo `video` |
+| Pasek akcji | `section` z `svg[aria-label="Lubię to!"]`, `"Skomentuj"`, `"Repostuj"`, `"Udostępnij"`, `"Zapisz"`; przyciski to `div[role="button"]` wokół svg |
+| Menu | `svg[aria-label="Więcej opcji"]` |
+| Reklama | tekst „Sponsorowane” w drugiej linii nagłówka (był w DOM, ukryty przez bloker); pod mediami pasek CTA „Dowiedz się więcej” |
 
-Miejsce na „Zgłoś”: dopisz `div[role="button"]` do lewej grupy w `section` paska akcji (obok Udostępnij), przed grupą Zapisz.
+Miejsce na „Sprawdź”: dopisz `div[role="button"]` do lewej grupy w `section` paska akcji (obok Udostępnij), przed grupą Zapisz.
 
 Pułapki:
-
 - W DOM były tylko 4 `article` naraz; starsze posty są usuwane przy przewijaniu.
 - Szukaj elementów po `aria-label` ikon `svg`, a nie po kolejności dzieci.
 - Przy pierwszym wejściu pojawia się modal „Włącz powiadomienia”, który przykrywa feed (nie klikać).
@@ -83,45 +80,43 @@ Pułapki:
 
 Nie zmierzone: narzędzie przeglądarki blokuje reddit.com. Makieta jest zbudowana z publicznie znanej struktury komponentów shreddit. Przed pokazem na żywo sprawdź selektory na prawdziwej stronie.
 
-| Element        | Selektor                                                                                    |
-| -------------- | ------------------------------------------------------------------------------------------- |
-| Kontener feedu | `shreddit-feed`                                                                             |
-| Post           | `shreddit-post` (custom element) w `article`; reklama: `shreddit-ad-post`                   |
-| Autor          | atrybut `author` (w feedzie strony głównej autor nie jest widoczny, w pasku jest subreddit) |
-| Subreddit      | atrybut `subreddit-prefixed-name`                                                           |
-| Tytuł          | atrybut `post-title` albo `a[slot="title"]`                                                 |
-| Tekst          | `[slot="text-body"]`                                                                        |
-| Media          | `[slot="post-media-container"]`                                                             |
-| Link           | atrybut `permalink`, `id="t3_..."`                                                          |
-| Pasek akcji    | w open shadow root posta (`post.shadowRoot`): głosowanie, komentarze, udostępnij            |
-| Reklama        | `shreddit-ad-post`, etykieta „Promowane” w `[slot="credit-bar"]`                            |
-| Dalsze strony  | `faceplate-partial[loading="lazy"]` w feedzie                                               |
+| Element | Selektor |
+| --- | --- |
+| Kontener feedu | `shreddit-feed` |
+| Post | `shreddit-post` (custom element) w `article`; reklama: `shreddit-ad-post` |
+| Autor | atrybut `author` (w feedzie strony głównej autor nie jest widoczny, w pasku jest subreddit) |
+| Subreddit | atrybut `subreddit-prefixed-name` |
+| Tytuł | atrybut `post-title` albo `a[slot="title"]` |
+| Tekst | `[slot="text-body"]` |
+| Media | `[slot="post-media-container"]` |
+| Link | atrybut `permalink`, `id="t3_..."` |
+| Pasek akcji | w open shadow root posta (`post.shadowRoot`): głosowanie, komentarze, udostępnij |
+| Reklama | `shreddit-ad-post`, etykieta „Promowane” w `[slot="credit-bar"]` |
+| Dalsze strony | `faceplate-partial[loading="lazy"]` w feedzie |
 
-Miejsce na „Zgłoś”: wstaw element w light DOM jako rodzeństwo zaraz po `shreddit-post` w jego `article`. Wstawienie do `shadowRoot` jest możliwe (root jest otwarty), ale komponent może go przerysować; w makiecie rząd akcji to `shadowRoot.querySelector('[data-post-click-location="vote"]')`.
+Miejsce na „Sprawdź”: wstaw element w light DOM jako rodzeństwo zaraz po `shreddit-post` w jego `article`. Wstawienie do `shadowRoot` jest możliwe (root jest otwarty), ale komponent może go przerysować; w makiecie rząd akcji to `shadowRoot.querySelector('[data-post-click-location="vote"]')`.
 
 Pułapki:
-
 - Pasek akcji jest w shadow DOM, więc `document.querySelector` go nie widzi.
 - Nowe porcje feedu przychodzą jako HTML z `faceplate-partial` i są wstawiane w miejsce tego elementu.
 - Motyw: klasa na `html` (w makiecie `theme-dark` / `theme-light`; do sprawdzenia).
 
 ## TikTok (tiktok.com)
 
-| Element        | Selektor                                                                                                                                                           |
-| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Kontener feedu | `#column-list-container` (to on przewija się, nie `window`; `scroll-snap-type: y mandatory`) w `main#main-content-homepage_hot`                                    |
-| Post           | `article[data-e2e="recommend-list-item-container"]`, `id="one-column-item-N"`, `data-scroll-index="N"`, wysokość = okno                                            |
-| Wideo          | `section[data-e2e="feed-video"]` (w środku `video`, `img` plakatu, `canvas`)                                                                                       |
-| Autor          | `a[href^="/@"]` w nakładce na dole wideo (bez `data-e2e`; tekst w `p`); awatar: `a[data-e2e="video-author-avatar"]`                                                |
-| Opis           | `[data-e2e="video-desc"]` (spany `desc-span-*`, hashtagi `a[data-e2e="search-common-link"]`)                                                                       |
-| Pasek akcji    | `section` obok wideo: `[data-e2e="like-icon"]`, `"comment-icon"`, `"favorite-icon"`, `"share-icon"` (każdy `role="button"`, liczby w `strong[data-e2e$="-count"]`) |
-| Nawigacja      | `[data-e2e="feed-navigation-prev"]`, `"feed-navigation-next"`                                                                                                      |
-| Reklama        | etykieta „Sponsorowane” przy autorze i przycisk CTA w nakładce (nie zaobserwowane w sesji; brak znanego `data-e2e`, szukaj tekstu w nakładce)                      |
+| Element | Selektor |
+| --- | --- |
+| Kontener feedu | `#column-list-container` (to on przewija się, nie `window`; `scroll-snap-type: y mandatory`) w `main#main-content-homepage_hot` |
+| Post | `article[data-e2e="recommend-list-item-container"]`, `id="one-column-item-N"`, `data-scroll-index="N"`, wysokość = okno |
+| Wideo | `section[data-e2e="feed-video"]` (w środku `video`, `img` plakatu, `canvas`) |
+| Autor | `a[href^="/@"]` w nakładce na dole wideo (bez `data-e2e`; tekst w `p`); awatar: `a[data-e2e="video-author-avatar"]` |
+| Opis | `[data-e2e="video-desc"]` (spany `desc-span-*`, hashtagi `a[data-e2e="search-common-link"]`) |
+| Pasek akcji | `section` obok wideo: `[data-e2e="like-icon"]`, `"comment-icon"`, `"favorite-icon"`, `"share-icon"` (każdy `role="button"`, liczby w `strong[data-e2e$="-count"]`) |
+| Nawigacja | `[data-e2e="feed-navigation-prev"]`, `"feed-navigation-next"` |
+| Reklama | etykieta „Sponsorowane” przy autorze i przycisk CTA w nakładce (nie zaobserwowane w sesji; brak znanego `data-e2e`, szukaj tekstu w nakładce) |
 
-Miejsce na „Zgłoś”: dopisz element na końcu `section` z akcjami (po `share-icon`), w tym samym formacie co inne akcje (okrągły przycisk 48 px + podpis).
+Miejsce na „Sprawdź”: dopisz element na końcu `section` z akcjami (po `share-icon`), w tym samym formacie co inne akcje (okrągły przycisk 48 px + podpis).
 
 Pułapki:
-
 - Przewijanie dzieje się w `#column-list-container`, więc nasłuchuj `scroll` na nim, a nie na `window`.
 - Wideo jest dekodowane do `canvas`/`tt-vod-sr-wrap`; `video` może nie mieć klatek do odczytu.
 - Motyw: atrybut `data-theme="dark"` (na `html` lub `body`). Dark: tło `#000`, liczniki `rgba(255,255,255,.75)` 12/700. Nawigacja boczna 240, wideo 9:16 z marginesem 16, kolumna akcji 70 px, 16 px na prawo od wideo.
