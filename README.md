@@ -18,7 +18,7 @@ Jeden kontener na środowisko (`meritum-mocks-dev`, `meritum-mocks-prd`) obsług
 | `/assets/*`   | wspólne style, skrypt przewijania i obrazki                      |
 | `/api/health` | `{status, env, platform, database}`; 503, gdy baza nie odpowiada |
 
-Strony w `platforms/` pochodzą z `design-system/demo/platforms/`. Zmiany wyglądu makiet rób tutaj, bo to jest wersja wdrażana. Biome ich nie lintuje, bo nie trzymają się stylu kodu aplikacji.
+Źródłem stron jest design system (`design-system/demo/platforms/`, razem z kontraktem selektorów `SELECTORS.md`). `platforms/` to kopia: nie edytuj jej tutaj, tylko zmień design system i uruchom `scripts/sync-platforms.sh [ścieżka-do-design-system]` (domyślnie `../design-system`). Skrypt zapisuje commit źródła w `platforms/SOURCE`. Biome nie lintuje kopii, bo nie trzyma się stylu kodu aplikacji.
 
 ## Praca lokalna
 
