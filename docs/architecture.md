@@ -29,4 +29,4 @@ Obecne wyjątki:
 - `LOCAL_DB` w `src/constants.ts`: `// biome-ignore lint/security/noSecrets` (lokalna baza deweloperska, ta sama co w README backendu);
 - knip pomija `@swc/core` (parser dependency-cruisera); `pnpm-workspace.yaml` nie pozwala mu uruchamiać skryptu instalacyjnego.
 
-Testy to `node --test` (Node 26 uruchamia TypeScript bez kompilacji), tak jak testy jednostkowe w `src/`; vitest nie jest potrzebny. Pliki `.tsx` ładuje `tsx` (`--import tsx`), a DOM daje happy-dom z `tests/setup-dom.ts`; jak pisać test komponentu, mówi README.
+Testy to `node --test` (Node 26 uruchamia TypeScript bez kompilacji), tak jak testy jednostkowe w `src/`; vitest nie jest potrzebny. Pliki `.tsx` ładuje `tsx` (`--import tsx`), a DOM daje happy-dom z `tests/setup-dom.ts`. Skrypt podaje wzorce plików (`src/**/*.test.ts`, `tests/**/*.test.{ts,tsx}`), bo domyślne wzorce `node --test` pomijają `.tsx`; jak pisać test komponentu, mówi README.
