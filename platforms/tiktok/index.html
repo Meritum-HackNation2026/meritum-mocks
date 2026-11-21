@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="pl-PL" dir="ltr" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TikTok (makieta)</title>
+<link rel="stylesheet" href="../assets/mock.css">
+<style>
+/* Measured on tiktok.com (pl-PL, 2026-11): side nav 240, one <article> per viewport in a scroll-snap container,
+   video 9:16 with 16px top/bottom margin, action column 16px right of the video, 48px round buttons, counts 12/700. */
+:root{--bg:#FFFFFF;--tx:#161823;--tx2:rgba(22,24,35,.5);--cnt:rgba(22,24,35,.75);--btn:rgba(22,24,35,.06);--btnh:rgba(22,24,35,.12);--line:rgba(22,24,35,.12);--red:#FE2C55;
+  --font:TikTokFont,Arial,Tahoma,PingFangSC,sans-serif}
+:root[data-mock-theme="dark"]{--bg:#000000;--tx:rgba(255,255,255,.9);--tx2:rgba(255,255,255,.5);--cnt:rgba(255,255,255,.75);--btn:rgba(255,255,255,.12);--btnh:rgba(255,255,255,.2);--line:rgba(255,255,255,.12);color-scheme:dark}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden}
+body{font:16px/1.3 var(--font);color:var(--tx);background:var(--bg);-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+svg{fill:currentColor}
+.av{display:grid;place-items:center;flex:none;border-radius:50%;background:var(--abg);color:var(--afg);font-weight:700}
+#app{display:flex;height:100vh}
+/* side nav */
+.m-side{flex:0 0 240px;display:flex;flex-direction:column;padding:16px 8px 16px 16px;overflow:hidden}
+.m-logo{display:flex;align-items:center;height:40px;margin-bottom:12px}
+[data-e2e="nav-search"]{display:flex;align-items:center;gap:8px;width:208px;height:40px;padding:0 16px;margin-bottom:12px;border-radius:999px;background:var(--btn);color:var(--tx2);font-size:15px}
+.m-side nav a{display:flex;align-items:center;gap:12px;height:40px;padding:0 8px;border-radius:4px;font-size:16px;font-weight:600}
+.m-side nav a:hover{background:var(--btn)}
+.m-side nav a[aria-current="page"]{color:var(--red)}
+.m-side nav svg{width:24px;height:24px}
+.m-side hr{border:0;border-top:1px solid var(--line);margin:12px 8px}
+.m-side h2{font-size:14px;font-weight:600;color:var(--tx2);padding:0 8px 8px}
+.m-acc{display:flex;align-items:center;gap:8px;height:40px;padding:0 8px;font-size:14px;font-weight:600}
+.m-acc .av{width:32px;height:32px;font-size:11px}
+.m-foot{margin-top:auto;padding:0 8px;font-size:12px;color:var(--tx2);line-height:18px}
+/* feed */
+main#main-content-homepage_hot{flex:1;position:relative;min-width:0}
+#column-list-container{height:100vh;overflow-y:scroll;scroll-snap-type:y mandatory;scrollbar-width:none}
+#column-list-container::-webkit-scrollbar{display:none}
+article[data-e2e="recommend-list-item-container"]{height:100vh;scroll-snap-align:start;display:flex;justify-content:center;align-items:flex-end;gap:16px;padding:16px 0}
+.m-media{position:relative;height:calc(100vh - 32px);aspect-ratio:9/16;flex:none}
+section[data-e2e="feed-video"]{position:absolute;inset:0;border-radius:16px;overflow:hidden;background:#111}
+section[data-e2e="feed-video"] video{display:block;width:100%;height:100%;object-fit:cover}
+.m-ov{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:space-between;color:#fff;pointer-events:none}
+.m-ov>*{pointer-events:auto}
+.m-ov-top{display:flex;justify-content:space-between;padding:8px}
+.m-ov-top button{display:grid;place-items:center;width:48px;height:48px;color:#fff}
+.m-ov-top svg{width:24px;height:24px}
+.m-ov-bot{padding:12px 12px 16px;background:linear-gradient(transparent,rgba(0,0,0,.55));font-size:14px;line-height:18px}
+.m-author{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.m-author p{font-size:16px;font-weight:700;line-height:22px}
+.m-adtag{font-size:12px;line-height:16px;padding:1px 6px;border-radius:2px;background:rgba(255,255,255,.2)}
+[data-e2e="video-desc"]{display:block}
+[data-e2e="search-common-link"]{font-weight:700}
+[data-e2e="video-music"]{display:flex;align-items:center;gap:6px;margin-top:8px;font-size:14px}
+[data-e2e="video-music"] svg{width:14px;height:14px}
+.m-cta{display:flex;align-items:center;justify-content:center;height:40px;margin-top:12px;border-radius:4px;background:var(--red);color:#fff;font-weight:600;font-size:15px}
+/* action column */
+section.m-actions{display:flex;flex-direction:column;align-items:center;gap:0;width:70px;padding-bottom:4px}
+.m-actav{position:relative;margin-bottom:20px}
+[data-e2e="video-author-avatar"] .av{width:48px;height:48px;font-size:15px}
+[data-e2e="feed-follow"]{position:absolute;left:12px;bottom:-12px;width:24px;height:24px;border-radius:50%;background:var(--red);color:#fff;display:grid;place-items:center}
+[data-e2e="feed-follow"] svg{width:14px;height:14px}
+.m-act{display:flex;flex-direction:column;align-items:center;padding:4px 0 8px;cursor:pointer}
+.m-act button{display:grid;place-items:center;width:48px;height:48px;border-radius:50%;background:var(--btn);color:var(--tx);transition:background .15s}
+.m-act:hover button{background:var(--btnh)}
+.m-act svg{width:24px;height:24px}
+.m-act strong{font-size:12px;line-height:16px;font-weight:700;color:var(--cnt);margin-top:4px}
+.m-disc{width:48px;height:48px;border-radius:50%;margin-top:8px;background:radial-gradient(circle,#555 0 30%,#222 31% 100%)}
+.m-navs{position:absolute;right:24px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:16px}
+.m-navs button{display:grid;place-items:center;width:48px;height:48px;border-radius:50%;background:var(--btn);color:var(--tx)}
+.m-navs svg{width:24px;height:24px}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+ <symbol id="i-search" viewBox="0 0 24 24"><path d="M10.5 3a7.5 7.5 0 016 12l5 5-1.5 1.5-5-5A7.5 7.5 0 1110.5 3zm0 2a5.5 5.5 0 100 11 5.5 5.5 0 000-11z"/></symbol>
+ <symbol id="i-home" viewBox="0 0 24 24"><path d="M12 2.5l9.5 8V21a1 1 0 01-1 1H15v-7H9v7H3.5a1 1 0 01-1-1V10.5z"/></symbol>
+ <symbol id="i-compass" viewBox="0 0 24 24"><path d="M12 2a10 10 0 110 20 10 10 0 010-20zm0 2a8 8 0 100 16 8 8 0 000-16zm4.5 3.5l-2.6 6.4-6.4 2.6 2.6-6.4z"/></symbol>
+ <symbol id="i-users" viewBox="0 0 24 24"><path d="M9 4a4 4 0 110 8 4 4 0 010-8zm7.5 1.5a3 3 0 110 6 3 3 0 010-6zM1.5 20c.5-3.7 3.6-6 7.5-6s7 2.3 7.5 6zm16 0c-.3-1.9-1.1-3.4-2.4-4.6.6-.2 1.2-.2 1.9-.2 3 0 5.2 1.8 5.5 4.8z"/></symbol>
+ <symbol id="i-live" viewBox="0 0 24 24"><path d="M3 5h18a1 1 0 011 1v12a1 1 0 01-1 1H3a1 1 0 01-1-1V6a1 1 0 011-1zm1 2v10h16V7zm6 2l5 3-5 3z"/></symbol>
+ <symbol id="i-msg" viewBox="0 0 24 24"><path d="M2.5 4.5l19-1.5-6 18-3.5-7.5zm4.4 1.9l5.4 5.4 1.3-1.3-5.4-5.4z"/></symbol>
+ <symbol id="i-bell" viewBox="0 0 24 24"><path d="M12 2.5a6.5 6.5 0 00-6.5 6.5v5.3L3.7 17.5h16.6l-1.8-3.2V9A6.5 6.5 0 0012 2.5zM9 19.5a3 3 0 006 0z"/></symbol>
+ <symbol id="i-plus" viewBox="0 0 24 24"><path d="M11 4h2v7h7v2h-7v7h-2v-7H4v-2h7z"/></symbol>
+ <symbol id="i-user" viewBox="0 0 24 24"><path d="M12 2.5a4.5 4.5 0 110 9 4.5 4.5 0 010-9zM3.5 21c.7-4.3 4.1-7 8.5-7s7.8 2.7 8.5 7z"/></symbol>
+ <symbol id="i-more" viewBox="0 0 24 24"><path d="M5 10a2 2 0 110 4 2 2 0 010-4zm7 0a2 2 0 110 4 2 2 0 010-4zm7 0a2 2 0 110 4 2 2 0 010-4z"/></symbol>
+ <symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 21s-9.5-5.6-9.5-12A5.3 5.3 0 0112 6a5.3 5.3 0 019.5 3c0 6.4-9.5 12-9.5 12z"/></symbol>
+ <symbol id="i-cmt" viewBox="0 0 24 24"><path d="M12 2.5c5.5 0 10 3.9 10 8.7 0 4.9-4.5 8.8-10 8.8-.9 0-1.7-.1-2.5-.3L4 22v-4.4a8.4 8.4 0 01-2-6.4c0-4.8 4.5-8.7 10-8.7zM7.5 10a1.5 1.5 0 100 3 1.5 1.5 0 000-3zm4.5 0a1.5 1.5 0 100 3 1.5 1.5 0 000-3zm4.5 0a1.5 1.5 0 100 3 1.5 1.5 0 000-3z"/></symbol>
+ <symbol id="i-fav" viewBox="0 0 24 24"><path d="M5 2.5h14a1 1 0 011 1V22l-8-5-8 5V3.5a1 1 0 011-1z"/></symbol>
+ <symbol id="i-share" viewBox="0 0 24 24"><path d="M13 3l10 8.5L13 20v-5C7.5 15 4.5 16.8 1 21c1-7 5-11.5 12-12.5z"/></symbol>
+ <symbol id="i-note" viewBox="0 0 24 24"><path d="M9 4l12-2v14.5a3 3 0 11-2-2.8V6.3L11 7.7V19a3 3 0 11-2-2.8z"/></symbol>
+ <symbol id="i-vol" viewBox="0 0 24 24"><path d="M3 9h4l6-5v16l-6-5H3zm13.5-1.5a6 6 0 010 9l-1.4-1.4a4 4 0 000-6.2z"/></symbol>
+ <symbol id="i-up" viewBox="0 0 24 24"><path d="M12 7l7 7-1.4 1.4L12 9.8l-5.6 5.6L5 14z"/></symbol>
+ <symbol id="i-down" viewBox="0 0 24 24"><path d="M12 17l-7-7 1.4-1.4 5.6 5.6 5.6-5.6L19 10z"/></symbol>
+</defs></svg>
+
+<div id="app" data-csr="1">
+ <div class="m-side" role="navigation" aria-label="Nawigacja">
+  <a href="#" class="m-logo" data-e2e="tiktok-logo" aria-label="TikTok (zastępnik logo)"><span class="mock-logo" style="width:118px;height:34px"></span></a>
+  <button type="button" data-e2e="nav-search"><svg width="20" height="20"><use href="#i-search"/></svg>Szukaj</button>
+  <nav>
+   <a href="#" data-e2e="nav-foryou" aria-current="page"><svg><use href="#i-home"/></svg>Dla Ciebie</a>
+   <a href="#" data-e2e="nav-explore"><svg><use href="#i-compass"/></svg>Odkryj</a>
+   <a href="#" data-e2e="nav-following"><svg><use href="#i-user"/></svg>Obserwowani</a>
+   <a href="#" data-e2e="nav-friends"><svg><use href="#i-users"/></svg>Znajomi</a>
+   <a href="#" data-e2e="nav-live"><svg><use href="#i-live"/></svg>LIVE</a>
+   <a href="#" data-e2e="nav-messages"><svg><use href="#i-msg"/></svg>Wiadomości</a>
+   <a href="#" data-e2e="nav-activity"><svg><use href="#i-bell"/></svg>Aktywność</a>
+   <a href="#" data-e2e="nav-upload"><svg><use href="#i-plus"/></svg>Prześlij</a>
+   <a href="#" data-e2e="nav-profile"><span class="av" style="--abg:#DCE7EE;--afg:#2E4A5E;width:24px;height:24px;font-size:9px">KD</span>Profil</a>
+   <a href="#" data-e2e="nav-more-menu"><svg><use href="#i-more"/></svg>Więcej</a>
+  </nav>
+  <hr>
+  <h2>Obserwowane konta</h2>
+  <div data-e2e="following-accounts">
+   <div class="m-acc"><span class="av" style="--abg:#DDE9E3;--afg:#2F5443">TS</span>tatry_szlak</div>
+   <div class="m-acc"><span class="av" style="--abg:#E6E1D6;--afg:#5A4E36">BG</span>biblio_gda</div>
+  </div>
+  <p class="m-foot" data-e2e="copyright">Firma · Program · Warunki i polityki<br>Makieta na potrzeby pokazu. Nie jest to serwis TikTok.</p>
+ </div>
+
+ <main id="main-content-homepage_hot">
+  <div id="column-list-container" data-comment-panel-open="false">
+
+   <article id="one-column-item-0" data-scroll-index="0" shape="vertical" data-e2e="recommend-list-item-container">
+    <div class="m-media">
+     <section data-e2e="feed-video"><video muted playsinline preload="none" poster="../assets/train-portrait.svg"></video></section>
+     <div class="m-ov">
+      <div class="m-ov-top"><button type="button" aria-label="Wycisz"><svg><use href="#i-vol"/></svg></button><button type="button" data-e2e="more-menu-icon" aria-label="Więcej opcji"><svg><use href="#i-more"/></svg></button></div>
+      <div class="m-ov-bot">
+       <div class="m-author"><a href="#/@magda_w"><div><p>magda_w</p></div></a></div>
+       <div data-e2e="multiline-text-content"><div data-e2e="video-desc"><span data-e2e="desc-span-0_-1">Ktoś wie, czy w sobotę pociągi do Gdyni jeżdżą normalnie? </span><a href="#/tag/trojmiasto" data-e2e="search-common-link"><p>#trojmiasto</p></a></div></div>
+       <h4 data-e2e="video-music"><svg><use href="#i-note"/></svg>dźwięk oryginalny – magda_w</h4>
+      </div>
+     </div>
+    </div>
+    <section class="m-actions">
+     <div class="m-actav"><a href="#/@magda_w" data-e2e="video-author-avatar"><span class="av" style="--abg:#E4E9DF;--afg:#3E4F2E">MW</span></a><button type="button" data-e2e="feed-follow" aria-label="Obserwuj"><svg><use href="#i-plus"/></svg></button></div>
+     <div class="m-act" data-e2e="like-icon" role="button" aria-label="Polub film. 112 polubień"><span><button type="button" tabindex="-1"><svg><use href="#i-heart"/></svg></button></span><strong data-e2e="like-count">112</strong></div>
+     <div class="m-act" data-e2e="comment-icon" role="button" aria-label="Przeczytaj lub dodaj komentarze. 14 komentarzy"><span><button type="button" tabindex="-1"><svg><use href="#i-cmt"/></svg></button></span><strong data-e2e="comment-count">14</strong></div>
+     <div class="m-act" data-e2e="favorite-icon" role="button" aria-label="Dodaj do ulubionych. 3"><span><button type="button" tabindex="-1"><svg><use href="#i-fav"/></svg></button></span><strong data-e2e="favorite-count">3</strong></div>
+     <div class="m-act" data-e2e="share-icon" role="button" aria-label="Udostępnij film. 2 udostępnienia"><span><button type="button" tabindex="-1"><svg><use href="#i-share"/></svg></button></span><strong data-e2e="share-count">2</strong></div>
+     <div class="m-disc" aria-hidden="true"></div>
+    </section>
+   </article>
+
+   <article id="one-column-item-1" data-scroll-index="1" shape="vertical" data-e2e="recommend-list-item-container">
+    <div class="m-media">
+     <section data-e2e="feed-video"><video muted playsinline preload="none" poster="../assets/ad-portrait.svg"></video></section>
+     <div class="m-ov">
+      <div class="m-ov-top"><button type="button" aria-label="Wycisz"><svg><use href="#i-vol"/></svg></button><button type="button" data-e2e="more-menu-icon" aria-label="Więcej opcji"><svg><use href="#i-more"/></svg></button></div>
+      <div class="m-ov-bot">
+       <div class="m-author"><a href="#/@finanse_dzis_pl"><div><p>Finanse Dziś</p></div></a><span class="m-adtag">Sponsorowane</span></div>
+       <div data-e2e="multiline-text-content"><div data-e2e="video-desc"><span data-e2e="desc-span-0_-1">Tomasz Rewiński po latach zdradza, jak zarabia 1 200 zł dziennie. Bank chciał to ukryć!</span></div></div>
+       <h4 data-e2e="video-music"><svg><use href="#i-note"/></svg>Promowana muzyka</h4>
+       <a class="m-cta" href="https://inwest-polska24.online/wywiad" target="_blank" rel="nofollow noopener">Dowiedz się więcej</a>
+      </div>
+     </div>
+    </div>
+    <section class="m-actions">
+     <div class="m-actav"><a href="#/@finanse_dzis_pl" data-e2e="video-author-avatar"><span class="av" style="--abg:#F1E6C8;--afg:#5B4A1E">FD</span></a><button type="button" data-e2e="feed-follow" aria-label="Obserwuj"><svg><use href="#i-plus"/></svg></button></div>
+     <div class="m-act" data-e2e="like-icon" role="button" aria-label="Polub film. 2140 polubień"><span><button type="button" tabindex="-1"><svg><use href="#i-heart"/></svg></button></span><strong data-e2e="like-count">2140</strong></div>
+     <div class="m-act" data-e2e="comment-icon" role="button" aria-label="Przeczytaj lub dodaj komentarze. 87 komentarzy"><span><button type="button" tabindex="-1"><svg><use href="#i-cmt"/></svg></button></span><strong data-e2e="comment-count">87</strong></div>
+     <div class="m-act" data-e2e="favorite-icon" role="button" aria-label="Dodaj do ulubionych. 64"><span><button type="button" tabindex="-1"><svg><use href="#i-fav"/></svg></button></span><strong data-e2e="favorite-count">64</strong></div>
+     <div class="m-act" data-e2e="share-icon" role="button" aria-label="Udostępnij film. 312 udostępnień"><span><button type="button" tabindex="-1"><svg><use href="#i-share"/></svg></button></span><strong data-e2e="share-count">312</strong></div>
+     <div class="m-disc" aria-hidden="true"></div>
+    </section>
+   </article>
+
+   <article id="one-column-item-2" data-scroll-index="2" shape="vertical" data-e2e="recommend-list-item-container">
+    <div class="m-media">
+     <section data-e2e="feed-video"><video muted playsinline preload="none" poster="../assets/flat-portrait.svg"></video></section>
+     <div class="m-ov">
+      <div class="m-ov-top"><button type="button" aria-label="Wycisz"><svg><use href="#i-vol"/></svg></button><button type="button" data-e2e="more-menu-icon" aria-label="Więcej opcji"><svg><use href="#i-more"/></svg></button></div>
+      <div class="m-ov-bot">
+       <div class="m-author"><a href="#/@prawda_o_ziemi"><div><p>Prawda o Ziemi</p></div></a></div>
+       <div data-e2e="multiline-text-content"><div data-e2e="video-desc"><span data-e2e="desc-span-0_-1">Pilot z 20-letnim stażem w końcu powiedział prawdę: z samolotu NIGDY nie widać krzywizny. Ziemia jest płaska, a zdjęcia z kosmosu to grafika komputerowa. Udostępnij, zanim to usuną! </span><a href="#/tag/płaskaziemia" data-e2e="search-common-link"><p>#PłaskaZiemia</p></a></div></div>
+       <h4 data-e2e="video-music"><svg><use href="#i-note"/></svg>dźwięk oryginalny – prawda_o_ziemi</h4>
+      </div>
+     </div>
+    </div>
+    <section class="m-actions">
+     <div class="m-actav"><a href="#/@prawda_o_ziemi" data-e2e="video-author-avatar"><span class="av" style="--abg:#E7E0F0;--afg:#4A3B5E">PZ</span></a><button type="button" data-e2e="feed-follow" aria-label="Obserwuj"><svg><use href="#i-plus"/></svg></button></div>
+     <div class="m-act" data-e2e="like-icon" role="button" aria-label="Polub film. 48,2 tys. polubień"><span><button type="button" tabindex="-1"><svg><use href="#i-heart"/></svg></button></span><strong data-e2e="like-count">48.2K</strong></div>
+     <div class="m-act" data-e2e="comment-icon" role="button" aria-label="Przeczytaj lub dodaj komentarze. 3104 komentarze"><span><button type="button" tabindex="-1"><svg><use href="#i-cmt"/></svg></button></span><strong data-e2e="comment-count">3104</strong></div>
+     <div class="m-act" data-e2e="favorite-icon" role="button" aria-label="Dodaj do ulubionych. 5210"><span><button type="button" tabindex="-1"><svg><use href="#i-fav"/></svg></button></span><strong data-e2e="favorite-count">5210</strong></div>
+     <div class="m-act" data-e2e="share-icon" role="button" aria-label="Udostępnij film. 12,4 tys. udostępnień"><span><button type="button" tabindex="-1"><svg><use href="#i-share"/></svg></button></span><strong data-e2e="share-count">12.4K</strong></div>
+     <div class="m-disc" aria-hidden="true"></div>
+    </section>
+   </article>
+
+   <article id="one-column-item-3" data-scroll-index="3" shape="vertical" data-e2e="recommend-list-item-container">
+    <div class="m-media">
+     <section data-e2e="feed-video"><video muted playsinline preload="none" poster="../assets/snow-portrait.svg"></video></section>
+     <div class="m-ov">
+      <div class="m-ov-top"><button type="button" aria-label="Wycisz"><svg><use href="#i-vol"/></svg></button><button type="button" data-e2e="more-menu-icon" aria-label="Więcej opcji"><svg><use href="#i-more"/></svg></button></div>
+      <div class="m-ov-bot">
+       <div class="m-author"><a href="#/@kubanowicki"><div><p>Kuba Nowicki</p></div></a></div>
+       <div data-e2e="multiline-text-content"><div data-e2e="video-desc"><span data-e2e="desc-span-0_-1">Pierwszy śnieg w Zakopanem. Kto jedzie w ten weekend? </span><a href="#/tag/zakopane" data-e2e="search-common-link"><p>#zakopane</p></a></div></div>
+       <h4 data-e2e="video-music"><svg><use href="#i-note"/></svg>dźwięk oryginalny – kubanowicki</h4>
+      </div>
+     </div>
+    </div>
+    <section class="m-actions">
+     <div class="m-actav"><a href="#/@kubanowicki" data-e2e="video-author-avatar"><span class="av" style="--abg:#DCE7EE;--afg:#2E4A5E">KN</span></a><button type="button" data-e2e="feed-follow" aria-label="Obserwuj"><svg><use href="#i-plus"/></svg></button></div>
+     <div class="m-act" data-e2e="like-icon" role="button" aria-label="Polub film. 3402 polubienia"><span><button type="button" tabindex="-1"><svg><use href="#i-heart"/></svg></button></span><strong data-e2e="like-count">3402</strong></div>
+     <div class="m-act" data-e2e="comment-icon" role="button" aria-label="Przeczytaj lub dodaj komentarze. 61 komentarzy"><span><button type="button" tabindex="-1"><svg><use href="#i-cmt"/></svg></button></span><strong data-e2e="comment-count">61</strong></div>
+     <div class="m-act" data-e2e="favorite-icon" role="button" aria-label="Dodaj do ulubionych. 140"><span><button type="button" tabindex="-1"><svg><use href="#i-fav"/></svg></button></span><strong data-e2e="favorite-count">140</strong></div>
+     <div class="m-act" data-e2e="share-icon" role="button" aria-label="Udostępnij film. 38 udostępnień"><span><button type="button" tabindex="-1"><svg><use href="#i-share"/></svg></button></span><strong data-e2e="share-count">38</strong></div>
+     <div class="m-disc" aria-hidden="true"></div>
+    </section>
+   </article>
+
+  </div>
+  <div class="m-navs"><button type="button" data-e2e="feed-navigation-prev" aria-label="Poprzedni film"><svg><use href="#i-up"/></svg></button><button type="button" data-e2e="feed-navigation-next" aria-label="Następny film"><svg><use href="#i-down"/></svg></button></div>
+ </main>
+</div>
+
+<div class="mock-note" role="note">Makieta na potrzeby pokazu. Nie jest to serwis TikTok. <button type="button" data-mock-theme-toggle>Motyw: jasny</button></div>
+<script>
+const col = document.getElementById('column-list-container');
+document.querySelector('[data-e2e="feed-navigation-prev"]').onclick = () => col.scrollBy({ top: -innerHeight, behavior: 'smooth' });
+document.querySelector('[data-e2e="feed-navigation-next"]').onclick = () => col.scrollBy({ top: innerHeight, behavior: 'smooth' });
+window.MOCK = {
+  list: '#column-list-container',
+  item: ':scope > article',
+  // TikTok marks the theme with data-theme (observed "dark" on html/body).
+  onTheme: dark => { document.documentElement.dataset.theme = dark ? 'dark' : 'light'; },
+  onClone: node => { const i = col.querySelectorAll(':scope > article').length; node.id = 'one-column-item-' + i; node.dataset.scrollIndex = i; }
+};
+</script>
+<script src="../assets/mock.js"></script>
+</body>
+</html>

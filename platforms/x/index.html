@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="pl" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#FFFFFF">
+<title>Strona Główna (makieta X)</title>
+<link rel="stylesheet" href="../assets/mock.css">
+<style>
+/* Measured on x.com (pl, 2026-11): header nav 259px + primary 600px + gap 30px + sidebar 350px, avatar 40, text 15/20, radius 16. */
+:root{--bg:#FFFFFF;--tx:#0F1419;--tx2:#536471;--line:#EFF3F4;--line2:#CFD9DE;--hover:rgba(15,20,25,.03);--navhover:rgba(15,20,25,.1);--box:#F7F9F9;--blue:#1D9BF0;--like:#F91880;--rt:#00BA7C;
+  --font:TwitterChirp,-apple-system,"system-ui","Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+:root[data-mock-theme="dark"]{--bg:#000000;--tx:#E7E9EA;--tx2:#71767B;--line:#2F3336;--line2:#2F3336;--hover:rgba(231,233,234,.03);--navhover:rgba(231,233,234,.1);--box:#202327;color-scheme:dark}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font:15px/20px var(--font);color:var(--tx);background:var(--bg);-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+svg{fill:currentColor}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+#react-root{display:flex;justify-content:center;min-height:100vh}
+/* left nav */
+header[role="banner"]{flex:0 0 275px;display:flex;justify-content:flex-end}
+.hdr-in{position:sticky;top:0;height:100vh;width:275px;display:flex;flex-direction:column;padding:0 8px}
+.logo{display:flex;width:52px;height:52px;align-items:center;justify-content:center;border-radius:999px;margin-top:2px;color:var(--tx)}
+nav[role="navigation"]{display:flex;flex-direction:column;margin:2px 0 4px}
+.hdr-in nav a,.hdr-in nav button{display:flex;align-items:center;gap:20px;width:max-content;padding:12px;border-radius:999px;font-size:20px;line-height:24px;transition:background .2s}
+.hdr-in nav a:hover,.hdr-in nav button:hover{background:var(--navhover)}
+.hdr-in nav a span,.hdr-in nav button span{padding-right:16px}
+.hdr-in nav a[aria-current="page"]{font-weight:700}
+.hdr-in nav svg{width:26px;height:26px}
+.post-btn{display:flex;align-items:center;justify-content:center;width:233px;height:52px;margin:16px 0;border-radius:999px;background:var(--tx);color:var(--bg);font-weight:700;font-size:17px}
+.me{margin:auto 0 12px;display:flex;align-items:center;gap:12px;padding:12px;border-radius:999px;text-align:left;width:100%}
+.me:hover{background:var(--navhover)}
+.me b{display:block;font-size:15px}.me div span{display:block;color:var(--tx2)}
+/* primary column */
+main[role="main"]{flex:0 1 990px;display:flex;justify-content:space-between}
+[data-testid="primaryColumn"]{width:600px;border-left:1px solid var(--line);border-right:1px solid var(--line);min-height:100vh}
+.tabs{position:sticky;top:0;z-index:3;display:flex;height:53px;border-bottom:1px solid var(--line);background:color-mix(in srgb,var(--bg) 85%,transparent);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
+.tabs [role="presentation"]{flex:1;display:flex}
+.tabs a{flex:1;display:flex;align-items:center;justify-content:center;color:var(--tx2);font-weight:500;position:relative}
+.tabs a:hover{background:var(--navhover)}
+.tabs a[aria-selected="true"]{color:var(--tx);font-weight:700}
+.tabs a[aria-selected="true"]::after{content:"";position:absolute;bottom:0;left:50%;width:56px;height:4px;border-radius:2px;background:var(--blue);transform:translateX(-50%)}
+.compose{display:grid;grid-template-columns:40px 1fr;gap:8px;padding:4px 16px 8px;border-bottom:1px solid var(--line)}
+.compose .ph{font-size:20px;line-height:24px;color:var(--tx2);padding:16px 0 18px 4px}
+.compose .row{display:flex;justify-content:flex-end;border-top:1px solid var(--line);padding-top:8px}
+.compose .row button{height:36px;padding:0 16px;border-radius:999px;background:var(--tx);color:var(--bg);font-weight:700;opacity:.5}
+/* tweet */
+.cell{border-bottom:1px solid var(--line)}
+article[data-testid="tweet"]{display:block;padding:12px 16px 0;cursor:pointer;transition:background .2s}
+article[data-testid="tweet"]:hover{background:var(--hover)}
+.tw-row{display:flex;gap:8px}
+.tw-av{flex:0 0 40px}
+.av{display:grid;place-items:center;width:40px;height:40px;border-radius:50%;background:var(--abg);color:var(--afg);font-weight:700;font-size:14px}
+.tw-body{flex:1;min-width:0;padding-bottom:12px}
+.tw-head{display:flex;align-items:flex-start;gap:4px;height:20px}
+[data-testid="User-Name"]{display:flex;gap:4px;min-width:0;flex:1}
+[data-testid="User-Name"] a:first-child{font-weight:700}
+.un-meta{display:flex;gap:4px;color:var(--tx2)}
+.un-meta a:hover{text-decoration:underline}
+.tw-tools{display:flex;align-items:center;gap:2px;color:var(--tx2);margin-top:-6px}
+.tw-tools [dir]{font-size:15px;padding-right:4px;margin-top:6px}
+.ic{display:grid;place-items:center;width:34px;height:34px;margin-right:-8px;border-radius:999px;color:var(--tx2)}
+.ic:hover{color:var(--blue);background:color-mix(in srgb,var(--blue) 10%,transparent)}
+.ic svg{width:18.75px;height:18.75px}
+[data-testid="tweetText"]{white-space:pre-wrap;overflow-wrap:break-word}
+[data-testid="tweetText"] a{color:var(--blue)}
+.media{margin-top:12px;border:1px solid var(--line2);border-radius:16px;overflow:hidden;position:relative}
+.media img{display:block;width:100%;height:auto}
+[data-testid="tweetPhoto"] img{aspect-ratio:16/9;object-fit:cover}
+.card-dom{position:absolute;left:12px;bottom:12px;padding:0 4px;border-radius:4px;background:rgba(0,0,0,.77);color:#fff;font-size:13px;line-height:20px}
+.card-from{margin-top:4px;color:var(--tx2);font-size:13px;line-height:16px}
+/* action bar: 4 equal slots, then bookmark + share (observed 113px slots at 600px column) */
+div[role="group"]{display:flex;align-items:center;height:32px;margin-top:12px;color:var(--tx2);font-size:13px;line-height:16px}
+div[role="group"]>div{flex:1;display:flex}
+div[role="group"]>div.bm,div[role="group"]>div.sh{flex:none;margin-left:12px}
+.act{display:inline-flex;align-items:center;gap:0;color:var(--tx2);transition:color .2s}
+.act svg{width:18.75px;height:18.75px;margin:-8px;padding:8px;box-sizing:content-box;border-radius:999px;transition:background .2s}
+.act span[data-testid]{padding:0 12px 0 12px}
+.act:hover{color:var(--blue)}.act:hover svg{background:color-mix(in srgb,var(--blue) 10%,transparent)}
+[data-testid="retweet"]:hover{color:var(--rt)}[data-testid="retweet"]:hover svg{background:color-mix(in srgb,var(--rt) 10%,transparent)}
+[data-testid="like"]:hover{color:var(--like)}[data-testid="like"]:hover svg{background:color-mix(in srgb,var(--like) 10%,transparent)}
+/* sidebar */
+[data-testid="sidebarColumn"]{width:350px;padding-bottom:64px}
+.side-in{position:sticky;top:0;display:flex;flex-direction:column;gap:16px}
+.search{position:sticky;top:0;z-index:2;background:var(--bg);padding:4px 0 0}
+.search label{display:flex;align-items:center;gap:4px;height:42px;padding:0 16px;border:1px solid var(--line);border-radius:999px;color:var(--tx2)}
+.search svg{width:16px;height:16px;margin-right:8px}
+.box{border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.box h2{font-size:20px;line-height:24px;font-weight:800;padding:12px 16px}
+.trend{display:block;padding:12px 16px;transition:background .2s}
+.trend:hover{background:var(--hover)}
+.trend span{display:block;color:var(--tx2);font-size:13px;line-height:16px}
+.trend b{display:block;font-size:15px;line-height:20px;margin:2px 0}
+.who{display:flex;align-items:center;gap:8px;padding:12px 16px}
+.who div{flex:1;min-width:0}.who b{display:block}.who span{color:var(--tx2)}
+.who button{height:32px;padding:0 16px;border-radius:999px;background:var(--tx);color:var(--bg);font-weight:700;font-size:14px}
+.more{display:block;padding:16px;color:var(--blue)}
+.foot{display:flex;flex-wrap:wrap;gap:2px 12px;padding:0 16px;color:var(--tx2);font-size:13px;line-height:16px}
+@media (max-width:1280px){header[role="banner"]{flex-basis:88px}.hdr-in{width:88px;align-items:center}.hdr-in nav a span,.hdr-in nav button span,.me div{display:none}.post-btn{width:52px;font-size:0}.post-btn::after{content:"+";font-size:26px}}
+@media (max-width:1000px){[data-testid="sidebarColumn"]{display:none}main[role="main"]{flex-basis:600px}}
+</style>
+</head>
+<body style="background-color:#FFFFFF">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+ <symbol id="i-home" viewBox="0 0 24 24"><path d="M12 1.7l9.5 7.6V21a1 1 0 01-1 1H15v-7H9v7H3.5a1 1 0 01-1-1V9.3z"/></symbol>
+ <symbol id="i-search" viewBox="0 0 24 24"><path d="M10.3 3.8a6.5 6.5 0 104 11.6l4.9 4.9 1.4-1.4-4.9-4.9a6.5 6.5 0 00-5.4-10.2zm0 2a4.5 4.5 0 110 9 4.5 4.5 0 010-9z"/></symbol>
+ <symbol id="i-bell" viewBox="0 0 24 24"><path d="M12 2.5a6.5 6.5 0 00-6.5 6.5v5.3L3.7 17.5h16.6l-1.8-3.2V9A6.5 6.5 0 0012 2.5zm-4.5 6.5a4.5 4.5 0 019 0v5.8l.6 1H6.9l.6-1zM9 19.5a3 3 0 006 0z"/></symbol>
+ <symbol id="i-mail" viewBox="0 0 24 24"><path d="M3 5.5A1.5 1.5 0 014.5 4h15A1.5 1.5 0 0121 5.5v13a1.5 1.5 0 01-1.5 1.5h-15A1.5 1.5 0 013 18.5zm2 .9v11.6h14V6.4l-7 5.3zM6.4 6L12 10.2 17.6 6z"/></symbol>
+ <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 2.5l2.9 6 6.6.8-4.9 4.6 1.2 6.6L12 17.3l-5.8 3.2 1.2-6.6L2.5 9.3l6.6-.8zm0 4.6l-1.6 3.3-3.6.5 2.7 2.5-.7 3.6 3.2-1.8 3.2 1.8-.7-3.6 2.7-2.5-3.6-.5z"/></symbol>
+ <symbol id="i-user" viewBox="0 0 24 24"><path d="M12 2.5a4.5 4.5 0 110 9 4.5 4.5 0 010-9zm0 2a2.5 2.5 0 100 5 2.5 2.5 0 000-5zM4 21c.6-4.3 3.9-7 8-7s7.4 2.7 8 7h-2c-.6-3.1-3-5-6-5s-5.4 1.9-6 5z"/></symbol>
+ <symbol id="i-dots-c" viewBox="0 0 24 24"><path d="M12 2a10 10 0 110 20 10 10 0 010-20zm0 2a8 8 0 100 16 8 8 0 000-16zM7.5 10.5a1.5 1.5 0 110 3 1.5 1.5 0 010-3zm4.5 0a1.5 1.5 0 110 3 1.5 1.5 0 010-3zm4.5 0a1.5 1.5 0 110 3 1.5 1.5 0 010-3z"/></symbol>
+ <symbol id="i-more" viewBox="0 0 24 24"><path d="M3 12a2 2 0 104 0 2 2 0 00-4 0zm7 0a2 2 0 104 0 2 2 0 00-4 0zm7 0a2 2 0 104 0 2 2 0 00-4 0z"/></symbol>
+ <symbol id="i-reply" viewBox="0 0 24 24"><path d="M1.8 10c0-4.4 3.6-8 8-8h4.4c4.4 0 8 3.6 8 8 0 2.9-1.6 5.6-4.1 7l-8.1 4.5v-3.7H9.8c-4.4 0-8-3.6-8-7.8zm8-6c-3.3 0-6 2.7-6 6s2.7 5.8 6 5.8H12v2.3l5.1-2.8A6 6 0 0020.1 10a6 6 0 00-6-6z"/></symbol>
+ <symbol id="i-rt" viewBox="0 0 24 24"><path d="M4.5 3.9l4.4 4.1-1.4 1.5-2-1.9V16a2 2 0 002 2H13v2H7.5a4 4 0 01-4-4V7.6l-2 1.9L.1 8zM16.5 6H11V4h5.5a4 4 0 014 4v8.4l2-1.9 1.4 1.5-4.4 4.1-4.4-4.1 1.4-1.5 2 1.9V8a2 2 0 00-2-2z"/></symbol>
+ <symbol id="i-like" viewBox="0 0 24 24"><path d="M16.7 4c-1.7-.1-3.3.8-4.7 2.6C10.6 4.8 9 3.9 7.3 4 4.6 4.1 2.5 6.3 2.5 9.2c0 2 1 3.8 2.8 5.8 1.8 2 4.1 3.8 6.7 5.8 2.6-2 4.9-3.8 6.7-5.8 1.8-2 2.8-3.8 2.8-5.8 0-2.9-2.1-5.1-4.8-5.2zM12 18.3c-2.2-1.7-4.1-3.2-5.3-4.6C5.2 12 4.5 10.6 4.5 9.2 4.5 7.4 5.8 6 7.4 6c1.2 0 2.5.7 3.7 2.6l.9 1.4.9-1.4C14.1 6.7 15.4 6 16.6 6c1.6 0 2.9 1.4 2.9 3.2 0 1.4-.7 2.8-2.2 4.5-1.2 1.4-3.1 2.9-5.3 4.6z"/></symbol>
+ <symbol id="i-views" viewBox="0 0 24 24"><path d="M8.8 21V3h2v18zm-6 0v-9h2v9zm12 0V8h2v13zm6 0v-5h2v5z"/></symbol>
+ <symbol id="i-bm" viewBox="0 0 24 24"><path d="M4 4.5A2.5 2.5 0 016.5 2h11A2.5 2.5 0 0120 4.5v18.4l-8-5.7-8 5.7zM6.5 4a.5.5 0 00-.5.5v14.6l6-4.3 6 4.3V4.5a.5.5 0 00-.5-.5z"/></symbol>
+ <symbol id="i-share" viewBox="0 0 24 24"><path d="M12 2.6l5.7 5.7-1.4 1.4L13 6.4V16h-2V6.4L7.7 9.7 6.3 8.3zM4 14h2v4.5c0 .3.2.5.5.5h11c.3 0 .5-.2.5-.5V14h2v4.5a2.5 2.5 0 01-2.5 2.5h-11A2.5 2.5 0 014 18.5z"/></symbol>
+</defs></svg>
+
+<div id="react-root">
+ <header role="banner"><div class="hdr-in">
+  <h1 role="heading"><a href="#" class="logo" aria-label="X (zastępnik logo)"><span class="mock-logo" style="width:30px;height:30px"></span></a></h1>
+  <nav role="navigation" aria-label="Główny">
+   <a href="#" data-testid="AppTabBar_Home_Link" aria-label="Strona Główna" role="link" aria-current="page"><svg><use href="#i-home"/></svg><span>Strona Główna</span></a>
+   <a href="#" data-testid="AppTabBar_Explore_Link" aria-label="Szukaj i odkrywaj" role="link"><svg><use href="#i-search"/></svg><span>Przeglądaj</span></a>
+   <a href="#" data-testid="AppTabBar_Notifications_Link" aria-label="Powiadomienia" role="link"><svg><use href="#i-bell"/></svg><span>Powiadomienia</span></a>
+   <a href="#" data-testid="AppTabBar_DirectMessage_Link" aria-label="Wiadomości prywatne" role="link"><svg><use href="#i-mail"/></svg><span>Czat</span></a>
+   <a href="#" data-testid="premium-signup-tab" aria-label="Premium" role="link"><svg><use href="#i-star"/></svg><span>Premium</span></a>
+   <a href="#" data-testid="AppTabBar_Profile_Link" aria-label="Profil" role="link"><svg><use href="#i-user"/></svg><span>Profil</span></a>
+   <button type="button" data-testid="AppTabBar_More_Menu" aria-label="Więcej opcji menu"><svg><use href="#i-dots-c"/></svg><span>Więcej</span></button>
+  </nav>
+  <a href="#" class="post-btn" data-testid="SideNav_NewTweet_Button" role="link" aria-label="Opublikuj wpis">Opublikuj wpis</a>
+  <button type="button" class="me" data-testid="SideNav_AccountSwitcher_Button" aria-label="Opcje konta"><span class="av" style="--abg:#DCE7EE;--afg:#2E4A5E">KD</span><div><b>Konto demo</b><span>@konto_demo</span></div></button>
+ </div></header>
+
+ <main role="main"><div style="display:flex;justify-content:space-between;width:100%">
+  <div data-testid="primaryColumn">
+   <div class="tabs" role="tablist">
+    <div role="presentation"><a href="#" role="tab" aria-selected="true">Dla Ciebie</a></div>
+    <div role="presentation"><a href="#" role="tab" aria-selected="false">Obserwujesz</a></div>
+   </div>
+   <div class="compose"><span class="av" style="--abg:#DCE7EE;--afg:#2E4A5E">KD</span><div><div class="ph" data-testid="tweetTextarea_0_label">Co się dzieje?</div><div class="row"><button type="button" data-testid="tweetButtonInline" disabled>Opublikuj</button></div></div></div>
+
+   <section role="region" aria-labelledby="accessible-list-0">
+    <h1 id="accessible-list-0" class="sr">Twoja oś czasu strony głównej</h1>
+    <div aria-label="Oś czasu: Twoja główna oś czasu"><div class="cells">
+
+     <div data-testid="cellInnerDiv"><div class="cell">
+      <article data-testid="tweet" role="article" tabindex="0" aria-labelledby="t1-name t1-text">
+       <div class="tw-row">
+        <div class="tw-av"><div data-testid="Tweet-User-Avatar"><div data-testid="UserAvatar-Container-magda_w"><a href="#/magda_w" role="link" tabindex="-1" class="av" style="--abg:#E4E9DF;--afg:#3E4F2E">MW</a></div></div></div>
+        <div class="tw-body">
+         <div class="tw-head">
+          <div data-testid="User-Name" id="t1-name">
+           <div><a href="#/magda_w" role="link"><div dir="ltr"><span><span>Magda W.</span></span></div></a></div>
+           <div class="un-meta"><a href="#/magda_w" role="link" tabindex="-1"><div dir="ltr"><span>@magda_w</span></div></a><div dir="ltr" aria-hidden="true"><span>·</span></div><a href="#/magda_w/status/1991800000000000001" role="link" dir="ltr" aria-label="31 min"><time datetime="2026-11-21T08:41:00.000Z">31 min</time></a></div>
+          </div>
+          <div class="tw-tools"><button type="button" class="ic" data-testid="caret" aria-label="Więcej" aria-haspopup="menu"><svg><use href="#i-more"/></svg></button></div>
+         </div>
+         <div data-testid="tweetText" id="t1-text" lang="pl" dir="auto"><span>Ktoś wie, czy w sobotę pociągi do Gdyni jeżdżą normalnie?</span></div>
+         <div role="group" aria-label="4 odpowiedzi, 1 podanie dalej, 12 polubień, 1124 wyświetlenia">
+          <div><button type="button" class="act" data-testid="reply" aria-label="4 Odpowiedzi. Odpowiedz"><svg><use href="#i-reply"/></svg><span data-testid="app-text-transition-container"><span><span>4</span></span></span></button></div>
+          <div><button type="button" class="act" data-testid="retweet" aria-label="1 podanie dalej. Podaj dalej"><svg><use href="#i-rt"/></svg><span data-testid="app-text-transition-container"><span><span>1</span></span></span></button></div>
+          <div><button type="button" class="act" data-testid="like" aria-label="12 polubień. Polub"><svg><use href="#i-like"/></svg><span data-testid="app-text-transition-container"><span><span>12</span></span></span></button></div>
+          <div><a href="#/magda_w/status/1991800000000000001/analytics" role="link" class="act" aria-label="1124 wyświetlenia. Wyświetl statystyki wpisu"><svg><use href="#i-views"/></svg><span data-testid="app-text-transition-container"><span><span>1,1 tys.</span></span></span></a></div>
+          <div class="bm"><button type="button" class="act" data-testid="bookmark" aria-label="Zakładka"><svg><use href="#i-bm"/></svg></button></div>
+          <div class="sh"><button type="button" class="act" aria-label="Udostępnij wpis" aria-haspopup="menu"><svg><use href="#i-share"/></svg></button></div>
+         </div>
+        </div>
+       </div>
+      </article>
+     </div></div>
+
+     <div data-testid="cellInnerDiv"><div class="cell"><div data-testid="placementTracking">
+      <article data-testid="tweet" role="article" tabindex="0" aria-labelledby="t2-name t2-text">
+       <div class="tw-row">
+        <div class="tw-av"><div data-testid="Tweet-User-Avatar"><div data-testid="UserAvatar-Container-finanse_dzis_pl"><a href="#/finanse_dzis_pl" role="link" tabindex="-1" class="av" style="--abg:#F1E6C8;--afg:#5B4A1E">FD</a></div></div></div>
+        <div class="tw-body">
+         <div class="tw-head">
+          <div data-testid="User-Name" id="t2-name">
+           <div><a href="#/finanse_dzis_pl" role="link"><div dir="ltr"><span><span>Finanse Dziś</span></span></div></a></div>
+           <div class="un-meta"><a href="#/finanse_dzis_pl" role="link" tabindex="-1"><div dir="ltr"><span>@finanse_dzis_pl</span></div></a></div>
+          </div>
+          <div class="tw-tools"><div dir="ltr"><span>Reklama</span></div><button type="button" class="ic" data-testid="caret" aria-label="Więcej" aria-haspopup="menu"><svg><use href="#i-more"/></svg></button></div>
+         </div>
+         <div data-testid="tweetText" id="t2-text" lang="pl" dir="auto"><span>Tomasz Rewiński po latach zdradza, jak zarabia 1 200 zł dziennie. Bank chciał to ukryć!</span></div>
+         <div data-testid="card.wrapper" class="media">
+          <div data-testid="card.layoutLarge.media"><a href="https://inwest-polska24.online/wywiad" role="link" rel="noopener noreferrer nofollow" target="_blank" aria-label="inwest-polska24.online Sekret prezentera: 1 200 zł dziennie"><img alt="" src="../assets/ad-wide.svg"><div class="card-dom">inwest-polska24.online</div></a></div>
+         </div>
+         <div class="card-from">Z: inwest-polska24.online</div>
+         <div role="group" aria-label="38 odpowiedzi, 12 podań dalej, 96 polubień, 48210 wyświetleń">
+          <div><button type="button" class="act" data-testid="reply" aria-label="38 Odpowiedzi. Odpowiedz"><svg><use href="#i-reply"/></svg><span data-testid="app-text-transition-container"><span><span>38</span></span></span></button></div>
+          <div><button type="button" class="act" data-testid="retweet" aria-label="12 podań dalej. Podaj dalej"><svg><use href="#i-rt"/></svg><span data-testid="app-text-transition-container"><span><span>12</span></span></span></button></div>
+          <div><button type="button" class="act" data-testid="like" aria-label="96 polubień. Polub"><svg><use href="#i-like"/></svg><span data-testid="app-text-transition-container"><span><span>96</span></span></span></button></div>
+          <div><a href="#" role="link" class="act" aria-label="48210 wyświetleń. Wyświetl statystyki wpisu"><svg><use href="#i-views"/></svg><span data-testid="app-text-transition-container"><span><span>48 tys.</span></span></span></a></div>
+          <div class="bm"><button type="button" class="act" data-testid="bookmark" aria-label="Zakładka"><svg><use href="#i-bm"/></svg></button></div>
+          <div class="sh"><button type="button" class="act" aria-label="Udostępnij wpis" aria-haspopup="menu"><svg><use href="#i-share"/></svg></button></div>
+         </div>
+        </div>
+       </div>
+      </article>
+     </div></div></div>
+
+     <div data-testid="cellInnerDiv"><div class="cell">
+      <article data-testid="tweet" role="article" tabindex="0" aria-labelledby="t3-name t3-text">
+       <div class="tw-row">
+        <div class="tw-av"><div data-testid="Tweet-User-Avatar"><div data-testid="UserAvatar-Container-prawda_o_ziemi"><a href="#/prawda_o_ziemi" role="link" tabindex="-1" class="av" style="--abg:#E7E0F0;--afg:#4A3B5E">PZ</a></div></div></div>
+        <div class="tw-body">
+         <div class="tw-head">
+          <div data-testid="User-Name" id="t3-name">
+           <div><a href="#/prawda_o_ziemi" role="link"><div dir="ltr"><span><span>Prawda o Ziemi</span></span></div></a></div>
+           <div class="un-meta"><a href="#/prawda_o_ziemi" role="link" tabindex="-1"><div dir="ltr"><span>@prawda_o_ziemi</span></div></a><div dir="ltr" aria-hidden="true"><span>·</span></div><a href="#/prawda_o_ziemi/status/1991800000000000003" role="link" dir="ltr" aria-label="3 godz."><time datetime="2026-11-21T06:10:00.000Z">3 godz.</time></a></div>
+          </div>
+          <div class="tw-tools"><button type="button" class="ic" data-testid="caret" aria-label="Więcej" aria-haspopup="menu"><svg><use href="#i-more"/></svg></button></div>
+         </div>
+         <div data-testid="tweetText" id="t3-text" lang="pl" dir="auto"><span>Pilot z 20-letnim stażem w końcu powiedział prawdę: z samolotu NIGDY nie widać krzywizny. Ziemia jest płaska, a zdjęcia z kosmosu to grafika komputerowa. Udostępnij, zanim to usuną! </span><a href="#/hashtag/PłaskaZiemia" role="link" dir="ltr">#PłaskaZiemia</a></div>
+         <div role="group" aria-label="412 odpowiedzi, 2104 podania dalej, 5812 polubień, 184300 wyświetleń">
+          <div><button type="button" class="act" data-testid="reply" aria-label="412 Odpowiedzi. Odpowiedz"><svg><use href="#i-reply"/></svg><span data-testid="app-text-transition-container"><span><span>412</span></span></span></button></div>
+          <div><button type="button" class="act" data-testid="retweet" aria-label="2104 podania dalej. Podaj dalej"><svg><use href="#i-rt"/></svg><span data-testid="app-text-transition-container"><span><span>2,1 tys.</span></span></span></button></div>
+          <div><button type="button" class="act" data-testid="like" aria-label="5812 polubień. Polub"><svg><use href="#i-like"/></svg><span data-testid="app-text-transition-container"><span><span>5,8 tys.</span></span></span></button></div>
+          <div><a href="#/prawda_o_ziemi/status/1991800000000000003/analytics" role="link" class="act" aria-label="184300 wyświetleń. Wyświetl statystyki wpisu"><svg><use href="#i-views"/></svg><span data-testid="app-text-transition-container"><span><span>184 tys.</span></span></span></a></div>
+          <div class="bm"><button type="button" class="act" data-testid="bookmark" aria-label="Zakładka"><svg><use href="#i-bm"/></svg></button></div>
+          <div class="sh"><button type="button" class="act" aria-label="Udostępnij wpis" aria-haspopup="menu"><svg><use href="#i-share"/></svg></button></div>
+         </div>
+        </div>
+       </div>
+      </article>
+     </div></div>
+
+     <div data-testid="cellInnerDiv"><div class="cell">
+      <article data-testid="tweet" role="article" tabindex="0" aria-labelledby="t4-name t4-text">
+       <div class="tw-row">
+        <div class="tw-av"><div data-testid="Tweet-User-Avatar"><div data-testid="UserAvatar-Container-kubanowicki"><a href="#/kubanowicki" role="link" tabindex="-1" class="av" style="--abg:#DCE7EE;--afg:#2E4A5E">KN</a></div></div></div>
+        <div class="tw-body">
+         <div class="tw-head">
+          <div data-testid="User-Name" id="t4-name">
+           <div><a href="#/kubanowicki" role="link"><div dir="ltr"><span><span>Kuba Nowicki</span></span></div></a></div>
+           <div class="un-meta"><a href="#/kubanowicki" role="link" tabindex="-1"><div dir="ltr"><span>@kubanowicki</span></div></a><div dir="ltr" aria-hidden="true"><span>·</span></div><a href="#/kubanowicki/status/1991800000000000004" role="link" dir="ltr" aria-label="1 godz."><time datetime="2026-11-21T08:05:00.000Z">1 godz.</time></a></div>
+          </div>
+          <div class="tw-tools"><button type="button" class="ic" data-testid="caret" aria-label="Więcej" aria-haspopup="menu"><svg><use href="#i-more"/></svg></button></div>
+         </div>
+         <div data-testid="tweetText" id="t4-text" lang="pl" dir="auto"><span>Pierwszy śnieg w Zakopanem. Kto jedzie w ten weekend?</span></div>
+         <div class="media"><div data-testid="tweetPhoto"><img alt="Obraz" src="../assets/snow-wide.svg"></div></div>
+         <div role="group" aria-label="9 odpowiedzi, 3 podania dalej, 87 polubień, 3412 wyświetleń">
+          <div><button type="button" class="act" data-testid="reply" aria-label="9 Odpowiedzi. Odpowiedz"><svg><use href="#i-reply"/></svg><span data-testid="app-text-transition-container"><span><span>9</span></span></span></button></div>
+          <div><button type="button" class="act" data-testid="retweet" aria-label="3 podania dalej. Podaj dalej"><svg><use href="#i-rt"/></svg><span data-testid="app-text-transition-container"><span><span>3</span></span></span></button></div>
+          <div><button type="button" class="act" data-testid="like" aria-label="87 polubień. Polub"><svg><use href="#i-like"/></svg><span data-testid="app-text-transition-container"><span><span>87</span></span></span></button></div>
+          <div><a href="#/kubanowicki/status/1991800000000000004/analytics" role="link" class="act" aria-label="3412 wyświetleń. Wyświetl statystyki wpisu"><svg><use href="#i-views"/></svg><span data-testid="app-text-transition-container"><span><span>3,4 tys.</span></span></span></a></div>
+          <div class="bm"><button type="button" class="act" data-testid="bookmark" aria-label="Zakładka"><svg><use href="#i-bm"/></svg></button></div>
+          <div class="sh"><button type="button" class="act" aria-label="Udostępnij wpis" aria-haspopup="menu"><svg><use href="#i-share"/></svg></button></div>
+         </div>
+        </div>
+       </div>
+      </article>
+     </div></div>
+
+    </div></div>
+   </section>
+  </div>
+
+  <div data-testid="sidebarColumn"><div class="side-in">
+   <form class="search" role="search" aria-label="Szukaj" onsubmit="return false"><label><svg><use href="#i-search"/></svg><span data-testid="SearchBox_Search_Input_label">Szukaj</span></label></form>
+   <section class="box" aria-labelledby="trends-h"><h2 id="trends-h">Co się dzieje</h2>
+    <a href="#" class="trend" data-testid="trend"><span>Najpopularniejsze w Polsce</span><b>Pierwszy śnieg</b><span>12,4 tys. wpisów</span></a>
+    <a href="#" class="trend" data-testid="trend"><span>Sport · Najpopularniejsze</span><b>Ekstraklasa</b><span>8 210 wpisów</span></a>
+    <a href="#" class="trend" data-testid="trend"><span>Najpopularniejsze w Polsce</span><b>#PKPIntercity</b><span>3 118 wpisów</span></a>
+    <a href="#" class="trend" data-testid="trend"><span>Nauka · Najpopularniejsze</span><b>Zorza polarna</b><span>5 902 wpisy</span></a>
+    <a href="#" class="more">Pokaż więcej</a>
+   </section>
+   <aside class="box" aria-label="Warci obserwowania"><h2>Warci obserwowania</h2>
+    <div class="who" data-testid="UserCell"><span class="av" style="--abg:#E6E1D6;--afg:#5A4E36">BG</span><div><b>Biblioteka Gdańska</b><span>@biblio_gda</span></div><button type="button">Obserwuj</button></div>
+    <div class="who" data-testid="UserCell"><span class="av" style="--abg:#DDE9E3;--afg:#2F5443">TS</span><div><b>Tatry na szlaku</b><span>@tatry_szlak</span></div><button type="button">Obserwuj</button></div>
+    <a href="#" class="more">Pokaż więcej</a>
+   </aside>
+   <nav class="foot" aria-label="Stopka"><a href="#">Warunki korzystania</a><a href="#">Polityka prywatności</a><a href="#">Pliki cookie</a><a href="#">Dostępność</a><a href="#">Informacje o reklamach</a><span>Makieta na potrzeby pokazu. Nie jest to serwis X.</span></nav>
+  </div></div>
+ </div></main>
+</div>
+
+<div class="mock-note" role="note">Makieta na potrzeby pokazu. Nie jest to serwis X. <button type="button" data-mock-theme-toggle>Motyw: jasny</button></div>
+<script>
+window.MOCK = {
+  list: '[aria-label^="Oś czasu"] > .cells',
+  item: ':scope > [data-testid="cellInnerDiv"]',
+  // X marks its theme only through the body background and theme-color meta.
+  onTheme: dark => { const c = dark ? '#000000' : '#FFFFFF'; document.body.style.backgroundColor = c; document.querySelector('meta[name="theme-color"]').content = c; }
+};
+</script>
+<script src="../assets/mock.js"></script>
+</body>
+</html>

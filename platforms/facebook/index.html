@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="pl" dir="ltr" class="__fb-light-mode">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Facebook (makieta)</title>
+<link rel="stylesheet" href="../assets/mock.css">
+<style>
+/* Measured on facebook.com (pl, 2026-11): top bar 56, left "Skróty" 360, right complementary 360, feed column 680, cards radius 12, gap 12. */
+:root{--page:#F0F2F5;--card:#FFFFFF;--tx:#080809;--tx2:#65686C;--line:#CED0D4;--hover:rgba(0,0,0,.05);--btn:#E2E5E9;--blue:#0866FF;--shadow:0 1px 2px rgba(0,0,0,.2);
+  --font:system-ui,-apple-system,BlinkMacSystemFont,".SFNSText-Regular","Segoe UI Historic","Segoe UI",Helvetica,Arial,sans-serif}
+:root[data-mock-theme="dark"]{--page:#1C1C1D;--card:#252728;--tx:#E2E5E9;--tx2:#B0B3B8;--line:#3E4042;--hover:rgba(255,255,255,.1);--btn:#3B3D3E;--shadow:0 1px 2px rgba(0,0,0,.2);color-scheme:dark}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font:15px/1.3333 var(--font);color:var(--tx);background:var(--page);-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+svg{fill:currentColor}
+[role="button"]{cursor:pointer}
+.av{display:grid;place-items:center;flex:none;border-radius:50%;background:var(--abg);color:var(--afg);font-weight:700}
+/* top bar */
+.m-top{position:fixed;inset:0 0 auto;z-index:5;height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;background:var(--card);box-shadow:0 1px 2px rgba(0,0,0,.1)}
+.m-top-l{display:flex;align-items:center;gap:8px;width:360px}
+.m-logo{display:grid;place-items:center;width:40px;height:40px;color:var(--tx)}
+.m-search{display:flex;align-items:center;gap:8px;width:240px;height:40px;padding:0 12px;border-radius:999px;background:var(--btn);color:var(--tx2)}
+.m-search svg{width:16px;height:16px}
+nav[aria-label="Facebook"]{display:flex;height:56px}
+nav[aria-label="Facebook"] a{display:grid;place-items:center;width:112px;height:56px;color:var(--tx2);position:relative}
+nav[aria-label="Facebook"] a::before{content:"";position:absolute;inset:4px 2px;border-radius:8px}
+nav[aria-label="Facebook"] a:hover::before{background:var(--hover)}
+nav[aria-label="Facebook"] a[aria-current="page"]{color:var(--blue)}
+nav[aria-label="Facebook"] a[aria-current="page"]::after{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;background:var(--blue)}
+nav[aria-label="Facebook"] svg{width:24px;height:24px;position:relative}
+.m-top-r{display:flex;justify-content:flex-end;gap:8px;width:360px}
+.m-top-r [role="button"]{display:grid;place-items:center;width:40px;height:40px;border-radius:50%;background:var(--btn)}
+.m-top-r svg{width:20px;height:20px}
+/* columns */
+.m-shell{display:flex;justify-content:space-between;padding-top:56px;min-height:100vh}
+nav[aria-label="Skróty"]{position:sticky;top:56px;align-self:flex-start;width:360px;height:calc(100vh - 56px);overflow:hidden;padding:16px 8px}
+nav[aria-label="Skróty"] a{display:flex;align-items:center;gap:12px;height:52px;padding:0 8px;border-radius:8px;font-weight:500}
+nav[aria-label="Skróty"] a:hover{background:var(--hover)}
+.m-ico{display:grid;place-items:center;width:36px;height:36px;border-radius:50%;background:var(--btn);color:var(--blue)}
+.m-ico svg{width:20px;height:20px}
+nav[aria-label="Skróty"] hr{border:0;border-top:1px solid var(--line);margin:8px 8px}
+nav[aria-label="Skróty"] h2{font-size:17px;font-weight:600;color:var(--tx2);padding:8px}
+div[role="main"]{flex:1;display:flex;justify-content:center;padding:16px 16px 64px}
+.m-col{width:680px}
+.m-card{background:var(--card);border-radius:12px;box-shadow:var(--shadow)}
+.m-composer{padding:12px 16px 10px;margin-bottom:16px}
+.m-composer .row{display:flex;gap:8px;align-items:center}
+.m-composer .ph{flex:1;height:40px;display:flex;align-items:center;padding:0 12px;border-radius:999px;background:var(--btn);color:var(--tx2);font-size:17px}
+.m-composer .acts{display:flex;border-top:1px solid var(--line);margin-top:12px;padding-top:8px}
+.m-composer .acts span{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;height:40px;border-radius:8px;color:var(--tx2);font-weight:600}
+.m-composer .acts i{width:20px;height:20px;border-radius:5px;background:var(--c)}
+.m-stories{display:flex;gap:8px;margin-bottom:16px}
+.m-story{flex:1;height:200px;border-radius:12px;background:var(--sbg);position:relative;overflow:hidden;box-shadow:var(--shadow)}
+.m-story .av{position:absolute;top:12px;left:12px;width:40px;height:40px;font-size:13px;box-shadow:0 0 0 4px var(--blue)}
+.m-story b{position:absolute;left:12px;bottom:12px;right:12px;font-size:13px;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.5)}
+/* post */
+.m-unit{margin-bottom:12px}
+.m-post{padding-top:12px}
+.m-hd{display:flex;gap:8px;padding:0 16px 12px;align-items:flex-start}
+.m-hd .av{width:40px;height:40px;font-size:14px}
+.m-hd-t{flex:1;min-width:0}
+[data-ad-rendering-role="profile_name"] h4{font-size:15px;line-height:20px;font-weight:600}
+[data-ad-rendering-role="profile_name"] a:hover{text-decoration:underline}
+.m-meta{display:flex;align-items:center;gap:4px;font-size:13px;line-height:16px;color:var(--tx2);margin-top:2px}
+.m-meta a:hover{text-decoration:underline}
+.m-meta svg{width:12px;height:12px}
+.m-hd [role="button"],.m-hd a[aria-label^="Ukryj"]{display:grid;place-items:center;width:36px;height:36px;border-radius:50%;color:var(--tx2)}
+.m-hd [role="button"]:hover,.m-hd a[aria-label^="Ukryj"]:hover{background:var(--hover)}
+.m-hd svg{width:20px;height:20px}
+[data-ad-rendering-role="story_message"]{padding:0 16px 12px;white-space:pre-wrap;overflow-wrap:break-word}
+[data-ad-rendering-role="story_message"] a{color:var(--blue)}
+.m-media{display:block}
+.m-media img{display:block;width:100%;height:auto}
+.m-lnk{display:flex;align-items:center;gap:12px;padding:12px 16px;background:var(--btn)}
+:root[data-mock-theme="dark"] .m-lnk{background:#333536}
+.m-lnk-t{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+[data-ad-rendering-role="meta"]{font-size:13px;line-height:16px;color:var(--tx2);text-transform:uppercase}
+[data-ad-rendering-role="title"]{font-size:17px;line-height:21px;font-weight:600}
+[data-ad-rendering-role="description"]{font-size:15px;line-height:20px;color:var(--tx2)}
+.m-cta{flex:none;height:36px;display:flex;align-items:center;padding:0 12px;border-radius:6px;background:var(--card);font-weight:600}
+:root[data-mock-theme="dark"] .m-cta{background:#4E5052}
+/* action bar: compact icon+count buttons, left aligned (observed 44x32 each) */
+.m-bar{display:flex;align-items:center;gap:0;height:44px;padding:0 4px;margin-top:4px}
+.m-bar>[role="button"]{display:flex;align-items:center;gap:6px;height:32px;min-width:44px;padding:0 10px;border-radius:6px;color:var(--tx2);font-size:15px;font-weight:600}
+.m-bar>[role="button"]:hover{background:var(--hover)}
+.m-bar>[role="button"].m-pick{min-width:16px;padding:0 2px;margin-left:-10px}
+.m-bar svg{width:20px;height:20px}
+.m-bar .m-pick svg{width:12px;height:12px}
+/* right column */
+div[role="complementary"]{position:sticky;top:56px;align-self:flex-start;width:360px;height:calc(100vh - 56px);padding:16px 16px 0 8px}
+div[role="complementary"] h3{font-size:17px;font-weight:600;color:var(--tx2);padding:8px}
+.m-contact{display:flex;align-items:center;gap:12px;height:52px;padding:0 8px;border-radius:8px;font-weight:500}
+.m-contact:hover{background:var(--hover)}
+.m-contact .av{width:36px;height:36px;font-size:12px;position:relative}
+.m-contact .av::after{content:"";position:absolute;right:-1px;bottom:-1px;width:10px;height:10px;border-radius:50%;background:#31A24C;border:2px solid var(--page)}
+.m-foot{font-size:13px;color:var(--tx2);padding:16px 8px;line-height:1.5}
+@media (max-width:1260px){nav[aria-label="Skróty"],.m-top-l{width:280px}div[role="complementary"],.m-top-r{width:280px}}
+@media (max-width:1100px){nav[aria-label="Skróty"]{display:none}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+ <symbol id="i-search" viewBox="0 0 24 24"><path d="M10.3 3.8a6.5 6.5 0 104 11.6l4.9 4.9 1.4-1.4-4.9-4.9a6.5 6.5 0 00-5.4-10.2zm0 2a4.5 4.5 0 110 9 4.5 4.5 0 010-9z"/></symbol>
+ <symbol id="i-home" viewBox="0 0 24 24"><path d="M12 2.5l9 7.2V21a1 1 0 01-1 1h-6v-6h-4v6H4a1 1 0 01-1-1V9.7z"/></symbol>
+ <symbol id="i-play" viewBox="0 0 24 24"><path d="M5 3h14a2 2 0 012 2v14a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2zm0 2v14h14V5zm5 3.5l5 3.5-5 3.5z"/></symbol>
+ <symbol id="i-shop" viewBox="0 0 24 24"><path d="M4 4h16l1 5a3 3 0 01-2 2.8V20a1 1 0 01-1 1H6a1 1 0 01-1-1v-8.2A3 3 0 013 9zm2 8v7h4v-4h4v4h4v-7a3 3 0 01-2-1 3 3 0 01-4 0 3 3 0 01-4 0 3 3 0 01-2 1z"/></symbol>
+ <symbol id="i-group" viewBox="0 0 24 24"><path d="M8 5a3.5 3.5 0 110 7 3.5 3.5 0 010-7zm8.5 1.5a2.75 2.75 0 110 5.5 2.75 2.75 0 010-5.5zM1.5 19c.4-3.3 3-5.5 6.5-5.5s6.1 2.2 6.5 5.5zm14 0c-.2-1.7-.9-3.1-2-4.2a6 6 0 013-.8c2.8 0 5 1.8 5.5 5z"/></symbol>
+ <symbol id="i-game" viewBox="0 0 24 24"><path d="M7 6h10a5 5 0 015 5v2a5 5 0 01-8.6 3.5h-2.8A5 5 0 012 13v-2a5 5 0 015-5zm0 3v2H5v2h2v2h2v-2h2v-2H9V9zm9 1a1.25 1.25 0 100 2.5A1.25 1.25 0 0016 10zm-2 2.5a1.25 1.25 0 100 2.5 1.25 1.25 0 000-2.5z"/></symbol>
+ <symbol id="i-grid" viewBox="0 0 24 24"><path d="M4 4h4v4H4zm6 0h4v4h-4zm6 0h4v4h-4zM4 10h4v4H4zm6 0h4v4h-4zm6 0h4v4h-4zM4 16h4v4H4zm6 0h4v4h-4zm6 0h4v4h-4z"/></symbol>
+ <symbol id="i-chat" viewBox="0 0 24 24"><path d="M12 2.5c5.4 0 9.5 3.9 9.5 9s-4.1 9-9.5 9c-1 0-2-.1-2.9-.4L5 21.5l.5-3.8A8.7 8.7 0 012.5 11.5c0-5.1 4.1-9 9.5-9z"/></symbol>
+ <symbol id="i-bell" viewBox="0 0 24 24"><path d="M12 2.5a6.5 6.5 0 00-6.5 6.5v5.3L3.7 17.5h16.6l-1.8-3.2V9A6.5 6.5 0 0012 2.5zM9 19.5a3 3 0 006 0z"/></symbol>
+ <symbol id="i-more" viewBox="0 0 24 24"><path d="M5 10a2 2 0 110 4 2 2 0 010-4zm7 0a2 2 0 110 4 2 2 0 010-4zm7 0a2 2 0 110 4 2 2 0 010-4z"/></symbol>
+ <symbol id="i-x" viewBox="0 0 24 24"><path d="M6.4 5L12 10.6 17.6 5 19 6.4 13.4 12l5.6 5.6-1.4 1.4-5.6-5.6L6.4 19 5 17.6l5.6-5.6L5 6.4z"/></symbol>
+ <symbol id="i-globe" viewBox="0 0 16 16"><path d="M8 1a7 7 0 110 14A7 7 0 018 1zm-1.3 1.7A5.5 5.5 0 002.6 9H5l1 1.5V12l1 1.4V11l1.4-1.4L7 8H5.5L4.7 6.6 6 5l.7-2.3zm3.2.3L9 4.4l.6 1.1L11 5l1.2 1.7-.9 1.8.8 2 1-.4A5.5 5.5 0 009.9 3z"/></symbol>
+ <symbol id="i-like" viewBox="0 0 24 24"><path d="M9.5 9.5L13 3c1.6 0 2.6 1.3 2.3 2.8L14.7 9H20a2 2 0 012 2.3l-1.2 7.5a2.5 2.5 0 01-2.5 2.2H9.5zm-2 0V21H4a1.5 1.5 0 01-1.5-1.5v-8.5A1.5 1.5 0 014 9.5zm4 1.2v8.3h6.8a.5.5 0 00.5-.4l1.2-7.4H12.3l.9-4.9z"/></symbol>
+ <symbol id="i-cmt" viewBox="0 0 24 24"><path d="M12 3c5.2 0 9.5 3.6 9.5 8.3 0 4.6-4.3 8.2-9.5 8.2-1 0-2-.1-2.9-.4L4 21l1.1-4.2A7.8 7.8 0 012.5 11.3C2.5 6.6 6.8 3 12 3zm0 2c-4.3 0-7.5 2.9-7.5 6.3 0 1.5.6 2.9 1.8 4l.5.4-.4 1.6 2-.9.4.2c1 .3 2.1.5 3.2.5 4.3 0 7.5-2.9 7.5-6.3S16.3 5 12 5z"/></symbol>
+ <symbol id="i-share" viewBox="0 0 24 24"><path d="M13.5 3.5L22 11l-8.5 7.5V14c-4.6 0-7.6 1.3-10.5 5 .9-5.6 3.9-9.8 10.5-10.8zm2 4.4v2.1l-1.8.2c-3.6.5-6 2.1-7.4 4.6 1.8-1 4-1.3 7.2-1.3h2v2.6L19 11z"/></symbol>
+ <symbol id="i-chev" viewBox="0 0 12 12"><path d="M2.5 4.5L6 8l3.5-3.5" stroke="currentColor" stroke-width="1.6" fill="none"/></symbol>
+</defs></svg>
+
+<div class="m-top" role="banner">
+ <div class="m-top-l"><a href="#" class="m-logo" aria-label="Facebook (zastępnik logo)"><span class="mock-logo" style="width:40px;height:40px;border-radius:50%"></span></a><label class="m-search"><svg><use href="#i-search"/></svg><span>Szukaj na Facebooku</span></label></div>
+ <nav role="navigation" aria-label="Facebook">
+  <a href="#" aria-label="Strona główna" aria-current="page"><svg><use href="#i-home"/></svg></a>
+  <a href="#" aria-label="Rolki"><svg><use href="#i-play"/></svg></a>
+  <a href="#" aria-label="Marketplace"><svg><use href="#i-shop"/></svg></a>
+  <a href="#" aria-label="Grupy"><svg><use href="#i-group"/></svg></a>
+  <a href="#" aria-label="Gry"><svg><use href="#i-game"/></svg></a>
+ </nav>
+ <div class="m-top-r" role="navigation" aria-label="Mechanizmy kontrolne i ustawienia konta">
+  <div role="button" aria-label="Menu" tabindex="0"><svg><use href="#i-grid"/></svg></div>
+  <div role="button" aria-label="Messenger" tabindex="0"><svg><use href="#i-chat"/></svg></div>
+  <div role="button" aria-label="Powiadomienia" tabindex="0"><svg><use href="#i-bell"/></svg></div>
+  <div role="button" aria-label="Twój profil" tabindex="0"><span class="av" style="--abg:#DCE7EE;--afg:#2E4A5E;width:40px;height:40px;font-size:13px">KD</span></div>
+ </div>
+</div>
+
+<div class="m-shell">
+ <nav role="navigation" aria-label="Skróty">
+  <a href="#"><span class="av" style="--abg:#DCE7EE;--afg:#2E4A5E;width:36px;height:36px;font-size:12px">KD</span>Konto demo</a>
+  <a href="#"><span class="m-ico"><svg><use href="#i-group"/></svg></span>Znajomi</a>
+  <a href="#"><span class="m-ico"><svg><use href="#i-home"/></svg></span>Wspomnienia</a>
+  <a href="#"><span class="m-ico"><svg><use href="#i-share"/></svg></span>Zapisane</a>
+  <a href="#"><span class="m-ico"><svg><use href="#i-group"/></svg></span>Grupy</a>
+  <a href="#"><span class="m-ico"><svg><use href="#i-play"/></svg></span>Rolki</a>
+  <a href="#"><span class="m-ico"><svg><use href="#i-shop"/></svg></span>Marketplace</a>
+  <a href="#"><span class="m-ico" style="color:var(--tx)"><svg><use href="#i-chev"/></svg></span>Zobacz więcej</a>
+  <hr>
+  <h2>Twoje skróty</h2>
+  <a href="#"><span class="av" style="--abg:#E4E9DF;--afg:#3E4F2E;width:36px;height:36px;border-radius:8px;font-size:12px">TR</span>Trójmiasto: pytania i porady</a>
+  <a href="#"><span class="av" style="--abg:#DCE7EE;--afg:#2E4A5E;width:36px;height:36px;border-radius:8px;font-size:12px">TZ</span>Tatry i Zakopane</a>
+ </nav>
+
+ <div role="main">
+  <div class="m-col">
+   <div class="m-stories" aria-label="Relacje">
+    <div class="m-story" style="--sbg:#6F8BA0"><span class="av" style="--abg:#DCE7EE;--afg:#2E4A5E">KD</span><b>Utwórz relację</b></div>
+    <div class="m-story" style="--sbg:#6E8F78"><span class="av" style="--abg:#E4E9DF;--afg:#3E4F2E">AL</span><b>Ala Lis</b></div>
+    <div class="m-story" style="--sbg:#8A7AA0"><span class="av" style="--abg:#E7E0F0;--afg:#4A3B5E">PO</span><b>Piotr Olech</b></div>
+    <div class="m-story" style="--sbg:#A08A62"><span class="av" style="--abg:#F1E6C8;--afg:#5B4A1E">EZ</span><b>Ewa Zaremba</b></div>
+    <div class="m-story" style="--sbg:#5F7FA6"><span class="av" style="--abg:#DCE7EE;--afg:#2E4A5E">MK</span><b>Marek Kos</b></div>
+   </div>
+   <div class="m-card m-composer">
+    <div class="row"><span class="av" style="--abg:#DCE7EE;--afg:#2E4A5E;width:40px;height:40px;font-size:13px">KD</span><div class="ph" role="button" tabindex="0">Co słychać?</div></div>
+    <div class="acts"><span><i style="--c:#F02849"></i>Film na żywo</span><span><i style="--c:#45BD62"></i>Zdjęcie/film</span><span><i style="--c:#F7B928"></i>Nastrój/aktywność</span></div>
+   </div>
+
+   <div class="m-feed">
+
+    <div class="m-unit"><div data-virtualized="false"><div class="m-card m-post">
+     <div class="m-hd">
+      <a href="#" role="link" aria-label="Magda W." class="av" style="--abg:#E4E9DF;--afg:#3E4F2E">MW</a>
+      <div class="m-hd-t">
+       <div data-ad-rendering-role="profile_name"><h4><span><a href="#" role="link"><strong><span>Magda W.</span></strong></a></span></h4></div>
+       <div class="m-meta"><span><a href="#/posts/pfbid0001" role="link" aria-label="31 min"><span>31 min</span></a></span><span aria-hidden="true">·</span><svg role="img" aria-label="Udostępniono dla: Publiczne"><use href="#i-globe"/></svg></div>
+      </div>
+      <div role="button" aria-label="Działania dotyczące tego posta" aria-haspopup="menu" tabindex="0"><svg><use href="#i-more"/></svg></div>
+      <a href="#" role="link" aria-label="Ukryj post Magda W."><svg><use href="#i-x"/></svg></a>
+     </div>
+     <div data-ad-rendering-role="story_message"><div data-ad-preview="message" data-ad-comet-preview="message"><div dir="auto">Ktoś wie, czy w sobotę pociągi do Gdyni jeżdżą normalnie?</div></div></div>
+     <div class="m-bar">
+      <div role="button" tabindex="0" aria-label="Zareaguj „Lubię to!” na post Magda W."><div data-ad-rendering-role="like_button"><svg><use href="#i-like"/></svg></div><span>12</span></div>
+      <div role="button" tabindex="0" class="m-pick" aria-label="Zareaguj na post Magda W."><svg><use href="#i-chev"/></svg></div>
+      <div role="button" tabindex="0" aria-label="Skomentuj post Magda W."><div data-ad-rendering-role="comment_button"><svg><use href="#i-cmt"/></svg></div><span>4</span></div>
+      <div role="button" tabindex="0" aria-label="Udostępnij post Magda W."><div data-ad-rendering-role="share_button"><svg><use href="#i-share"/></svg></div></div>
+     </div>
+    </div></div></div>
+
+    <div class="m-unit"><div data-virtualized="false"><div class="m-card m-post">
+     <div class="m-hd">
+      <a href="#" role="link" aria-label="Finanse Dziś" class="av" style="--abg:#F1E6C8;--afg:#5B4A1E">FD</a>
+      <div class="m-hd-t">
+       <div data-ad-rendering-role="profile_name"><h4><span><a href="#" role="link"><strong><span>Finanse Dziś</span></strong></a></span></h4></div>
+       <div class="m-meta"><span><a href="#" role="link" aria-label="Sponsorowane"><span>Sponsorowane</span></a></span><span aria-hidden="true">·</span><svg role="img" aria-label="Udostępniono dla: Publiczne"><use href="#i-globe"/></svg></div>
+      </div>
+      <div role="button" aria-label="Działania dotyczące tego posta" aria-haspopup="menu" tabindex="0"><svg><use href="#i-more"/></svg></div>
+      <a href="#" role="link" aria-label="Ukryj reklamę Finanse Dziś"><svg><use href="#i-x"/></svg></a>
+     </div>
+     <div data-ad-rendering-role="story_message"><div data-ad-preview="message" data-ad-comet-preview="message"><div dir="auto">Tomasz Rewiński po latach zdradza, jak zarabia 1 200 zł dziennie. Bank chciał to ukryć!</div></div></div>
+     <a class="m-media" href="https://inwest-polska24.online/wywiad" role="link" target="_blank" rel="nofollow noopener"><img alt="" src="../assets/ad-wide.svg"></a>
+     <a class="m-lnk" href="https://inwest-polska24.online/wywiad" role="link" target="_blank" rel="nofollow noopener">
+      <div class="m-lnk-t">
+       <div data-ad-rendering-role="meta"><span>inwest-polska24.online</span></div>
+       <span data-ad-rendering-role="title">Sekret prezentera: 1 200 zł dziennie</span>
+       <span data-ad-rendering-role="description">Zostało 12 miejsc. Zarejestruj się dziś.</span>
+      </div>
+      <div role="button" class="m-cta" aria-label="Dowiedz się więcej">Dowiedz się więcej</div>
+     </a>
+     <div class="m-bar">
+      <div role="button" tabindex="0" aria-label="Zareaguj „Lubię to!” na post Finanse Dziś"><div data-ad-rendering-role="like_button"><svg><use href="#i-like"/></svg></div><span>1,4 tys.</span></div>
+      <div role="button" tabindex="0" class="m-pick" aria-label="Zareaguj na post Finanse Dziś"><svg><use href="#i-chev"/></svg></div>
+      <div role="button" tabindex="0" aria-label="Skomentuj post Finanse Dziś"><div data-ad-rendering-role="comment_button"><svg><use href="#i-cmt"/></svg></div><span>212</span></div>
+      <div role="button" tabindex="0" aria-label="Udostępnij post Finanse Dziś"><div data-ad-rendering-role="share_button"><svg><use href="#i-share"/></svg></div><span>87</span></div>
+     </div>
+    </div></div></div>
+
+    <div class="m-unit"><div data-virtualized="false"><div class="m-card m-post">
+     <div class="m-hd">
+      <a href="#" role="link" aria-label="Prawda o Ziemi" class="av" style="--abg:#E7E0F0;--afg:#4A3B5E">PZ</a>
+      <div class="m-hd-t">
+       <div data-ad-rendering-role="profile_name"><h4><span><a href="#" role="link"><strong><span>Prawda o Ziemi</span></strong></a></span></h4></div>
+       <div class="m-meta"><span><a href="#/posts/pfbid0003" role="link" aria-label="3 godz."><span>3 godz.</span></a></span><span aria-hidden="true">·</span><svg role="img" aria-label="Udostępniono dla: Publiczne"><use href="#i-globe"/></svg></div>
+      </div>
+      <div role="button" aria-label="Działania dotyczące tego posta" aria-haspopup="menu" tabindex="0"><svg><use href="#i-more"/></svg></div>
+      <a href="#" role="link" aria-label="Ukryj post Prawda o Ziemi"><svg><use href="#i-x"/></svg></a>
+     </div>
+     <div data-ad-rendering-role="story_message"><div data-ad-preview="message" data-ad-comet-preview="message"><div dir="auto">Pilot z 20-letnim stażem w końcu powiedział prawdę: z samolotu NIGDY nie widać krzywizny. Ziemia jest płaska, a zdjęcia z kosmosu to grafika komputerowa. Udostępnij, zanim to usuną! <a href="#/hashtag/płaskaziemia" role="link">#PłaskaZiemia</a></div></div></div>
+     <a class="m-media" href="#/photo/0003" role="link"><img alt="Może być zdjęciem przedstawiającym okno samolotu i tekst" src="../assets/flat-portrait.svg" style="aspect-ratio:1/1;object-fit:cover"></a>
+     <div class="m-bar">
+      <div role="button" tabindex="0" aria-label="Zareaguj „Lubię to!” na post Prawda o Ziemi"><div data-ad-rendering-role="like_button"><svg><use href="#i-like"/></svg></div><span>5,8 tys.</span></div>
+      <div role="button" tabindex="0" class="m-pick" aria-label="Zareaguj na post Prawda o Ziemi"><svg><use href="#i-chev"/></svg></div>
+      <div role="button" tabindex="0" aria-label="Skomentuj post Prawda o Ziemi"><div data-ad-rendering-role="comment_button"><svg><use href="#i-cmt"/></svg></div><span>1,1 tys.</span></div>
+      <div role="button" tabindex="0" aria-label="Udostępnij post Prawda o Ziemi"><div data-ad-rendering-role="share_button"><svg><use href="#i-share"/></svg></div><span>3,2 tys.</span></div>
+     </div>
+    </div></div></div>
+
+    <div class="m-unit"><div data-virtualized="false"><div class="m-card m-post">
+     <div class="m-hd">
+      <a href="#" role="link" aria-label="Kuba Nowicki" class="av" style="--abg:#DCE7EE;--afg:#2E4A5E">KN</a>
+      <div class="m-hd-t">
+       <div data-ad-rendering-role="profile_name"><h4><span><a href="#" role="link"><strong><span>Kuba Nowicki</span></strong></a></span></h4></div>
+       <div class="m-meta"><span><a href="#/posts/pfbid0004" role="link" aria-label="1 godz."><span>1 godz.</span></a></span><span aria-hidden="true">·</span><svg role="img" aria-label="Udostępniono dla: Znajomi"><use href="#i-group"/></svg></div>
+      </div>
+      <div role="button" aria-label="Działania dotyczące tego posta" aria-haspopup="menu" tabindex="0"><svg><use href="#i-more"/></svg></div>
+      <a href="#" role="link" aria-label="Ukryj post Kuba Nowicki"><svg><use href="#i-x"/></svg></a>
+     </div>
+     <div data-ad-rendering-role="story_message"><div data-ad-preview="message" data-ad-comet-preview="message"><div dir="auto">Pierwszy śnieg w Zakopanem. Kto jedzie w ten weekend?</div></div></div>
+     <a class="m-media" href="#/photo/0004" role="link"><img alt="Może być zdjęciem przedstawiającym góry i śnieg" src="../assets/snow-wide.svg"></a>
+     <div class="m-bar">
+      <div role="button" tabindex="0" aria-label="Zareaguj „Lubię to!” na post Kuba Nowicki"><div data-ad-rendering-role="like_button"><svg><use href="#i-like"/></svg></div><span>87</span></div>
+      <div role="button" tabindex="0" class="m-pick" aria-label="Zareaguj na post Kuba Nowicki"><svg><use href="#i-chev"/></svg></div>
+      <div role="button" tabindex="0" aria-label="Skomentuj post Kuba Nowicki"><div data-ad-rendering-role="comment_button"><svg><use href="#i-cmt"/></svg></div><span>9</span></div>
+      <div role="button" tabindex="0" aria-label="Udostępnij post Kuba Nowicki"><div data-ad-rendering-role="share_button"><svg><use href="#i-share"/></svg></div></div>
+     </div>
+    </div></div></div>
+
+   </div>
+  </div>
+ </div>
+
+ <div role="complementary" aria-label="Kontakty">
+  <h3>Kontakty</h3>
+  <div class="m-contact"><span class="av" style="--abg:#E4E9DF;--afg:#3E4F2E">AL</span>Ala Lis</div>
+  <div class="m-contact"><span class="av" style="--abg:#E7E0F0;--afg:#4A3B5E">PO</span>Piotr Olech</div>
+  <div class="m-contact"><span class="av" style="--abg:#F1E6C8;--afg:#5B4A1E">EZ</span>Ewa Zaremba</div>
+  <div class="m-contact"><span class="av" style="--abg:#DCE7EE;--afg:#2E4A5E">MK</span>Marek Kos</div>
+  <p class="m-foot">Prywatność · Warunki · Reklamy · Pliki cookie · Więcej<br>Makieta na potrzeby pokazu. Nie jest to serwis Facebook.</p>
+ </div>
+</div>
+
+<div class="mock-note" role="note">Makieta na potrzeby pokazu. Nie jest to serwis Facebook. <button type="button" data-mock-theme-toggle>Motyw: jasny</button></div>
+<script>
+window.MOCK = {
+  list: '.m-feed',
+  item: ':scope > .m-unit',
+  // Facebook marks the theme with a class on <html>.
+  onTheme: dark => { const h = document.documentElement; h.classList.toggle('__fb-dark-mode', dark); h.classList.toggle('__fb-light-mode', !dark); }
+};
+</script>
+<script src="../assets/mock.js"></script>
+</body>
+</html>

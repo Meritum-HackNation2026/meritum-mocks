@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 628" width="1200" height="628">
+<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0E2A3A"/><stop offset="1" stop-color="#174560"/></linearGradient></defs>
+<rect width="1200" height="628" fill="url(#g)"/>
+<circle cx="930" cy="300" r="250" fill="#1E5574"/>
+<rect x="760" y="60" width="150" height="44" rx="6" fill="#E0242E"/><text x="835" y="91" font-family="Arial,Helvetica,sans-serif" font-weight="700" font-size="24" fill="#fff" text-anchor="middle">WYWIAD</text>
+<circle cx="930" cy="250" r="88" fill="#C9D6DF"/>
+<path d="M760 628c0-150 70-230 170-230s170 80 170 230z" fill="#2A3B47"/>
+<path d="M905 398l25 60 25-60z" fill="#E9EEF2"/><path d="M922 410h16l-8 120z" fill="#B21F27"/>
+<g font-family="Impact,'Arial Narrow Bold',sans-serif" fill="#fff">
+<text x="64" y="150" font-size="84">SEKRET</text><text x="64" y="240" font-size="84">PREZENTERA:</text>
+<text x="64" y="345" font-size="108" fill="#F4CF4F">1 200 ZŁ</text><text x="64" y="430" font-size="84">DZIENNIE</text></g>
+<text x="64" y="540" font-family="Arial,Helvetica,sans-serif" font-size="28" fill="#fff" opacity=".85">Wywiad, który zniknie z sieci</text>
+<rect x="760" y="510" width="330" height="62" rx="8" fill="#E0242E"/><text x="925" y="552" font-family="Arial,Helvetica,sans-serif" font-weight="800" font-size="30" fill="#fff" text-anchor="middle">Zostało 12 miejsc</text>
+</svg>

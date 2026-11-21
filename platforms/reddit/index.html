@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="pl" dir="ltr" class="theme-light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Reddit (makieta)</title>
+<link rel="stylesheet" href="../assets/mock.css">
+<style>
+/* NOT measured: reddit.com was blocked for the browsing tool. Built from the public shreddit (web-components) markup:
+   header 56, left nav 272, feed column 756, right rail 316, title 18/600, pill buttons 32 high. */
+:root{--bg:#FFFFFF;--tx:#0F1A1C;--tx2:#576F76;--line:rgba(0,0,0,.1);--hover:#F6F8F9;--btn:#E5EBEE;--btnh:#D2DADD;--up:#D93900;--blue:#0A449B;--side:#F6F8F9;
+  --font:"Reddit Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+:root[data-mock-theme="dark"]{--bg:#0E1113;--tx:#EEF1F3;--tx2:#8BA2AD;--line:rgba(255,255,255,.1);--hover:#181C1F;--btn:#2A3236;--btnh:#333D42;--blue:#82B7FF;--side:#04090A;color-scheme:dark}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font:14px/20px var(--font);color:var(--tx);background:var(--bg);-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+svg{fill:currentColor}
+.av{display:grid;place-items:center;flex:none;border-radius:50%;background:var(--abg);color:var(--afg);font-weight:700}
+reddit-header-large{display:block;position:fixed;inset:0 0 auto;z-index:5;height:57px;background:var(--bg);border-bottom:1px solid var(--line)}
+reddit-header-large header{display:flex;align-items:center;gap:16px;height:56px;padding:0 16px}
+.m-logo{display:flex;align-items:center;gap:8px;width:240px;font-weight:700;font-size:20px}
+.m-search{flex:0 1 560px;margin:0 auto;display:flex;align-items:center;gap:8px;height:40px;padding:0 16px;border-radius:999px;background:var(--btn);color:var(--tx2)}
+.m-search svg{width:16px;height:16px}
+.m-hr{display:flex;gap:8px;align-items:center}
+.m-hr .m-pill{display:flex;align-items:center;gap:6px;height:40px;padding:0 12px;border-radius:999px;font-weight:600}
+.m-hr .m-pill:hover{background:var(--hover)}
+.m-hr svg{width:20px;height:20px}
+shreddit-app{display:block;padding-top:57px}
+.m-grid{display:flex;min-height:calc(100vh - 57px)}
+flex-left-nav-container{display:block;position:sticky;top:57px;align-self:flex-start;width:272px;height:calc(100vh - 57px);border-right:1px solid var(--line);padding:12px 16px}
+reddit-sidebar-nav{display:block}
+reddit-sidebar-nav a{display:flex;align-items:center;gap:12px;height:40px;padding:0 16px;border-radius:8px}
+reddit-sidebar-nav a:hover{background:var(--hover)}
+reddit-sidebar-nav a[aria-current="page"]{background:var(--btn)}
+reddit-sidebar-nav svg{width:20px;height:20px}
+reddit-sidebar-nav hr{border:0;border-top:1px solid var(--line);margin:12px 0}
+reddit-sidebar-nav h3{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--tx2);font-weight:400;padding:8px 16px}
+.m-main{flex:1;display:flex;justify-content:center;gap:16px;padding:8px 24px 64px}
+main#main-content{width:756px;min-width:0}
+.m-sort{display:flex;gap:8px;padding:8px 0 12px}
+.m-sort span{display:flex;align-items:center;height:32px;padding:0 12px;border-radius:999px;color:var(--tx2);font-weight:600}
+.m-sort span:hover{background:var(--hover)}
+shreddit-feed{display:block}
+shreddit-feed>hr{border:0;border-top:1px solid var(--line);margin:4px 0}
+shreddit-feed article{border-radius:16px;transition:background .15s}
+shreddit-feed article:hover{background:var(--hover)}
+shreddit-post,shreddit-ad-post{display:block;padding:4px 16px 4px;color:var(--tx)}
+[slot="credit-bar"]{display:flex;align-items:center;gap:4px;font-size:12px;line-height:16px;color:var(--tx2);margin:8px 0 4px}
+[slot="credit-bar"] .av{width:24px;height:24px;font-size:9px;margin-right:4px}
+[slot="credit-bar"] a.m-sub{font-weight:600;color:var(--tx)}
+[slot="credit-bar"] a:hover{text-decoration:underline}
+[slot="title"]{display:block;font-size:18px;line-height:22px;font-weight:600;margin:6px 0 4px;color:var(--tx)}
+[slot="text-body"]{display:block;color:var(--tx2);margin-bottom:4px}
+[slot="text-body"] .md p{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+[slot="post-media-container"]{display:block;margin:8px 0 4px;border-radius:16px;overflow:hidden;border:1px solid var(--line);background:#000}
+[slot="post-media-container"] img{display:block;width:100%;max-height:540px;object-fit:contain;margin:0 auto}
+.m-promo{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:8px 0 4px;padding:10px 12px;border-radius:12px;background:var(--btn)}
+.m-promo span{color:var(--tx2);font-size:12px}
+.m-promo b{display:block;font-size:14px}
+.m-promo a.m-ctab{height:32px;display:flex;align-items:center;padding:0 12px;border-radius:999px;background:var(--blue);color:var(--bg);font-weight:600;white-space:nowrap}
+faceplate-partial{display:block}
+/* right rail */
+.m-right{width:316px;padding-top:8px}
+.m-box{position:sticky;top:73px;border-radius:16px;background:var(--side);padding:16px}
+.m-box h2{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--tx2);font-weight:600;margin-bottom:8px}
+.m-rp{display:flex;gap:8px;padding:10px 0;border-bottom:1px solid var(--line)}
+.m-rp .av{width:20px;height:20px;font-size:8px}
+.m-rp b{display:block;font-weight:600;font-size:14px;line-height:18px}
+.m-rp span{font-size:12px;color:var(--tx2)}
+.m-foot{font-size:12px;color:var(--tx2);margin-top:12px;line-height:16px}
+@media (max-width:1200px){.m-right{display:none}}
+@media (max-width:960px){flex-left-nav-container{display:none}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+ <symbol id="i-search" viewBox="0 0 20 20"><path d="M8.5 2a6.5 6.5 0 015.2 10.4l4.2 4.2-1.3 1.3-4.2-4.2A6.5 6.5 0 118.5 2zm0 1.8a4.7 4.7 0 100 9.4 4.7 4.7 0 000-9.4z"/></symbol>
+ <symbol id="i-home" viewBox="0 0 20 20"><path d="M10 1.5l8 6.4V18a.9.9 0 01-.9.9H12.6v-5.6H7.4v5.6H2.9A.9.9 0 012 18V7.9z"/></symbol>
+ <symbol id="i-pop" viewBox="0 0 20 20"><path d="M10 1a9 9 0 110 18 9 9 0 010-18zm0 1.8a7.2 7.2 0 100 14.4 7.2 7.2 0 000-14.4zM6 12.5l3-3 2 2L14 8v2.2h1.5V5.5H11V7h2.2l-2.2 2.2-2-2L5 11.2z"/></symbol>
+ <symbol id="i-all" viewBox="0 0 20 20"><path d="M10 1a9 9 0 110 18 9 9 0 010-18zm-1 2.5v6.6l-4.6 3.5A7.2 7.2 0 009 3.6zm2 0v6.1l5 2.8A7.2 7.2 0 0011 3.5zm-.9 7.8l-4.5 3.5a7.2 7.2 0 009.6-.6z"/></symbol>
+ <symbol id="i-plus" viewBox="0 0 20 20"><path d="M9 3h2v6h6v2h-6v6H9v-6H3V9h6z"/></symbol>
+ <symbol id="i-bell" viewBox="0 0 20 20"><path d="M10 1.5a5.5 5.5 0 00-5.5 5.5v4.6L3 14.4h14l-1.5-2.8V7A5.5 5.5 0 0010 1.5zM7.5 16a2.5 2.5 0 005 0z"/></symbol>
+</defs></svg>
+
+<reddit-header-large><header>
+ <a href="#" class="m-logo" aria-label="Strona główna Reddit (zastępnik logo)"><span class="mock-logo" style="width:32px;height:32px;border-radius:50%"></span></a>
+ <label class="m-search"><svg><use href="#i-search"/></svg><span>Szukaj na Reddit</span></label>
+ <div class="m-hr"><span class="m-pill"><svg><use href="#i-plus"/></svg>Utwórz</span><span class="m-pill" aria-label="Otwórz skrzynkę odbiorczą"><svg><use href="#i-bell"/></svg></span><span class="av" style="--abg:#DCE7EE;--afg:#2E4A5E;width:32px;height:32px;font-size:11px">KD</span></div>
+</header></reddit-header-large>
+
+<shreddit-app>
+ <div class="m-grid">
+  <flex-left-nav-container><reddit-sidebar-nav>
+   <nav aria-label="Główne">
+    <a href="#" aria-current="page"><svg><use href="#i-home"/></svg>Strona główna</a>
+    <a href="#"><svg><use href="#i-pop"/></svg>Popularne</a>
+    <a href="#"><svg><use href="#i-all"/></svg>Wszystko</a>
+   </nav>
+   <hr>
+   <h3>Społeczności</h3>
+   <a href="#"><span class="av" style="--abg:#DCE7EE;--afg:#2E4A5E;width:20px;height:20px;font-size:8px">r/</span>r/polska</a>
+   <a href="#"><span class="av" style="--abg:#E4E9DF;--afg:#3E4F2E;width:20px;height:20px;font-size:8px">r/</span>r/Trojmiasto</a>
+   <a href="#"><span class="av" style="--abg:#DDE9E3;--afg:#2F5443;width:20px;height:20px;font-size:8px">r/</span>r/Tatry</a>
+  </reddit-sidebar-nav></flex-left-nav-container>
+
+  <div class="m-main">
+   <main id="main-content">
+    <div class="m-sort"><span>Najlepsze ▾</span><span>Wszędzie ▾</span></div>
+    <shreddit-feed>
+
+     <article aria-label="Pociągi do Gdyni w sobotę?">
+      <shreddit-post id="t3_1gx0001" post-title="Pociągi do Gdyni w sobotę?" author="magda_w" subreddit-prefixed-name="r/Trojmiasto" subreddit-name="Trojmiasto" permalink="/r/Trojmiasto/comments/1gx0001/pociagi_do_gdyni_w_sobote/" content-href="/r/Trojmiasto/comments/1gx0001/pociagi_do_gdyni_w_sobote/" post-type="text" score="24" comment-count="11" created-timestamp="2026-11-21T08:41:00.000000+0000" feedindex="0" view-context="AggregateFeed">
+       <a slot="full-post-link" href="#/r/Trojmiasto/comments/1gx0001/pociagi_do_gdyni_w_sobote/" aria-label="Pociągi do Gdyni w sobotę?"></a>
+       <span slot="credit-bar"><span class="av" style="--abg:#E4E9DF;--afg:#3E4F2E">r/</span><a href="#/r/Trojmiasto/" class="m-sub">r/Trojmiasto</a><span aria-hidden="true">•</span><faceplate-timeago ts="2026-11-21T08:41:00.000Z"><time datetime="2026-11-21T08:41:00.000Z">31 min temu</time></faceplate-timeago></span>
+       <a slot="title" id="post-title-t3_1gx0001" href="#/r/Trojmiasto/comments/1gx0001/pociagi_do_gdyni_w_sobote/">Pociągi do Gdyni w sobotę?</a>
+       <div slot="text-body"><a href="#/r/Trojmiasto/comments/1gx0001/"><div class="md feed-card-text-preview" id="t3_1gx0001-post-rtjson-content"><p>Ktoś wie, czy w sobotę pociągi do Gdyni jeżdżą normalnie?</p></div></a></div>
+      </shreddit-post>
+     </article>
+     <hr>
+
+     <article aria-label="Tomasz Rewiński po latach zdradza, jak zarabia 1 200 zł dziennie">
+      <shreddit-ad-post id="t3_ad0002" author="finanse_dzis_pl" post-title="Tomasz Rewiński po latach zdradza, jak zarabia 1 200 zł dziennie. Bank chciał to ukryć!" domain="inwest-polska24.online" href="https://inwest-polska24.online/wywiad" score="31" comment-count="0" promoted="" feedindex="1">
+       <span slot="credit-bar"><span class="av" style="--abg:#F1E6C8;--afg:#5B4A1E">FD</span><a href="#/user/finanse_dzis_pl/" class="m-sub">u/finanse_dzis_pl</a><span aria-hidden="true">•</span><span>Promowane</span></span>
+       <a slot="title" id="post-title-t3_ad0002" href="https://inwest-polska24.online/wywiad" target="_blank" rel="nofollow noopener">Tomasz Rewiński po latach zdradza, jak zarabia 1 200 zł dziennie. Bank chciał to ukryć!</a>
+       <div slot="post-media-container"><a href="https://inwest-polska24.online/wywiad" target="_blank" rel="nofollow noopener"><img alt="" src="../assets/ad-wide.svg"></a></div>
+       <div slot="ad-supplementary" class="m-promo"><div><span>inwest-polska24.online</span><b>Zostało 12 miejsc</b></div><a class="m-ctab" href="https://inwest-polska24.online/wywiad" target="_blank" rel="nofollow noopener">Dowiedz się więcej</a></div>
+      </shreddit-ad-post>
+     </article>
+     <hr>
+
+     <article aria-label="Pilot potwierdził: Ziemia jest płaska?">
+      <shreddit-post id="t3_1gx0003" post-title="Pilot potwierdził: Ziemia jest płaska?" author="prawda_o_ziemi" subreddit-prefixed-name="r/polska" subreddit-name="polska" permalink="/r/polska/comments/1gx0003/pilot_potwierdzil_ziemia_jest_plaska/" content-href="/r/polska/comments/1gx0003/pilot_potwierdzil_ziemia_jest_plaska/" post-type="text" score="1204" comment-count="638" created-timestamp="2026-11-21T06:10:00.000000+0000" feedindex="2" view-context="AggregateFeed">
+       <a slot="full-post-link" href="#/r/polska/comments/1gx0003/pilot_potwierdzil_ziemia_jest_plaska/" aria-label="Pilot potwierdził: Ziemia jest płaska?"></a>
+       <span slot="credit-bar"><span class="av" style="--abg:#DCE7EE;--afg:#2E4A5E">r/</span><a href="#/r/polska/" class="m-sub">r/polska</a><span aria-hidden="true">•</span><faceplate-timeago ts="2026-11-21T06:10:00.000Z"><time datetime="2026-11-21T06:10:00.000Z">3 godz. temu</time></faceplate-timeago></span>
+       <a slot="title" id="post-title-t3_1gx0003" href="#/r/polska/comments/1gx0003/pilot_potwierdzil_ziemia_jest_plaska/">Pilot potwierdził: Ziemia jest płaska?</a>
+       <div slot="text-body"><a href="#/r/polska/comments/1gx0003/"><div class="md feed-card-text-preview" id="t3_1gx0003-post-rtjson-content"><p>Pilot z 20-letnim stażem w końcu powiedział prawdę: z samolotu NIGDY nie widać krzywizny. Ziemia jest płaska, a zdjęcia z kosmosu to grafika komputerowa. Udostępnij, zanim to usuną! #PłaskaZiemia</p></div></a></div>
+      </shreddit-post>
+     </article>
+     <hr>
+
+     <article aria-label="Pierwszy śnieg w Zakopanem. Kto jedzie w ten weekend?">
+      <shreddit-post id="t3_1gx0004" post-title="Pierwszy śnieg w Zakopanem. Kto jedzie w ten weekend?" author="kuba_nowicki" subreddit-prefixed-name="r/Tatry" subreddit-name="Tatry" permalink="/r/Tatry/comments/1gx0004/pierwszy_snieg_w_zakopanem/" content-href="https://i.redd.it/mock0004.png" post-type="image" score="356" comment-count="42" created-timestamp="2026-11-21T08:05:00.000000+0000" feedindex="3" view-context="AggregateFeed">
+       <a slot="full-post-link" href="#/r/Tatry/comments/1gx0004/pierwszy_snieg_w_zakopanem/" aria-label="Pierwszy śnieg w Zakopanem. Kto jedzie w ten weekend?"></a>
+       <span slot="credit-bar"><span class="av" style="--abg:#DDE9E3;--afg:#2F5443">r/</span><a href="#/r/Tatry/" class="m-sub">r/Tatry</a><span aria-hidden="true">•</span><faceplate-timeago ts="2026-11-21T08:05:00.000Z"><time datetime="2026-11-21T08:05:00.000Z">1 godz. temu</time></faceplate-timeago></span>
+       <a slot="title" id="post-title-t3_1gx0004" href="#/r/Tatry/comments/1gx0004/pierwszy_snieg_w_zakopanem/">Pierwszy śnieg w Zakopanem. Kto jedzie w ten weekend?</a>
+       <div slot="post-media-container"><img alt="r/Tatry - Pierwszy śnieg w Zakopanem" src="../assets/snow-wide.svg"></div>
+      </shreddit-post>
+     </article>
+     <hr>
+
+     <faceplate-partial loading="lazy" src="/svc/shreddit/feeds/home-feed?after=mock" name="feed-next-page"></faceplate-partial>
+    </shreddit-feed>
+   </main>
+
+   <aside class="m-right" aria-label="Ostatnie posty">
+    <div class="m-box">
+     <h2>Ostatnie posty</h2>
+     <div class="m-rp"><span class="av" style="--abg:#DCE7EE;--afg:#2E4A5E">r/</span><div><span>r/polska</span><b>Jaki rozkład jazdy na święta?</b><span>214 głosów · 58 komentarzy</span></div></div>
+     <div class="m-rp"><span class="av" style="--abg:#DDE9E3;--afg:#2F5443">r/</span><div><span>r/Tatry</span><b>Warunki na Kasprowym, sobota</b><span>88 głosów · 12 komentarzy</span></div></div>
+     <p class="m-foot">Zasady · Polityka prywatności · Umowa użytkownika<br>Makieta na potrzeby pokazu. Nie jest to serwis Reddit.</p>
+    </div>
+   </aside>
+  </div>
+ </div>
+</shreddit-app>
+
+<div class="mock-note" role="note">Makieta na potrzeby pokazu. Nie jest to serwis Reddit. <button type="button" data-mock-theme-toggle>Motyw: jasny</button></div>
+<script>
+// shreddit-post / shreddit-ad-post: light-DOM slots + an open shadow root that owns the action row,
+// like the real web components. Action row markup inside the shadow root is a guess (not observed).
+const ROW_CSS = `:host{display:block}
+.row{display:flex;gap:8px;align-items:center;margin:8px 0 8px}
+.pill{display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 10px;border-radius:999px;background:var(--btn);color:var(--tx);font:600 12px/16px var(--font);border:0;cursor:pointer;text-decoration:none}
+.pill:hover{background:var(--btnh)}
+.vote{padding:0 4px}.vote button{display:grid;place-items:center;width:24px;height:24px;border:0;border-radius:999px;background:none;color:inherit;cursor:pointer}
+.vote button:hover{color:var(--up)}
+svg{width:16px;height:16px;fill:currentColor}`;
+const fmt = n => n >= 1000 ? (n / 1000).toFixed(1).replace('.', ',') + ' tys.' : String(n);
+const ICON = {
+  up: '<svg viewBox="0 0 20 20"><path d="M10 2.5l7 8h-4.2v7H7.2v-7H3z"/></svg>',
+  down: '<svg viewBox="0 0 20 20"><path d="M10 17.5l-7-8h4.2v-7h5.6v7H17z"/></svg>',
+  cmt: '<svg viewBox="0 0 20 20"><path d="M10 2c4.7 0 8 3.2 8 7.3 0 4.1-3.3 7.3-8 7.3-1 0-2-.2-2.9-.5L3 17.8l1-3.5A7 7 0 012 9.3C2 5.2 5.3 2 10 2zm0 1.8c-3.6 0-6.2 2.4-6.2 5.5 0 1.4.6 2.7 1.6 3.7l.4.3-.4 1.4 1.6-.8.4.1c.8.3 1.7.5 2.6.5 3.6 0 6.2-2.4 6.2-5.5S13.6 3.8 10 3.8z"/></svg>',
+  share: '<svg viewBox="0 0 20 20"><path d="M11 2.5l7 6.5-7 6.5v-4C6.8 11.5 4.3 12.7 2 16c.6-4.8 3.2-8.3 9-9z"/></svg>'
+};
+class MockShredditPost extends HTMLElement {
+  connectedCallback() {
+    if (this.shadowRoot) return;
+    const ad = this.localName === 'shreddit-ad-post';
+    const score = +this.getAttribute('score') || 0, cc = +this.getAttribute('comment-count') || 0;
+    this.attachShadow({ mode: 'open' }).innerHTML = `<style>${ROW_CSS}</style>
+      <slot name="credit-bar"></slot><slot name="title"></slot><slot name="text-body"></slot>
+      <slot name="post-media-container"></slot><slot name="ad-supplementary"></slot><slot name="full-post-link"></slot>
+      <div class="row" data-post-click-location="vote">
+        <span class="pill vote"><button upvote aria-label="Głos za" aria-pressed="false">${ICON.up}</button><faceplate-number number="${score}">${fmt(score)}</faceplate-number><button downvote aria-label="Głos przeciw" aria-pressed="false">${ICON.down}</button></span>
+        ${ad ? '' : `<a class="pill" data-post-click-location="comments-button" name="comments-action-button" href="#">${ICON.cmt}<faceplate-number number="${cc}">${fmt(cc)}</faceplate-number></a>`}
+        <button class="pill" data-post-click-location="share" aria-label="Udostępnij">${ICON.share}Udostępnij</button>
+      </div>`;
+  }
+}
+customElements.define('shreddit-post', MockShredditPost);
+customElements.define('shreddit-ad-post', class extends MockShredditPost {});
+
+window.MOCK = {
+  list: 'shreddit-feed',
+  item: ':scope > article, :scope > hr',
+  // Reddit marks the theme with a class on <html> (unverified, from public markup).
+  onTheme: dark => { const h = document.documentElement; h.classList.toggle('theme-dark', dark); h.classList.toggle('theme-light', !dark); },
+  onClone: (node, k) => { const p = node.querySelector('shreddit-post,shreddit-ad-post'); if (p) p.setAttribute('feedindex', String(+p.getAttribute('feedindex') + 4 * (k - 1))); }
+};
+</script>
+<script src="../assets/mock.js"></script>
+</body>
+</html>
