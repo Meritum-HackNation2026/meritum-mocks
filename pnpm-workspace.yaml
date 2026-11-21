@@ -1,0 +1,3 @@
+allowBuilds:
+  # The native binary comes from its platform package; the postinstall check is not needed.
+  "@swc/core": false
