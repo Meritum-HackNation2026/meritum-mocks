@@ -1,15 +1,15 @@
 #!/usr/bin/env bash
 # Build and (re)deploy the platform mocks of one environment on dellpromaxgb10.
-#   deploy/deploy.sh <main|develop> [git-sha]
+#   deploy/deploy.sh main [git-sha]
 # Runs on the self-hosted runner `dellpromaxgb10` (on the host itself).
 # Needs the platform (meritum-infra: onprem/dellpromaxgb10/platform/setup.sh):
 # network `meritum`, meritum-postgres, ~/meritum/envs/mocks-<env>.env and
-# meritum-gateway, which routes meritum-<platform>[-dev].gburek.app here.
+# meritum-gateway, which routes meritum-<platform>.gburek.app here.
 set -euo pipefail
 repo=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
-branch=${1:?usage: deploy.sh <main|develop> [sha]}
+branch=${1:?usage: deploy.sh main [sha]}
 sha=${2:-$(git -C "$repo" rev-parse HEAD)}
-case "$branch" in main) env=prd suffix="" ;; develop) env=dev suffix="-dev" ;; *) echo "only main and develop deploy" >&2; exit 1 ;; esac
+case "$branch" in main) env=prd suffix="" ;; *) echo "only main deploys" >&2; exit 1 ;; esac
 state=${M_STATE:-$HOME/meritum}
 gateway=${M_GATEWAY_BIND:-172.17.0.1:18095}
 envfile="$state/envs/mocks-$env.env"
