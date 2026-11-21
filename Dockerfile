@@ -2,7 +2,7 @@
 # Node 26 runs src/*.ts directly (type stripping), so there is no build step.
 FROM node:26-slim
 WORKDIR /app
-COPY package.json pnpm-lock.yaml ./
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 RUN npm install --global "$(node -p "require('./package.json').packageManager")" \
  && pnpm install --frozen-lockfile --prod
 COPY src ./src
