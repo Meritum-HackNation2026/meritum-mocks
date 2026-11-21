@@ -28,8 +28,7 @@ type Lines = string[]
 
 const placeholder = /\{(\w+)\}/g
 const publicationDate = new Intl.DateTimeFormat(LOCALE, { dateStyle: 'long', timeZone: TIME_ZONE })
-// copy has "{publisher}, data publikacji nieznana"; the claim template already names the publisher.
-const undated = copy.result.source_undated.replace('{publisher}, ', '')
+const plural = new Intl.PluralRules(LOCALE)
 
 // Fill each template line on its own, so a value with a line break stays inside its line.
 function fill(template: string, values: Record<string, string>): Lines {
@@ -39,7 +38,12 @@ function fill(template: string, values: Record<string, string>): Lines {
 }
 
 function summary(claims: ClaimResult[], cardUrl: string): Lines {
-  const head = fill(copy.discord.summary, { count: String(claims.length), link: cardUrl })
+  const { one, few, many, other } = copy.discord.claims
+  const forms: Partial<Record<Intl.LDMLPluralRule, string>> = { one, few, many, other }
+  const [count = ''] = fill(forms[plural.select(claims.length)] ?? other, {
+    count: String(claims.length),
+  })
+  const head = fill(copy.discord.summary, { claims: count, link: cardUrl })
   const lines = claims.flatMap((c) =>
     fill(copy.discord.summary_line, { verdict: copy.verdict[c.verdict], claim: c.claim }),
   )
@@ -58,17 +62,17 @@ function claimMessage(claim: ClaimResult): Lines {
     return fill(copy.discord.claim_unsettled, { verdict, claim: claim.claim, unresolved })
   }
   const published = citation.source.published_at
-  // Without a strength (non-decisive verdicts) the template's strength line is left out.
-  const template = copy.discord.claim
-    .split('\n')
-    .filter((line) => claim.strength || !line.includes('{strength}'))
-    .join('\n')
+  // Non-decisive verdicts have no strength; an undated source has its own template.
+  const template =
+    copy.discord[
+      `claim${published ? '' : '_undated'}${claim.strength ? '' : '_no_strength'}` as const
+    ]
   return fill(template, {
     verdict,
     claim: claim.claim,
     fragment: citation.fragment,
     publisher: citation.source.publisher,
-    date: published ? publicationDate.format(new Date(published)) : undated,
+    date: published ? publicationDate.format(new Date(published)) : '',
     strength: claim.strength ? copy.strength[claim.strength.level] : '',
   })
 }
