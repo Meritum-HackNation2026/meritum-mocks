@@ -1,5 +1,5 @@
 # Dependabot version updates: one weekly PR per ecosystem for minor and patch
-# (grouped), separate PRs for major, at most 5 open per ecosystem.
+# (grouped), no major updates, at most 5 open per ecosystem.
 version: 2
 updates:
   - package-ecosystem: npm
@@ -10,6 +10,9 @@ updates:
       time: "06:00"
       timezone: Europe/Warsaw
     open-pull-requests-limit: 5
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
     labels: [dependencies]
     commit-message:
       prefix: Zależności
@@ -24,6 +27,9 @@ updates:
       time: "06:00"
       timezone: Europe/Warsaw
     open-pull-requests-limit: 5
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
     labels: [dependencies]
     commit-message:
       prefix: Docker
@@ -38,6 +44,9 @@ updates:
       time: "06:00"
       timezone: Europe/Warsaw
     open-pull-requests-limit: 5
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
     labels: [dependencies]
     commit-message:
       prefix: CI
