@@ -28,6 +28,13 @@ app.get('/api/health', async (c) => {
   }
 })
 
+// Mock pages change with every deploy and are small: no edge or browser cache
+// (Cloudflare otherwise keeps .js/.css for 4 h and serves stale copies).
+app.use('*', async (c, next) => {
+  await next()
+  if (!c.req.path.startsWith('/api/')) c.header('Cache-Control', 'no-cache')
+})
+
 app.use(
   '*',
   serveStatic({
