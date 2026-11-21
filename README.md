@@ -29,7 +29,7 @@ Teksty, tokeny, kontrakty i strony makiet pochodzą z [meritum-design-system](ht
 | `tokens/meritum.css`   | `tokens/meritum.css`                                       |
 | `platforms/`           | `demo/platforms/` (z kontraktem selektorów `SELECTORS.md`) |
 
-Kopii nie edytuj tutaj. Zmień design system i uruchom `pnpm sync` (albo `pnpm sync <gałąź|tag|commit>`; potrzebny `gh` z dostępem do repo design systemu). Skrypt zapisuje commit źródła w `SOURCE` i sumy plików w `SHA256SUMS`. CI uruchamia `pnpm sync:check`, który bez sieci porównuje kopie z `SHA256SUMS` i wypisuje plik, którego suma się nie zgadza. Biome, knip i testy architektury pomijają kopie, bo nie trzymają się stylu kodu aplikacji.
+Kopii nie edytuj tutaj. Zmień design system i uruchom `pnpm sync` (albo `pnpm sync <gałąź|tag|commit>`; potrzebny `gh` z dostępem do repo design systemu). Skrypt zapisuje commit źródła w `SOURCE` i sumy plików w `SHA256SUMS`. `pnpm test` (`tests/design-system-copy.test.ts`) bez sieci porównuje kopie z `SHA256SUMS` i wypisuje plik, którego suma się nie zgadza. Biome, knip i testy architektury pomijają kopie, bo nie trzymają się stylu kodu aplikacji.
 
 ## Praca lokalna
 

@@ -25,7 +25,7 @@ Wąsko i z powodem: `// biome-ignore lint/<grupa>/<reguła>: <powód>` w linii, 
 
 Obecne wyjątki:
 
-- kopie z design systemu (`contracts/`, `copy/`, `tokens/`, `platforms/`, `pnpm sync`) są poza Biome, testami architektury i knipem; pilnuje ich `pnpm sync:check`;
+- kopie z design systemu (`contracts/`, `copy/`, `tokens/`, `platforms/`, `pnpm sync`) są poza Biome, testami architektury i knipem; pilnuje ich `tests/design-system-copy.test.ts`;
 - `LOCAL_DB` w `src/constants.ts`: `// biome-ignore lint/security/noSecrets` (lokalna baza deweloperska, ta sama co w README backendu);
 - knip pomija `@swc/core` (parser dependency-cruisera); `pnpm-workspace.yaml` nie pozwala mu uruchamiać skryptu instalacyjnego.
 

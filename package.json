@@ -14,8 +14,7 @@
     "test": "node --import tsx --import ./tests/setup-dom.ts --test \"src/**/*.test.ts\" \"tests/**/*.test.{ts,tsx}\"",
     "depcruise": "depcruise src --config .dependency-cruiser.cjs",
     "knip": "knip",
-    "sync": "scripts/sync.sh",
-    "sync:check": "scripts/check-sync.sh"
+    "sync": "scripts/sync.sh"
   },
   "dependencies": {
     "@hono/node-server": "^2.1.11",

@@ -4,19 +4,24 @@
 #   contracts/meritum.ts, copy/pl.json, tokens/meritum.css, platforms/ (demo/platforms)
 #   pnpm sync              copy from the design system's main
 #   pnpm sync <ref>        copy from another branch, tag or commit
-# Never edit the copies by hand: CI (scripts/check-sync.sh) checks them against
-# SHA256SUMS. Change the design system, then run this script.
+# Never edit the copies by hand: pnpm test (tests/design-system-copy.test.ts) checks
+# them against SHA256SUMS. Change the design system, then run this script.
+# Mirrors scripts/sync.sh in meritum-extension (plus platforms/ from the tarball).
 # Needs `gh` signed in with read access to Meritum-HackNation2026/meritum-design-system.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 repo=Meritum-HackNation2026/meritum-design-system
 ref=$(gh api "repos/$repo/commits/${1:-main}" --jq .sha)
-fetch() { gh api -H 'Accept: application/vnd.github.raw' "repos/$repo/contents/$1?ref=$ref"; }
 
-files=(contracts/meritum.ts copy/pl.json tokens/meritum.css)
-mkdir -p contracts copy tokens
-# shellcheck disable=SC2094 # fetch reads the file from GitHub, not from disk
-for file in "${files[@]}"; do fetch "$file" >"$file"; done
+files=(
+  contracts/meritum.ts
+  copy/pl.json
+  tokens/meritum.css
+)
+for f in "${files[@]}"; do
+  mkdir -p "$(dirname "$f")"
+  gh api -H 'Accept: application/vnd.github.raw' "repos/$repo/contents/$f?ref=$ref" >"$f"
+done
 
 # platforms/ is a whole folder: take it from the tarball of the same commit.
 tmp=$(mktemp -d)

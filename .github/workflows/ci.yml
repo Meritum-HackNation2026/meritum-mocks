@@ -29,10 +29,9 @@ jobs:
       # pnpm from npm (version from packageManager); the store stays on the runner.
       - run: npm install --global "$(node -p "require('./package.json').packageManager")"
       - run: pnpm install --frozen-lockfile --prefer-offline
-      - run: pnpm sync:check # design-system copies match SHA256SUMS (offline)
       - run: pnpm biome ci --reporter=github --error-on-warnings .
       - run: pnpm typecheck # tsc strict
-      - run: pnpm test # unit tests and tests/architecture: JSDoc @feature, constants, 250 lines
+      - run: pnpm test # unit tests and tests/architecture: JSDoc @feature, constants, 250 lines, design-system copy sums
       - run: pnpm depcruise # import boundaries (.dependency-cruiser.cjs)
       - run: pnpm knip # dead code and unused dependencies
 
