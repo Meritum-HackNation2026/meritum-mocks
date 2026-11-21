@@ -5,7 +5,7 @@ name: CI/CD
 #            code on the GCP runners (self-hosted, meritum);
 #            a newer push to the same branch cancels it, never on main.
 #   deploy   main -> https://meritum-<platform>.gburek.app (x, facebook, instagram,
-#            reddit, tiktok), on dellpromaxgb10 after verify; never cancelled, one at a time.
+#            reddit, tiktok, discord), on dellpromaxgb10 after verify; never cancelled, one at a time.
 on:
   push:
     branches: ["**"]
@@ -49,7 +49,8 @@ jobs:
         run: deploy/deploy.sh "$GITHUB_REF_NAME" "$GITHUB_SHA"
       - name: Public check
         run: |
-          for platform in x facebook instagram reddit tiktok; do
+          # discord: soft check until meritum-infra routes meritum-discord.gburek.app here.
+          for platform in x facebook instagram reddit tiktok discord; do
             url="https://meritum-$platform.gburek.app/api/health"
             ok=""
             for _ in $(seq 12); do

@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
 import { PLATFORMS } from './constants.ts'
-import { platformOf, staticPath } from './routing.ts'
+import { isDiscordPage, platformOf, staticPath } from './routing.ts'
 
 test('platform hosts of prd and dev', () => {
   for (const p of PLATFORMS) {
@@ -27,4 +27,13 @@ test('platform host maps the root and its files, keeps shared assets', () => {
   assert.equal(staticPath('/index.html', 'reddit'), '/reddit/index.html')
   assert.equal(staticPath('/assets/mock.css', 'reddit'), '/assets/mock.css')
   assert.equal(staticPath('/reddit/', null), '/reddit/')
+})
+
+test('the Discord mock page is the root of its host, and /discord/ locally', () => {
+  assert.equal(platformOf('meritum-discord.gburek.app'), 'discord')
+  assert.equal(isDiscordPage('/', 'discord'), true)
+  assert.equal(isDiscordPage('/discord/', null), true)
+  assert.equal(isDiscordPage('/', 'x'), false)
+  assert.equal(isDiscordPage('/', null), false)
+  assert.equal(isDiscordPage('/assets/mock.css', 'discord'), false)
 })

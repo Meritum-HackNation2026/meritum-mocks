@@ -1,5 +1,5 @@
 /**
- * The design-system copies (contracts/, copy/, tokens/, platforms/) match SHA256SUMS,
+ * The design-system copies (contracts/, copy/, tokens/, brand/, platforms/) match SHA256SUMS,
  * file for file, so a hand edit or a hand-added file fails CI with the file name.
  * Refresh them with `pnpm sync`, never by hand. Mirrors
  * tests/design-system-copy.test.ts in meritum-extension.
@@ -17,7 +17,7 @@ import { fileURLToPath } from 'node:url'
 const root = fileURLToPath(new URL('../', import.meta.url))
 const sumLine = /^([0-9a-f]{64}) {2}(.+)$/
 const sourceLine = /^meritum-design-system [0-9a-f]{40}\n$/
-const copiedDirs = ['contracts', 'copy', 'tokens', 'platforms']
+const copiedDirs = ['contracts', 'copy', 'tokens', 'brand', 'platforms']
 
 /** Problems of the copies in `dir`: edited files and files missing from SHA256SUMS. */
 function copyProblems(dir: string): string[] {

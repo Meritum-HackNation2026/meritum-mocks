@@ -8,7 +8,7 @@
   "files": {
     "ignoreUnknown": true,
     // Copies of meritum-design-system (pnpm sync) keep its style; SHA256SUMS guards them.
-    "includes": ["**", "!!**/dist", "!!platforms", "!!contracts", "!!copy", "!!tokens"]
+    "includes": ["**", "!!**/dist", "!!platforms", "!!contracts", "!!copy", "!!tokens", "!!brand"]
   },
   "formatter": {
     "enabled": true,
@@ -75,6 +75,14 @@
       }
     }
   },
+  "overrides": [
+    {
+      // A domain's index.ts is the slice's public API
+      // (meritum-architecture rule 1), not an accidental barrel.
+      "includes": ["src/*/index.ts"],
+      "linter": { "rules": { "performance": { "noBarrelFile": "off" } } }
+    }
+  ],
   "assist": {
     "enabled": true,
     "actions": {

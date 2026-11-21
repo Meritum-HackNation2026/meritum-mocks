@@ -1,0 +1,34 @@
+import assert from 'node:assert/strict'
+import { test } from 'node:test'
+import { render, screen, within } from '@testing-library/react'
+import copy from '../../copy/pl.json' with { type: 'json' }
+import { DiscordPage, renderDiscordPage } from '../../src/channels/index.ts'
+
+test('the conversation shows the user message and each bot message, announced live', () => {
+  render(
+    <DiscordPage
+      messages={[
+        { author: 'user', text: 'Czy polski jest językiem urzędowym?' },
+        { author: 'bot', text: 'Potwierdzone: tak.\nSiła podstawy: Mocna' },
+      ]}
+    />,
+  )
+  const log = screen.getByRole('log')
+  const items = within(log).getAllByRole('listitem')
+  assert.equal(items.length, 2)
+  assert.ok(within(items[0] as HTMLElement).getByText(copy.form.input_label))
+  assert.ok(within(items[1] as HTMLElement).getByText(copy.brand.name))
+  assert.ok(within(items[1] as HTMLElement).getByText('Siła podstawy: Mocna', { exact: false }))
+})
+
+test('the message box is labelled and sends with the submit button', () => {
+  render(<DiscordPage messages={[]} />)
+  const box = screen.getByRole('textbox', { name: copy.form.input_label })
+  assert.equal(box.getAttribute('maxlength'), '4000')
+  assert.ok(screen.getByRole('button', { name: copy.form.submit }))
+})
+
+test('the rendered document carries the Discord skin and the theme', () => {
+  const html = renderDiscordPage({ messages: [], theme: 'dark' })
+  assert.ok(html.startsWith('<!DOCTYPE html><html lang="pl" data-theme="dark" data-host="discord"'))
+})

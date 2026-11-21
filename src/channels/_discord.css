@@ -1,0 +1,111 @@
+/* Discord mock (meritum-ui: platform skin, DESIGN_SYSTEM.md section 7). The host gives the
+   font, radii and button shape; colours, the mark and the name stay Meritum's tokens. */
+[data-host="discord"] {
+  --host-font: "gg sans", "Noto Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --host-radius: 8px;
+  --host-button-radius: 4px;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font: 16px / 1.375 var(--host-font);
+  color: var(--foreground);
+  background: var(--background);
+}
+header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  border-bottom: var(--host-border);
+  background: var(--host-card);
+}
+h1 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+}
+ol {
+  flex: 1;
+  margin: 0;
+  padding: 16px;
+  list-style: none;
+}
+li {
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr);
+  column-gap: 12px;
+  padding: 8px 0;
+}
+li img,
+li .avatar {
+  width: 40px;
+  height: 40px;
+  grid-row: span 2;
+  border-radius: 50%;
+  background: var(--secondary);
+}
+.author {
+  font-weight: 600;
+}
+.text {
+  grid-column: 2;
+  margin: 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+form {
+  display: flex;
+  gap: 8px;
+  padding: 0 16px 24px;
+}
+label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+textarea {
+  flex: 1;
+  min-width: 0;
+  min-height: 44px;
+  padding: 11px 16px;
+  font: inherit;
+  color: var(--foreground);
+  background: var(--card);
+  border: 1px solid var(--input);
+  border-radius: var(--host-radius);
+  resize: vertical;
+}
+button {
+  padding: 0 16px;
+  font: inherit;
+  font-weight: 600;
+  color: var(--primary-foreground);
+  background: var(--primary);
+  border: 0;
+  border-radius: var(--host-button-radius);
+  cursor: pointer;
+}
+textarea:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+textarea::placeholder {
+  color: var(--muted-foreground);
+}

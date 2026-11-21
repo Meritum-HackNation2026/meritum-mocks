@@ -1,6 +1,6 @@
 # meritum-mocks
 
-Makiety X, Facebooka, Instagrama, Reddita i TikToka do demo wtyczki Meritum. Strony odtwarzają te same znaczniki DOM co prawdziwe serwisy (kontrakt selektorów: `platforms/SELECTORS.md`), więc jeden content script działa i na makiecie, i na prawdziwej stronie. Pod spodem jest mały backend w Hono z własnym schematem w bazie.
+Makiety X, Facebooka, Instagrama, Reddita i TikToka do demo wtyczki Meritum oraz makieta Discorda, na której jury sprawdza kanał Discord bez konta i bez dołączania do serwera. Strony odtwarzają te same znaczniki DOM co prawdziwe serwisy (kontrakt selektorów: `platforms/SELECTORS.md`), więc jeden content script działa i na makiecie, i na prawdziwej stronie. Pod spodem jest mały backend w Hono z własnym schematem w bazie.
 
 | Platforma | prd (`main`)                         |
 | --------- | ------------------------------------ |
@@ -9,8 +9,9 @@ Makiety X, Facebooka, Instagrama, Reddita i TikToka do demo wtyczki Meritum. Str
 | Instagram | https://meritum-instagram.gburek.app |
 | Reddit    | https://meritum-reddit.gburek.app    |
 | TikTok    | https://meritum-tiktok.gburek.app    |
+| Discord   | https://meritum-discord.gburek.app   |
 
-Jeden kontener `meritum-mocks-prd` obsługuje wszystkie pięć adresów i wybiera makietę po nagłówku `Host` (`src/routing.ts`). Baza: schemat `mocks_<env>`, rola `meritum_mocks_<env>`. `?theme=dark` przełącza motyw makiety.
+Jeden kontener `meritum-mocks-prd` obsługuje wszystkie sześć adresów i wybiera makietę po nagłówku `Host` (`src/routing.ts`). Baza: schemat `mocks_<env>`, rola `meritum_mocks_<env>`. `?theme=dark` przełącza motyw makiety.
 
 | Ścieżka       | Co zwraca                                                        |
 | ------------- | ---------------------------------------------------------------- |
@@ -18,16 +19,37 @@ Jeden kontener `meritum-mocks-prd` obsługuje wszystkie pięć adresów i wybier
 | `/assets/*`   | wspólne style, skrypt przewijania i obrazki                      |
 | `/api/health` | `{status, env, platform, database}`; 503, gdy baza nie odpowiada |
 
+### Makieta Discorda
+
+Rozmowa z botem Meritum w ramce podobnej do Discorda (`src/channels/`, lokalnie http://localhost:3000/discord/). Strona działa bez JavaScriptu: formularz wysyła wiadomość do serwera makiety, a ten woła to samo API co prawdziwy bot: `POST /api/v1/checks` z `channel: "discord"` i losowym identyfikatorem użytkownika makiety (`channel_user_id`, z którego API liczy skrót), potem `GET /api/v1/checks/{id}` do wyniku. Identyfikator leży w ciasteczku `meritum_discord_user`; jego brak znaczy pierwszy kontakt.
+
+Odpowiedź dzielimy tak jak bot (backend/007), tekstami `discord` i `ai_notice` z `copy/pl.json`:
+
+1. Przy pierwszym kontakcie pierwsza wiadomość zaczyna się od informacji, że odpowiada system AI.
+2. Podsumowanie: liczba twierdzeń, link do pełnej karty i werdykt każdego twierdzenia.
+3. Po jednej wiadomości na twierdzenie: werdykt, jeden cytat (pierwszy, który popiera albo podważa twierdzenie) z wydawcą i datą oraz siła podstawy. Twierdzenie bez cytatu podaje, czego nie ustalono.
+4. Wiadomość ma najwyżej 2000 znaków. Dłuższą dzielimy na granicach linii, więc cytat nigdy nie jest przecięty.
+
+Sprawdzenie bez twierdzeń (`needs_clarification`, `out_of_scope`), błędne wejście i awaria API dają stan słowem i podpowiedź z `copy/pl.json`, nigdy werdykt; pierwsza taka odpowiedź też zaczyna się od informacji o AI.
+
+| Zmienna            | Domyślnie                                      | Co ustawia                        |
+| ------------------ | ---------------------------------------------- | --------------------------------- |
+| `MERITUM_API_URL`  | `https://meritum.gburek.app`                   | API, które woła makieta           |
+| `MERITUM_CARD_URL` | `https://meritum.gburek.app/?check={check_id}` | link do karty wyniku w odpowiedzi |
+
+Porównanie z prawdziwym botem (ten sam tekst, ta sama część merytoryczna `CheckResult`) robimy ręcznie, poza CI: wyślij tekst botowi i makiecie, potem porównaj `GET /api/v1/checks/{id}` obu sprawdzeń. Testy w CI używają atrapy API.
+
 ### Kopie z design systemu
 
 Teksty, tokeny, kontrakty i strony makiet pochodzą z [meritum-design-system](https://github.com/Meritum-HackNation2026/meritum-design-system) (ADR-33). W repo leżą ich kopie:
 
-| Kopia                  | Źródło w design systemie                                   |
-| ---------------------- | ---------------------------------------------------------- |
-| `contracts/meritum.ts` | `contracts/meritum.ts`                                     |
-| `copy/pl.json`         | `copy/pl.json`                                             |
-| `tokens/meritum.css`   | `tokens/meritum.css`                                       |
-| `platforms/`           | `demo/platforms/` (z kontraktem selektorów `SELECTORS.md`) |
+| Kopia                        | Źródło w design systemie                                       |
+| ---------------------------- | -------------------------------------------------------------- |
+| `contracts/meritum.ts`       | `contracts/meritum.ts`                                         |
+| `copy/pl.json`               | `copy/pl.json`                                                 |
+| `tokens/meritum.css`         | `tokens/meritum.css`                                           |
+| `brand/meritum-app-icon.svg` | `brand/meritum-app-icon.svg` (awatar bota w makiecie Discorda) |
+| `platforms/`                 | `demo/platforms/` (z kontraktem selektorów `SELECTORS.md`)     |
 
 Kopii nie edytuj tutaj. Zmień design system i uruchom `pnpm sync` (albo `pnpm sync <gałąź|tag|commit>`; potrzebny `gh` z dostępem do repo design systemu). Skrypt zapisuje commit źródła w `SOURCE` i sumy plików w `SHA256SUMS`. `pnpm test` (`tests/design-system-copy.test.ts`) bez sieci porównuje kopie z `SHA256SUMS` i wypisuje plik, którego suma się nie zgadza. Biome, knip i testy architektury pomijają kopie, bo nie trzymają się stylu kodu aplikacji.
 
@@ -59,6 +81,6 @@ Bazę daje `docker compose up -d --wait db` w repo backendu (domyślny `DATABASE
 
 ## CI/CD
 
-`.github/workflows/ci.yml`: `verify` (Biome, typy, testy) na runnerach GCP, `deploy` na `dellpromaxgb10` tylko z `main`, po zielonym `verify`. `deploy/deploy.sh` buduje obraz na hoście, podmienia kontener i sprawdza przez gateway każdą z pięciu domen (strona i `/api/health` z działającą bazą). Krok „Public check” sprawdza adresy publiczne.
+`.github/workflows/ci.yml`: `verify` (Biome, typy, testy) na runnerach GCP, `deploy` na `dellpromaxgb10` tylko z `main`, po zielonym `verify`. `deploy/deploy.sh` buduje obraz na hoście, podmienia kontener i sprawdza przez gateway każdą z pięciu domen platform (strona i `/api/health` z działającą bazą). Krok „Public check” sprawdza adresy publiczne.
 
 Plik `~/meritum/envs/mocks-<env>.env`, rolę, schemat i trasy w Cloudflare tworzy platforma z [meritum-infra](https://github.com/Meritum-HackNation2026/meritum-infra). Repo ma tylko gałąź `main`: zmiany przez PR do `main`, bez bezpośrednich pushy, gałęzie funkcji usuwane ręcznie po merge'u. Środowiska dev już nie wdrażamy. Kontener `meritum-mocks-dev` i adresy `meritum-<platforma>-dev.gburek.app` zostały po dawnym przepływie i nie dostają nowych wersji.

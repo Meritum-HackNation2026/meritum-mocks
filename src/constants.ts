@@ -5,11 +5,11 @@
  */
 
 /**
- * Platforms with a mock.
+ * Platforms with a mock; discord is the bot conversation for the jury (US-WTY-08).
  *
- * @feature US-WTY-01, ADR-10
+ * @feature US-WTY-01, US-WTY-08, ADR-10
  */
-export const PLATFORMS = ['x', 'facebook', 'instagram', 'reddit', 'tiktok'] as const
+export const PLATFORMS = ['x', 'facebook', 'instagram', 'reddit', 'tiktok', 'discord'] as const
 
 /**
  * Host of a platform mock on prd or dev (any port); the group is the platform.
@@ -17,7 +17,7 @@ export const PLATFORMS = ['x', 'facebook', 'instagram', 'reddit', 'tiktok'] as c
  * @feature US-WTY-01, ADR-10
  */
 export const PLATFORM_HOST =
-  /^meritum-(x|facebook|instagram|reddit|tiktok)(?:-dev)?\.gburek\.app(?::\d+)?$/
+  /^meritum-(x|facebook|instagram|reddit|tiktok|discord)(?:-dev)?\.gburek\.app(?::\d+)?$/
 
 /**
  * Database of `docker compose up -d db` in meritum-backend, used when DATABASE_URL is unset.
