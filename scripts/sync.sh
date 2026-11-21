@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # Refresh the copies of meritum-design-system, the single source of copy, tokens,
 # contracts and mock pages (skill meritum-ui, ADR-33):
-#   contracts/meritum.ts, copy/pl.json, tokens/meritum.css, platforms/ (demo/platforms)
+#   contracts/meritum.ts, copy/pl.json, tokens/meritum.css, brand/ (app icon and mark),
+#   platforms/ (demo/platforms)
 #   pnpm sync              copy from the design system's main
 #   pnpm sync <ref>        copy from another branch, tag or commit
 # Never edit the copies by hand: pnpm test (tests/design-system-copy.test.ts) checks
@@ -17,6 +18,9 @@ files=(
   contracts/meritum.ts
   copy/pl.json
   tokens/meritum.css
+  brand/meritum-app-icon.svg
+  brand/meritum-mark.svg
+  brand/meritum-mark-on-dark.svg
 )
 for f in "${files[@]}"; do
   mkdir -p "$(dirname "$f")"

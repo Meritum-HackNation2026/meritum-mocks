@@ -25,8 +25,11 @@ Wąsko i z powodem: `// biome-ignore lint/<grupa>/<reguła>: <powód>` w linii, 
 
 Obecne wyjątki:
 
-- kopie z design systemu (`contracts/`, `copy/`, `tokens/`, `platforms/`, `pnpm sync`) są poza Biome, testami architektury i knipem; pilnuje ich `tests/design-system-copy.test.ts`;
+- kopie z design systemu (`contracts/`, `copy/`, `tokens/`, `brand/`, `platforms/`, `pnpm sync`) są poza Biome, testami architektury i knipem; pilnuje ich `tests/design-system-copy.test.ts`;
 - `LOCAL_DB` w `src/constants.ts`: `// biome-ignore lint/security/noSecrets` (lokalna baza deweloperska, ta sama co w README backendu);
+- Biome `performance/noBarrelFile` wyłączone dla `src/*/index.ts`: to publiczne API wycinka (zasada 1);
+- `src/channels/_page.tsx`: `noImgElement` i `useSolidForComponent` to reguły Next.js i SolidJS, a strona to React renderowany na serwerze; `adapters/http.ts`: `noAwaitInLoops`, bo odpytywanie o wynik idzie po kolei;
+- `src/channels` używa JSX, więc serwer startuje z `node --import tsx` (`tsx`, `react` i `react-dom` są w `dependencies`);
 - knip pomija `@swc/core` (parser dependency-cruisera); `pnpm-workspace.yaml` nie pozwala mu uruchamiać skryptu instalacyjnego.
 
 Testy to `node --test` (Node 26 uruchamia TypeScript bez kompilacji), tak jak testy jednostkowe w `src/`; vitest nie jest potrzebny. Pliki `.tsx` ładuje `tsx` (`--import tsx`), a DOM daje happy-dom z `tests/setup-dom.ts`. Skrypt podaje wzorce plików (`src/**/*.test.ts`, `tests/**/*.test.{ts,tsx}`), bo domyślne wzorce `node --test` pomijają `.tsx`; jak pisać test komponentu, mówi README.

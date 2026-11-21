@@ -7,8 +7,8 @@
     "node": ">=26"
   },
   "scripts": {
-    "start": "node src/server.ts",
-    "dev": "node --watch src/server.ts",
+    "start": "node --import tsx src/server.ts",
+    "dev": "node --import tsx --watch src/server.ts",
     "check": "biome check .",
     "typecheck": "tsc",
     "test": "node --import tsx --import ./tests/setup-dom.ts --test \"src/**/*.test.ts\" \"tests/**/*.test.{ts,tsx}\"",
@@ -19,7 +19,10 @@
   "dependencies": {
     "@hono/node-server": "^2.1.11",
     "hono": "^4.13.19",
-    "postgres": "^4.1.1"
+    "postgres": "^4.1.1",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "tsx": "^4.23.15"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.6.8",
@@ -32,9 +35,6 @@
     "@types/react-dom": "^19.3.0",
     "dependency-cruiser": "^18.8.0",
     "knip": "^6.47.0",
-    "react": "^19.3.1",
-    "react-dom": "^19.3.1",
-    "tsx": "^4.23.15",
     "typescript": "^7.0.2"
   }
 }

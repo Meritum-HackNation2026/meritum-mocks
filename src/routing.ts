@@ -4,6 +4,7 @@
  *   meritum-reddit-dev.gburek.app/    -> platforms/reddit/index.html   (dev)
  *   localhost:3000/reddit/            -> platforms/reddit/index.html   (local, path as is)
  * The pages link their files as ../assets/..., which from "/" resolves to /assets/.
+ * The Discord mock is no static file: src/channels renders it (isDiscordPage).
  *
  * @feature US-WTY-01, ADR-10
  */
@@ -41,4 +42,20 @@ export function staticPath(path: string, platform: Platform | null): string {
     return path
   }
   return `/${platform}${path === '/' ? '/index.html' : path}`
+}
+
+/**
+ * Whether a request is for the Discord mock page, rendered by src/channels.
+ *   meritum-discord.gburek.app/  -> the page (prd)
+ *   localhost:3000/discord/      -> the page (local)
+ *
+ * @param path - The request path.
+ * @param platform - The platform from the host, or null on localhost.
+ * @returns True for the Discord mock page.
+ * @feature US-WTY-08, F-04
+ */
+export function isDiscordPage(path: string, platform: Platform | null): boolean {
+  const isDiscordRoot = platform === 'discord' && path === '/'
+  const isLocalPage = platform === null && path === '/discord/'
+  return isDiscordRoot || isLocalPage
 }
