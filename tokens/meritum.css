@@ -1,0 +1,192 @@
+/*
+  Meritum, obywatelski radar dezinformacji
+  Design tokens for Tailwind CSS v4 + shadcn/ui. Paste into your app's global CSS
+  (after `@import "tailwindcss";`). Dark mode: add class `dark` (shadcn) or
+  `data-theme="dark"` on <html>.
+
+  Direction: "Biuletyn synoptyczny" palette on clean white surfaces with 1px borders.
+*/
+
+@custom-variant dark (&:where(.dark, .dark *, [data-theme=dark], [data-theme=dark] *));
+
+:root {
+  /* shadcn/ui base roles */
+  --radius: 0.75rem;                 /* 12px: cards; buttons are pills, see --radius-pill */
+  --background: #F6F7F5;             /* app ground (panel, dashboard) */
+  --foreground: #14191E;             /* ink: all running text */
+  --card: #FFFFFF;
+  --card-foreground: #14191E;
+  --popover: #FFFFFF;
+  --popover-foreground: #14191E;
+  --primary: #14191E;                /* primary action is near-black, never a brand fill */
+  --primary-foreground: #FFFFFF;
+  --secondary: #E8ECEB;
+  --secondary-foreground: #14191E;
+  --muted: #F6F7F5;
+  --muted-foreground: #4C5862;       /* ink2: secondary text, 7.3:1 on white */
+  --accent: #E1EDF2;
+  --accent-foreground: #13506A;
+  --destructive: #C8213A;
+  --border: #D9DEDD;
+  --input: #C3CAC9;
+  --ring: #1D6A86;
+
+  /* Meritum semantic states */
+  --verified: #1D6A86;               /* sea: verified context, links, consensus bars */
+  --verified-surface: #E1EDF2;
+  --verified-foreground: #13506A;    /* text on --verified-surface, 7.4:1 */
+  --contested: #B7791F;              /* amber: under review / contested */
+  --contested-surface: #F8EEDB;
+  --contested-foreground: #7A4E08;
+  --scam: #C8213A;                   /* front red: scam, fake ad, bot attack, anomaly */
+  --scam-surface: #FBE6E9;
+  --scam-foreground: #9E1A2E;
+  --scam-border: #F0C9D0;
+
+  /* charts (Live Dashboard) */
+  --chart-1: #14191E;                /* counted human votes */
+  --chart-2: #C8213A;                /* rejected bot votes */
+  --chart-3: #1D6A86;
+  --chart-4: #A9B3B8;                /* inactive / past */
+  --chart-5: #B7791F;
+
+  /* sidebar (admin panel) = page ground, never dark or saturated */
+  --sidebar: #F6F7F5;
+  --sidebar-foreground: #14191E;
+  --sidebar-primary: #14191E;
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent: #E8ECEB;
+  --sidebar-accent-foreground: #14191E;
+  --sidebar-border: #D9DEDD;
+  --sidebar-ring: #1D6A86;
+}
+
+.dark,
+[data-theme="dark"] {
+  --background: #0B0F12;
+  --foreground: #E7ECEE;
+  --card: #0B0F12;
+  --card-foreground: #E7ECEE;
+  --popover: #151A1E;
+  --popover-foreground: #E7ECEE;
+  --primary: #E7ECEE;
+  --primary-foreground: #0B0F12;
+  --secondary: #22282C;
+  --secondary-foreground: #E7ECEE;
+  --muted: #151A1E;
+  --muted-foreground: #9AA6AE;
+  --accent: #123441;
+  --accent-foreground: #9FD8EC;
+  --destructive: #FF6B7D;
+  --border: #2F3336;
+  --input: #3A4146;
+  --ring: #5DB3CF;
+
+  --verified: #5DB3CF;
+  --verified-surface: #123441;
+  --verified-foreground: #9FD8EC;
+  --contested: #F2C46D;
+  --contested-surface: #3A2C10;
+  --contested-foreground: #F2C46D;
+  --scam: #FF6B7D;
+  --scam-surface: #43161D;
+  --scam-foreground: #FFB3BE;
+  --scam-border: #5A2029;
+
+  --chart-1: #E7ECEE;
+  --chart-2: #FF6B7D;
+  --chart-3: #5DB3CF;
+  --chart-4: #4C5862;
+  --chart-5: #F2C46D;
+
+  --sidebar: #0B0F12;
+  --sidebar-foreground: #E7ECEE;
+  --sidebar-primary: #E7ECEE;
+  --sidebar-primary-foreground: #0B0F12;
+  --sidebar-accent: #22282C;
+  --sidebar-accent-foreground: #E7ECEE;
+  --sidebar-border: #2F3336;
+  --sidebar-ring: #5DB3CF;
+}
+
+@theme inline {
+  --font-sans: "Archivo", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Azeret Mono", ui-monospace, monospace;  /* IDs, account handles, domains, times, figures only */
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-verified: var(--verified);
+  --color-verified-surface: var(--verified-surface);
+  --color-verified-foreground: var(--verified-foreground);
+  --color-contested: var(--contested);
+  --color-contested-surface: var(--contested-surface);
+  --color-contested-foreground: var(--contested-foreground);
+  --color-scam: var(--scam);
+  --color-scam-surface: var(--scam-surface);
+  --color-scam-foreground: var(--scam-foreground);
+  --color-scam-border: var(--scam-border);
+
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  --radius-sm: calc(var(--radius) - 6px);   /* 6px: chips in tables */
+  --radius-md: calc(var(--radius) - 4px);   /* 8px: inputs, tooltips */
+  --radius-lg: var(--radius);                /* 12px: cards, panels */
+  --radius-xl: calc(var(--radius) + 2px);    /* 14px: popovers */
+  --radius-pill: 9999px;                     /* buttons, badges, chips */
+
+  --text-meta: 0.75rem;     --text-meta--line-height: 1rem;       /* 12px: widget header, axis labels */
+  --text-small: 0.8125rem;  --text-small--line-height: 1.25rem;   /* 13px: sources, captions */
+  --text-body: 0.9375rem;   --text-body--line-height: 1.375rem;   /* 15px: note text */
+  --text-title: 1.375rem;   --text-title--line-height: 1.75rem;   /* 22px: dashboard h1 */
+  --text-display: 2.5rem;   --text-display--line-height: 1.05;    /* 40px: slides only */
+
+  --ease-out-meritum: cubic-bezier(0.16, 1, 0.3, 1);
+  --shadow-float: 0 12px 32px rgb(20 25 30 / 0.16), 0 0 0 1px rgb(20 25 30 / 0.08);  /* only what floats */
+
+  --animate-rise: rise 0.5s var(--ease-out-meritum) both;
+  --animate-grow-x: grow-x 0.9s 0.4s var(--ease-out-meritum) both;
+  @keyframes rise { from { opacity: 0; transform: translateY(8px); } }
+  @keyframes grow-x { from { transform: scaleX(0); } }
+}
+
+/*
+  Injected widget host skins. Put `data-host="x|facebook|instagram|reddit|tiktok"`
+  on the widget root inside the extension's Shadow DOM. The frame adapts to the
+  host; the Meritum mark, name, state colours and sources never change.
+*/
+[data-host] { --host-font: system-ui, sans-serif; --host-radius: 16px; --host-button-radius: 9999px; --host-card: var(--card); --host-border: 1px solid var(--border); --host-link: var(--verified); }
+[data-host="x"]         { --host-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; --host-radius: 16px; --host-button-radius: 9999px; }
+[data-host="facebook"]  { --host-font: "Segoe UI Historic", "Segoe UI", Helvetica, Arial, sans-serif; --host-radius: 8px; --host-button-radius: 6px; }
+[data-host="instagram"] { --host-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; --host-radius: 0px; --host-button-radius: 8px; --host-border: 0; --host-card: transparent; }
+[data-host="reddit"]    { --host-font: "Reddit Sans", -apple-system, BlinkMacSystemFont, sans-serif; --host-radius: 16px; --host-button-radius: 9999px; }
+[data-host="tiktok"]    { --host-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; --host-radius: 8px; --host-button-radius: 4px; }

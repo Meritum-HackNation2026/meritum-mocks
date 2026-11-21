@@ -9,7 +9,11 @@ export const settings = {
   sourceDirs: ['src/', 'tests/'],
   /** Never checked: generated files and copies owned by other repos (path prefixes). */
   excluded: [
-    'platforms/', // copy of design-system/demo/platforms (scripts/sync-platforms.sh)
+    // copies of meritum-design-system (scripts/sync.sh)
+    'contracts/',
+    'copy/',
+    'tokens/',
+    'platforms/',
   ],
   /** Line limit of one file. */
   maxLines: 250,
