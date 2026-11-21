@@ -31,6 +31,17 @@ pnpm check && pnpm typecheck && pnpm test
 pnpm depcruise && pnpm knip   # granice importów, martwy kod
 ```
 
+### Test komponentu
+
+`pnpm test` ładuje przed testami `tsx` (Node nie przekształca JSX) i `tests/setup-dom.ts`, który rejestruje DOM z happy-dom i czyści go po każdym teście. Test komponentu to plik `tests/<domena>/<komponent>.test.tsx`: renderuje komponent przez `@testing-library/react` i szuka elementów po roli i tekście z `copy/pl.json`, nie po klasach CSS. Wzór: `tests/example/brand-heading.test.tsx`.
+
+```tsx
+render(<BrandHeading text={brandName} />)
+assert.ok(screen.getByRole('heading', { level: 1, name: brandName }))
+```
+
+Testy w przeglądarce (e2e) nie wchodzą do CI; uruchamia się je ręcznie albo lokalnie.
+
 Zasady architektury i to, co je sprawdza: [docs/architecture.md](docs/architecture.md).
 
 Bazę daje `docker compose up -d --wait db` w repo backendu (domyślny `DATABASE_URL` pasuje). Bez bazy strony działają, a `/api/health` zwraca 503.

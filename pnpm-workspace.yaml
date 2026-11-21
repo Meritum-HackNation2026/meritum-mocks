@@ -1,3 +1,5 @@
 allowBuilds:
   # The native binary comes from its platform package; the postinstall check is not needed.
   "@swc/core": false
+  # Same for tsx's esbuild: the binary comes from @esbuild/<platform>.
+  "esbuild": false
