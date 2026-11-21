@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
-import { PLATFORMS, platformOf, staticPath } from './routing.ts'
+import { PLATFORMS } from './constants.ts'
+import { platformOf, staticPath } from './routing.ts'
 
 test('platform hosts of prd and dev', () => {
   for (const p of PLATFORMS) {

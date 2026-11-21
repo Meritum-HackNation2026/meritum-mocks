@@ -1,0 +1,8 @@
+// Dead code and unused dependencies (docs/architecture.md). Run: pnpm knip
+{
+  "$schema": "./node_modules/knip/schema-jsonc.json",
+  // Copy of design-system/demo/platforms (scripts/sync-platforms.sh), served as static files.
+  "ignore": ["platforms/**"],
+  // dependency-cruiser's TypeScript parser (parser: "swc" in .dependency-cruiser.cjs).
+  "ignoreDependencies": ["@swc/core"]
+}

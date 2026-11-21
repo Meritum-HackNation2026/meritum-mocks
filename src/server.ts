@@ -4,17 +4,12 @@ import { serve } from '@hono/node-server'
 import { serveStatic } from '@hono/node-server/serve-static'
 import { Hono } from 'hono'
 import postgres from 'postgres'
+import { LOCAL_DB } from './constants.ts'
 import { platformOf, staticPath } from './routing.ts'
 
-const env = process.env.MERITUM_ENV ?? 'local'
+const env = process.env['MERITUM_ENV'] ?? 'local'
 // Role meritum_mocks_<env>; its search_path is the schema mocks_<env>.
-const sql = postgres(
-  process.env.DATABASE_URL ?? 'postgresql://meritum:meritum@localhost:5432/meritum',
-  {
-    max: 5,
-    connect_timeout: 3,
-  },
-)
+const sql = postgres(process.env['DATABASE_URL'] ?? LOCAL_DB, { max: 5, connect_timeout: 3 })
 
 const app = new Hono()
 
@@ -43,7 +38,7 @@ app.use(
   }),
 )
 
-const port = Number(process.env.PORT ?? 3000)
+const port = Number(process.env['PORT'] ?? 3000)
 serve({ fetch: app.fetch, port }, () => console.warn(`meritum-mocks (${env}) on :${port}`))
 
 for (const signal of ['SIGTERM', 'SIGINT'] as const) {

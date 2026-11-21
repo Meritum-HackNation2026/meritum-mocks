@@ -28,7 +28,10 @@ Node 26 uruchamia TypeScript bez kompilacji.
 pnpm install
 pnpm dev            # http://localhost:3000, makiety pod /x/, /reddit/ itd.
 pnpm check && pnpm typecheck && pnpm test
+pnpm depcruise && pnpm knip   # granice importów, martwy kod
 ```
+
+Zasady architektury i to, co je sprawdza: [docs/architecture.md](docs/architecture.md).
 
 Bazę daje `docker compose up -d --wait db` w repo backendu (domyślny `DATABASE_URL` pasuje). Bez bazy strony działają, a `/api/health` zwraca 503.
 
