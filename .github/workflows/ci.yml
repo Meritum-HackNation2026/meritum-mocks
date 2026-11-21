@@ -3,9 +3,8 @@ name: CI/CD
 # One run per commit (push only; a PR shows the run of its head commit).
 #   verify   Biome, types, tests (architecture included), import boundaries and dead
 #            code on the GCP runners (self-hosted, meritum);
-#            a newer push to the same branch cancels it, never on main/develop.
-#   deploy   develop -> https://meritum-<platform>-dev.gburek.app,
-#            main -> https://meritum-<platform>.gburek.app (x, facebook, instagram,
+#            a newer push to the same branch cancels it, never on main.
+#   deploy   main -> https://meritum-<platform>.gburek.app (x, facebook, instagram,
 #            reddit, tiktok), on dellpromaxgb10 after verify; never cancelled, one at a time.
 on:
   push:
@@ -21,7 +20,7 @@ jobs:
     timeout-minutes: 15
     concurrency:
       group: ci-verify-${{ github.ref }}
-      cancel-in-progress: ${{ github.ref != 'refs/heads/develop' && github.ref != 'refs/heads/main' }}
+      cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
@@ -38,7 +37,7 @@ jobs:
 
   deploy:
     needs: verify
-    if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main'
     runs-on: [self-hosted, dellpromaxgb10]
     timeout-minutes: 20
     concurrency:
@@ -50,9 +49,8 @@ jobs:
         run: deploy/deploy.sh "$GITHUB_REF_NAME" "$GITHUB_SHA"
       - name: Public check
         run: |
-          suffix=${{ github.ref_name == 'main' && '""' || '-dev' }}
           for platform in x facebook instagram reddit tiktok; do
-            url="https://meritum-$platform$suffix.gburek.app/api/health"
+            url="https://meritum-$platform.gburek.app/api/health"
             ok=""
             for _ in $(seq 12); do
               if curl -fsS "$url" | grep -q '"database":"ok"'; then ok=1; echo "OK: $url"; break; fi
