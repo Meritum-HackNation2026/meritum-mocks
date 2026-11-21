@@ -5,17 +5,48 @@
  * @feature US-WTY-08, F-04
  */
 import { setTimeout as sleep } from 'node:timers/promises'
-import type { AnalysisStatus, CheckResult } from '../../../contracts/meritum.ts'
+import type { CheckResult, ClaimResult } from '../../../contracts/meritum.ts'
 import type { ChecksApi, DiscordCheckRequest } from '../ports.ts'
 
-// Trust boundary: the channel reads these fields of the result; the API owns the rest.
-function checked(result: CheckResult): CheckResult {
+const statuses: ReadonlySet<unknown> = new Set<CheckResult['status']>([
+  'done',
+  'needs_clarification',
+  'out_of_scope',
+  'technical_failure',
+])
+const verdicts: ReadonlySet<unknown> = new Set<ClaimResult['verdict']>([
+  'confirmed',
+  'false',
+  'misleading',
+  'insufficient_evidence',
+  'not_verifiable',
+])
+
+const isRecord = (value: unknown): value is Record<string, unknown> =>
+  typeof value === 'object' && value !== null
+
+function isClaim(value: unknown): boolean {
+  return isRecord(value) && typeof value['claim'] === 'string' && verdicts.has(value['verdict'])
+}
+
+// Trust boundary: the fields the channel reads must be there and known; the API owns the rest.
+function checked(value: unknown): CheckResult | null {
+  if (!isRecord(value)) {
+    return null
+  }
+  const claims = value['claims'] ?? []
   const isResult =
-    typeof result.check_id === 'string' &&
-    typeof result.status === 'string' &&
-    (result.claims === undefined || Array.isArray(result.claims))
-  if (!isResult) {
-    throw new Error('GET /api/v1/checks/{id} answered with a malformed result')
+    typeof value['check_id'] === 'string' &&
+    statuses.has(value['status']) &&
+    Array.isArray(claims) &&
+    claims.every(isClaim)
+  return isResult ? (value as unknown as CheckResult) : null
+}
+
+function validResult(value: unknown): CheckResult {
+  const result = checked(value)
+  if (result === null) {
+    throw new Error('GET /api/v1/checks/{id} answered with a result the channel cannot read')
   }
   return result
 }
@@ -66,18 +97,17 @@ export class HttpChecksApi implements ChecksApi {
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify(request),
     })
-    const checkId = (started as { check_id?: unknown }).check_id
+    const checkId = isRecord(started) ? started['check_id'] : undefined
     if (typeof checkId !== 'string') {
       throw new Error('POST /api/v1/checks answered without check_id')
     }
     const deadline = Date.now() + this.#options.timeoutMs
     while (Date.now() < deadline) {
       // biome-ignore lint/performance/noAwaitInLoops: polling is sequential by design
-      const status = (await this.#json(
-        `/api/v1/checks/${encodeURIComponent(checkId)}`,
-      )) as AnalysisStatus
-      if (status.result) {
-        return checked(status.result)
+      const status = await this.#json(`/api/v1/checks/${encodeURIComponent(checkId)}`)
+      const result = isRecord(status) ? status['result'] : null
+      if (result !== null && result !== undefined) {
+        return validResult(result)
       }
       await sleep(this.#options.intervalMs)
     }

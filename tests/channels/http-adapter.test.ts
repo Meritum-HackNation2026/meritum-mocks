@@ -44,13 +44,26 @@ test('an error status or a missing check id is a failure', async () => {
     }).check(request)
   await assert.rejects(failing(new Response(null, { status: 503 })))
   await assert.rejects(failing(Response.json({})))
-  const polled = [{ check_id: 'c' }, { check_id: 'c', steps: [], result: { status: 'done' } }]
-  await assert.rejects(
-    new HttpChecksApi({
-      baseUrl: '',
-      intervalMs: 0,
-      timeoutMs: 1000,
-      fetch: fakeFetch(polled, []),
-    }).check(request),
+})
+
+test('a result the channel cannot read is a failure', async () => {
+  const unknownVerdict = doneResult([decisiveClaim({ verdict: 'maybe' as 'false' })])
+  const results = [{ status: 'done' }, unknownVerdict, { ...unknownVerdict, status: 'odd' }]
+  const apis = results.map(
+    (result) =>
+      new HttpChecksApi({
+        baseUrl: '',
+        intervalMs: 0,
+        timeoutMs: 1000,
+        fetch: fakeFetch([{ check_id: 'c' }, { check_id: 'c', steps: [], result }], []),
+      }),
   )
+  await Promise.all(apis.map((api) => assert.rejects(api.check(request))))
+  const nothing = new HttpChecksApi({
+    baseUrl: '',
+    intervalMs: 0,
+    timeoutMs: 0,
+    fetch: () => Promise.resolve(Response.json(null)),
+  })
+  await assert.rejects(nothing.check(request))
 })

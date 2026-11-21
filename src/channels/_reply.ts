@@ -7,7 +7,7 @@
  */
 import type { CheckResult, Citation, ClaimResult } from '../../contracts/meritum.ts'
 import copy from '../../copy/pl.json' with { type: 'json' }
-import { DISCORD_MESSAGE_LIMIT } from './constants.ts'
+import { DISCORD_MESSAGE_LIMIT, LOCALE, TIME_ZONE } from './constants.ts'
 
 /**
  * What the reply depends on besides the result.
@@ -23,31 +23,34 @@ export interface ReplyOptions {
 
 type NotDone = Exclude<CheckResult['status'], 'done'>
 
+/** One bot message as its template lines; packing never splits inside a line. */
+type Lines = string[]
+
 const placeholder = /\{(\w+)\}/g
-const publicationDate = new Intl.DateTimeFormat('pl-PL', {
-  dateStyle: 'long',
-  timeZone: 'Europe/Warsaw',
-})
+const publicationDate = new Intl.DateTimeFormat(LOCALE, { dateStyle: 'long', timeZone: TIME_ZONE })
 // copy has "{publisher}, data publikacji nieznana"; the claim template already names the publisher.
 const undated = copy.result.source_undated.replace('{publisher}, ', '')
 
-function fill(template: string, values: Record<string, string>): string {
-  return template.replace(placeholder, (match, key: string) => values[key] ?? match)
+// Fill each template line on its own, so a value with a line break stays inside its line.
+function fill(template: string, values: Record<string, string>): Lines {
+  return template
+    .split('\n')
+    .map((line) => line.replace(placeholder, (match, key: string) => values[key] ?? match))
 }
 
-function summary(claims: ClaimResult[], cardUrl: string): string {
+function summary(claims: ClaimResult[], cardUrl: string): Lines {
   const head = fill(copy.discord.summary, { count: String(claims.length), link: cardUrl })
-  const lines = claims.map((c) =>
+  const lines = claims.flatMap((c) =>
     fill(copy.discord.summary_line, { verdict: copy.verdict[c.verdict], claim: c.claim }),
   )
-  return [head, ...lines].join('\n')
+  return [...head, ...lines]
 }
 
 function mainCitation(claim: ClaimResult): Citation | undefined {
   return claim.citations?.find((c) => c.stance !== 'context') ?? claim.citations?.[0]
 }
 
-function claimMessage(claim: ClaimResult): string {
+function claimMessage(claim: ClaimResult): Lines {
   const verdict = copy.verdict[claim.verdict]
   const citation = mainCitation(claim)
   if (citation === undefined) {
@@ -55,20 +58,16 @@ function claimMessage(claim: ClaimResult): string {
     return fill(copy.discord.claim_unsettled, { verdict, claim: claim.claim, unresolved })
   }
   const published = citation.source.published_at
-  const template = claim.strength
-    ? copy.discord.claim
-    : copy.discord.claim
-        .split('\n')
-        .filter((line) => !line.includes('{strength}'))
-        .join('\n')
-  return fill(template, {
+  const lines = fill(copy.discord.claim, {
     verdict,
     claim: claim.claim,
     fragment: citation.fragment,
     publisher: citation.source.publisher,
     date: published ? publicationDate.format(new Date(published)) : undated,
-    strength: claim.strength ? copy.strength[claim.strength.level] : '',
+    strength: claim.strength ? copy.strength[claim.strength.level] : '{strength}',
   })
+  // Without a strength (non-decisive verdicts) the strength line is left out.
+  return lines.filter((line) => !line.includes('{strength}'))
 }
 
 /**
@@ -78,31 +77,29 @@ function claimMessage(claim: ClaimResult): string {
  * @returns The status word and its hint, both from copy/pl.json.
  * @feature US-WTY-08, F-04
  */
-export function statusMessage(status: NotDone): string {
-  return `${copy.status[status]}\n${copy.status_hint[status]}`
+export function statusMessage(status: NotDone): Lines {
+  return [copy.status[status], copy.status_hint[status]]
+}
+
+function cut(line: string, limit: number): string[] {
+  const pieces = Math.max(1, Math.ceil(line.length / limit))
+  return Array.from({ length: pieces }, (_, i) => line.slice(i * limit, (i + 1) * limit))
 }
 
 /**
- * Lines packed into messages of at most `limit` characters, never splitting a line.
- * A quote line fits by contract (fragment 600, publisher 120 characters), so only a
- * line longer than the limit, which the contract excludes, is cut.
+ * Template lines packed into messages of at most `limit` characters, never splitting a line,
+ * so the quote line is never cut. Only a line longer than the limit is cut, which the
+ * contract excludes (meritum.schema.json: fragment 600, publisher 120, claim 500 characters).
  *
- * @param text - The message.
+ * @param lines - The message as template lines.
  * @param limit - Most characters per message.
  * @returns The messages.
  * @feature US-WTY-08, F-04
  */
-export function splitMessage(text: string, limit = DISCORD_MESSAGE_LIMIT): string[] {
-  const lines = text
-    .split('\n')
-    .flatMap((line) =>
-      Array.from({ length: Math.max(1, Math.ceil(line.length / limit)) }, (_, i) =>
-        line.slice(i * limit, (i + 1) * limit),
-      ),
-    )
+function splitMessage(lines: Lines, limit = DISCORD_MESSAGE_LIMIT): string[] {
   const messages: string[] = []
   let current: string | null = null
-  for (const line of lines) {
+  for (const line of lines.flatMap((l) => cut(l, limit))) {
     const joined: string = current === null ? line : `${current}\n${line}`
     if (current !== null && joined.length > limit) {
       messages.push(current)
@@ -115,18 +112,19 @@ export function splitMessage(text: string, limit = DISCORD_MESSAGE_LIMIT): strin
 }
 
 /**
- * Prepend the AI notice to the first message for a new user.
+ * The reply as Discord messages: the AI notice first for a new user, then each message
+ * packed to the limit.
  *
- * @param messages - The reply.
+ * @param messages - The reply, each message as template lines.
  * @param firstContact - Whether this is the user's first message.
- * @returns The reply, with the notice when needed.
+ * @returns The messages in sending order.
  * @feature US-WTY-08, F-04
  */
-export function withAiNotice(messages: string[], firstContact: boolean): string[] {
+export function toDiscord(messages: Lines[], firstContact: boolean): string[] {
   const [first, ...rest] = messages
-  return firstContact && first !== undefined
-    ? [`${copy.ai_notice.discord}\n${first}`, ...rest]
-    : messages
+  const withNotice =
+    firstContact && first !== undefined ? [[copy.ai_notice.discord, ...first], ...rest] : messages
+  return withNotice.flatMap((m) => splitMessage(m))
 }
 
 /**
@@ -143,5 +141,5 @@ export function discordReply(result: CheckResult, options: ReplyOptions): string
     result.status === 'done'
       ? [summary(claims, options.cardUrl), ...claims.map(claimMessage)]
       : [statusMessage(result.status)]
-  return withAiNotice(messages, options.firstContact).flatMap((m) => splitMessage(m))
+  return toDiscord(messages, options.firstContact)
 }

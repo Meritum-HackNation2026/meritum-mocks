@@ -109,3 +109,10 @@ button:focus-visible {
 textarea::placeholder {
   color: var(--muted-foreground);
 }
+.text a {
+  color: var(--verified);
+}
+li:focus {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}

@@ -83,3 +83,13 @@ test('no message is longer than 2000 characters and no quote is cut', () => {
     assert.ok(messages.some((m) => m.includes(claim.claim)))
   }
 })
+
+test('a quote with a line break stays whole when it does not fit after the claim', () => {
+  const claim = decisiveClaim({ claim: `${'Twierdzenie o faktach. '.repeat(26)}koniec.` })
+  const citation = claim.citations?.[0]
+  assert.ok(citation)
+  citation.fragment = `${'Pierwsza linia cytatu. '.repeat(40)}\n${'Druga linia cytatu. '.repeat(40)}`
+  const [, ...messages] = discordReply(doneResult([claim]), { cardUrl: card, firstContact: false })
+  assert.ok(messages.every((m) => m.length <= DISCORD_MESSAGE_LIMIT))
+  assert.ok(messages.some((m) => m.includes(`„${citation.fragment}”`)))
+})

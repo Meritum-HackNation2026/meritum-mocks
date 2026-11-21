@@ -32,3 +32,28 @@ test('the rendered document carries the Discord skin and the theme', () => {
   const html = renderDiscordPage({ messages: [], theme: 'dark' })
   assert.ok(html.startsWith('<!DOCTYPE html><html lang="pl" data-theme="dark" data-host="discord"'))
 })
+
+test('the reply is the focus target after sending, and links in it are clickable', () => {
+  render(
+    <DiscordPage
+      messages={[
+        { author: 'user', text: 'Pytanie' },
+        { author: 'bot', text: 'Pełna karta: https://meritum.example/c_01\nkoniec' },
+        { author: 'bot', text: 'Druga' },
+      ]}
+    />,
+  )
+  assert.equal(document.querySelector('form')?.getAttribute('action'), '#reply')
+  const reply = document.getElementById('reply')
+  assert.equal(reply?.getAttribute('tabindex'), '-1')
+  assert.ok(reply?.textContent?.includes('Pełna karta'))
+  const link = screen.getByRole('link', { name: 'https://meritum.example/c_01' })
+  assert.equal(link.getAttribute('href'), 'https://meritum.example/c_01')
+})
+
+test('the header shows the 14 px Meritum mark before the name', () => {
+  const html = renderDiscordPage({ messages: [], theme: 'light' })
+  const header = html.slice(html.indexOf('<header>'), html.indexOf('</header>'))
+  assert.ok(header.includes('width="14"'))
+  assert.ok(header.includes(`<h1>${copy.brand.name}</h1>`))
+})

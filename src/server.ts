@@ -1,17 +1,18 @@
 // Platform mocks (X, Facebook, Instagram, Reddit, TikTok) for the extension demo:
 // static pages from platforms/ plus a small API on the mocks' own database schema.
 // The Discord mock for the jury is rendered by src/channels and calls the Meritum API.
-import { randomUUID } from 'node:crypto'
 import { serve } from '@hono/node-server'
 import { serveStatic } from '@hono/node-server/serve-static'
 import { type Context, Hono } from 'hono'
+import { bodyLimit } from 'hono/body-limit'
 import { getCookie, setCookie } from 'hono/cookie'
 import postgres from 'postgres'
 import {
-  answerMessage,
   buildChecksApi,
   type ChatMessage,
   DEFAULT_CARD_URL,
+  MAX_FORM_BYTES,
+  receiveMessage,
   renderDiscordPage,
   USER_COOKIE,
   USER_COOKIE_MAX_AGE_S,
@@ -26,7 +27,6 @@ const sql = postgres(process.env['DATABASE_URL'] ?? LOCAL_DB, { max: 5, connect_
 const app = new Hono()
 const checksApi = buildChecksApi(process.env)
 const cardUrl = process.env['MERITUM_CARD_URL'] ?? DEFAULT_CARD_URL
-const mockUserId = /^[0-9a-f-]{36}$/
 
 const discordPage = (c: Context) => isDiscordPage(c.req.path, platformOf(c.req.header('host')))
 const discordHtml = (c: Context, messages: ChatMessage[]) =>
@@ -34,20 +34,15 @@ const discordHtml = (c: Context, messages: ChatMessage[]) =>
 
 app.get('*', (c, next) => (discordPage(c) ? discordHtml(c, []) : next()))
 
-// One message to the bot: the mock user id lives in a cookie; without it this is first contact.
-app.post('*', async (c, next) => {
+// One message to the bot; src/channels decides first contact from the mock user cookie.
+app.post('*', bodyLimit({ maxSize: MAX_FORM_BYTES }), async (c, next) => {
   if (!discordPage(c)) {
     return next()
   }
   const body = await c.req.parseBody()
   const text = typeof body['text'] === 'string' ? body['text'] : ''
-  const known = getCookie(c, USER_COOKIE)
-  const userId = known !== undefined && mockUserId.test(known) ? known : randomUUID()
-  const replies = await answerMessage(
-    checksApi,
-    { text, userId, firstContact: userId !== known },
-    cardUrl,
-  )
+  const cookie = getCookie(c, USER_COOKIE)
+  const { userId, messages } = await receiveMessage(checksApi, { text, cookie }, cardUrl)
   setCookie(c, USER_COOKIE, userId, {
     httpOnly: true,
     sameSite: 'Lax',
@@ -55,10 +50,7 @@ app.post('*', async (c, next) => {
     path: '/',
     maxAge: USER_COOKIE_MAX_AGE_S,
   })
-  return discordHtml(c, [
-    { author: 'user', text },
-    ...replies.map((reply): ChatMessage => ({ author: 'bot', text: reply })),
-  ])
+  return discordHtml(c, messages)
 })
 
 app.get('/api/health', async (c) => {

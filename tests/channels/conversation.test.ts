@@ -5,6 +5,7 @@ import {
   answerMessage,
   type ChecksApi,
   type DiscordCheckRequest,
+  receiveMessage,
 } from '../../src/channels/index.ts'
 import { decisiveClaim, doneResult } from './fixtures.ts'
 
@@ -66,4 +67,22 @@ test('an API failure is a technical problem, not a verdict, with the AI notice f
   assert.deepEqual(messages, [
     `${copy.ai_notice.discord}\n${copy.status.technical_failure}\n${copy.status_hint.technical_failure}`,
   ])
+})
+
+test('the cookie decides first contact: a new user gets the AI notice and an id, a known one not', async () => {
+  const api = fakeApi()
+  const text = 'Czy polski jest urzędowy?'
+  const first = await receiveMessage(api, { text, cookie: undefined }, card)
+  const again = await receiveMessage(api, { text, cookie: first.userId }, card)
+  const forged = await receiveMessage(api, { text, cookie: 'x"<' }, card)
+  assert.equal(again.userId, first.userId)
+  assert.notEqual(forged.userId, 'x"<')
+  assert.deepEqual(first.messages[0], { author: 'user', text })
+  assert.ok(first.messages[1]?.text.startsWith(copy.ai_notice.discord))
+  assert.ok(!again.messages[1]?.text.includes(copy.ai_notice.discord))
+  assert.ok(forged.messages[1]?.text.startsWith(copy.ai_notice.discord))
+  assert.deepEqual(
+    api.requests.map((r) => r.channel_user_id),
+    [first.userId, first.userId, forged.userId],
+  )
 })

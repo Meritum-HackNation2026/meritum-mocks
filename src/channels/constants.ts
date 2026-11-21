@@ -37,7 +37,7 @@ export const DEFAULT_API_URL = 'https://meritum.gburek.app'
  *
  * @feature US-WTY-08, F-04
  */
-export const DEFAULT_CARD_URL = 'https://meritum.gburek.app/?check={check_id}'
+export const DEFAULT_CARD_URL = 'https://meritum.gburek.app/?check={check_id}' // {check_id}: CHECK_ID_PLACEHOLDER
 
 /**
  * Pause between two GET /api/v1/checks/{id} calls while a check runs.
@@ -66,3 +66,45 @@ export const USER_COOKIE = 'meritum_discord_user'
  * @feature US-WTY-08, F-04
  */
 export const USER_COOKIE_MAX_AGE_S = 30 * 24 * 60 * 60
+
+/**
+ * Locale of dates in bot messages.
+ *
+ * @feature US-WTY-08, F-04
+ */
+export const LOCALE = 'pl-PL'
+
+/**
+ * Time zone of dates in bot messages.
+ *
+ * @feature US-WTY-08, F-04
+ */
+export const TIME_ZONE = 'Europe/Warsaw'
+
+/**
+ * Placeholder of the check id in the card link template (MERITUM_CARD_URL).
+ *
+ * @feature US-WTY-08, F-04
+ */
+export const CHECK_ID_PLACEHOLDER = '{check_id}'
+
+/**
+ * Shape of a mock user id (randomUUID); any other cookie value counts as a new user.
+ *
+ * @feature US-WTY-08, F-04
+ */
+export const MOCK_USER_ID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/
+
+/**
+ * Largest form body the mock reads (bytes); 4000 characters of Polish text fit with room.
+ *
+ * @feature US-WTY-08, F-04
+ */
+export const MAX_FORM_BYTES = 32 * 1024
+
+/**
+ * Id of the first bot message of the latest reply; the form posts to it so focus lands there.
+ *
+ * @feature US-WTY-08, F-04
+ */
+export const REPLY_ANCHOR = 'reply'
