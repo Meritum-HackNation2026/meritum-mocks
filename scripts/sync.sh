@@ -34,6 +34,6 @@ find platforms -name .DS_Store -delete
 printf 'meritum-design-system %s\n' "$ref" >SOURCE
 {
   sha256sum "${files[@]}"
-  find platforms -type f | LC_ALL=C sort | xargs sha256sum
+  find platforms -type f -print0 | LC_ALL=C sort -z | xargs -0 sha256sum
 } >SHA256SUMS
 echo "design system copies synced from $repo@${ref:0:12}"
