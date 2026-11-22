@@ -7,9 +7,9 @@
 <link rel="stylesheet" href="../assets/mock.css">
 <style>
 /* Measured on facebook.com (pl, 2026-11): top bar 56, left "Skróty" 360, right complementary 360, feed column 680, cards radius 12, gap 12. */
-:root{--page:#F0F2F5;--card:#FFFFFF;--tx:#080809;--tx2:#65686C;--line:#CED0D4;--hover:rgba(0,0,0,.05);--btn:#E2E5E9;--blue:#0866FF;--shadow:0 1px 2px rgba(0,0,0,.2);
+:root{--primary-text:#080809;--secondary-text:#65686C;--secondary-icon:#65686C;--page:#F0F2F5;--card:#FFFFFF;--tx:#080809;--tx2:#65686C;--line:#CED0D4;--hover:rgba(0,0,0,.05);--btn:#E2E5E9;--blue:#0866FF;--shadow:0 1px 2px rgba(0,0,0,.2);
   --font:system-ui,-apple-system,BlinkMacSystemFont,".SFNSText-Regular","Segoe UI Historic","Segoe UI",Helvetica,Arial,sans-serif}
-:root[data-mock-theme="dark"]{--page:#1C1C1D;--card:#252728;--tx:#E2E5E9;--tx2:#B0B3B8;--line:#3E4042;--hover:rgba(255,255,255,.1);--btn:#3B3D3E;--shadow:0 1px 2px rgba(0,0,0,.2);color-scheme:dark}
+:root[data-mock-theme="dark"]{--primary-text:#E2E5E9;--secondary-text:#B0B3B8;--secondary-icon:#B0B3B8;--page:#1C1C1D;--card:#252728;--tx:#E2E5E9;--tx2:#B0B3B8;--line:#3E4042;--hover:rgba(255,255,255,.1);--btn:#3B3D3E;--shadow:0 1px 2px rgba(0,0,0,.2);color-scheme:dark}
 *{box-sizing:border-box;margin:0;padding:0}
 body{font:15px/1.3333 var(--font);color:var(--tx);background:var(--page);-webkit-font-smoothing:antialiased}
 a{color:inherit;text-decoration:none}
@@ -57,7 +57,7 @@ div[role="main"]{flex:1;display:flex;justify-content:center;padding:16px 16px 64
 .m-story b{position:absolute;left:12px;bottom:12px;right:12px;font-size:13px;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.5)}
 /* post */
 .m-unit{margin-bottom:12px}
-.m-post{padding-top:12px}
+.m-post{padding-top:12px;overflow:hidden}
 .m-hd{display:flex;gap:8px;padding:0 16px 12px;align-items:flex-start}
 .m-hd .av{width:40px;height:40px;font-size:14px}
 .m-hd-t{flex:1;min-width:0}
@@ -82,10 +82,13 @@ div[role="main"]{flex:1;display:flex;justify-content:center;padding:16px 16px 64
 .m-cta{flex:none;height:36px;display:flex;align-items:center;padding:0 12px;border-radius:6px;background:var(--card);font-weight:600}
 :root[data-mock-theme="dark"] .m-cta{background:#4E5052}
 /* action bar: compact icon+count buttons, left aligned (observed 44x32 each) */
-.m-bar{display:flex;align-items:center;gap:0;height:44px;padding:0 4px;margin-top:4px}
-.m-bar>[role="button"]{display:flex;align-items:center;gap:6px;height:32px;min-width:44px;padding:0 10px;border-radius:6px;color:var(--tx2);font-size:15px;font-weight:600}
-.m-bar>[role="button"]:hover{background:var(--hover)}
-.m-bar>[role="button"].m-pick{min-width:16px;padding:0 2px;margin-left:-10px}
+/* As on facebook.com: each action sits in its own column box inside the row, the row keeps the
+   light text colour even in dark mode, and icons and counts take --secondary-icon. */
+.m-bar{display:flex;align-items:center;gap:0;height:44px;padding:0 4px;margin-top:4px;color:#1C1E21}
+.m-bar>.m-ac{display:flex;flex-direction:column;justify-content:center;position:relative}
+.m-bar>.m-ac>[role="button"]{display:flex;align-items:center;gap:6px;height:32px;min-width:44px;padding:0 10px;border-radius:6px;color:var(--secondary-icon);font-size:15px;font-weight:600}
+.m-bar>.m-ac>[role="button"]:hover{background:var(--hover)}
+.m-bar>.m-ac>[role="button"].m-pick{min-width:16px;padding:0 2px;margin-left:-10px}
 .m-bar svg{width:20px;height:20px}
 .m-bar .m-pick svg{width:12px;height:12px}
 /* right column */
@@ -181,10 +184,10 @@ div[role="complementary"] h3{font-size:17px;font-weight:600;color:var(--tx2);pad
      </div>
      <div data-ad-rendering-role="story_message"><div data-ad-preview="message" data-ad-comet-preview="message"><div dir="auto">Ktoś wie, czy w sobotę pociągi do Gdyni jeżdżą normalnie?</div></div></div>
      <div class="m-bar">
-      <div role="button" tabindex="0" aria-label="Zareaguj „Lubię to!” na post Magda W."><div data-ad-rendering-role="like_button"><svg><use href="#i-like"/></svg></div><span>12</span></div>
-      <div role="button" tabindex="0" class="m-pick" aria-label="Zareaguj na post Magda W."><svg><use href="#i-chev"/></svg></div>
-      <div role="button" tabindex="0" aria-label="Skomentuj post Magda W."><div data-ad-rendering-role="comment_button"><svg><use href="#i-cmt"/></svg></div><span>4</span></div>
-      <div role="button" tabindex="0" aria-label="Udostępnij post Magda W."><div data-ad-rendering-role="share_button"><svg><use href="#i-share"/></svg></div></div>
+      <div class="m-ac"><div role="button" tabindex="0" aria-label="Zareaguj „Lubię to!” na post Magda W."><div data-ad-rendering-role="like_button"><svg><use href="#i-like"/></svg></div><span>12</span></div></div>
+      <div class="m-ac"><div role="button" tabindex="0" class="m-pick" aria-label="Zareaguj na post Magda W."><svg><use href="#i-chev"/></svg></div></div>
+      <div class="m-ac"><div role="button" tabindex="0" aria-label="Skomentuj post Magda W."><div data-ad-rendering-role="comment_button"><svg><use href="#i-cmt"/></svg></div><span>4</span></div></div>
+      <div class="m-ac"><div role="button" tabindex="0" aria-label="Udostępnij post Magda W."><div data-ad-rendering-role="share_button"><svg><use href="#i-share"/></svg></div></div></div>
      </div>
     </div></div></div>
 
@@ -209,10 +212,10 @@ div[role="complementary"] h3{font-size:17px;font-weight:600;color:var(--tx2);pad
       <div role="button" class="m-cta" aria-label="Dowiedz się więcej">Dowiedz się więcej</div>
      </a>
      <div class="m-bar">
-      <div role="button" tabindex="0" aria-label="Zareaguj „Lubię to!” na post Finanse Dziś"><div data-ad-rendering-role="like_button"><svg><use href="#i-like"/></svg></div><span>1,4 tys.</span></div>
-      <div role="button" tabindex="0" class="m-pick" aria-label="Zareaguj na post Finanse Dziś"><svg><use href="#i-chev"/></svg></div>
-      <div role="button" tabindex="0" aria-label="Skomentuj post Finanse Dziś"><div data-ad-rendering-role="comment_button"><svg><use href="#i-cmt"/></svg></div><span>212</span></div>
-      <div role="button" tabindex="0" aria-label="Udostępnij post Finanse Dziś"><div data-ad-rendering-role="share_button"><svg><use href="#i-share"/></svg></div><span>87</span></div>
+      <div class="m-ac"><div role="button" tabindex="0" aria-label="Zareaguj „Lubię to!” na post Finanse Dziś"><div data-ad-rendering-role="like_button"><svg><use href="#i-like"/></svg></div><span>1,4 tys.</span></div></div>
+      <div class="m-ac"><div role="button" tabindex="0" class="m-pick" aria-label="Zareaguj na post Finanse Dziś"><svg><use href="#i-chev"/></svg></div></div>
+      <div class="m-ac"><div role="button" tabindex="0" aria-label="Skomentuj post Finanse Dziś"><div data-ad-rendering-role="comment_button"><svg><use href="#i-cmt"/></svg></div><span>212</span></div></div>
+      <div class="m-ac"><div role="button" tabindex="0" aria-label="Udostępnij post Finanse Dziś"><div data-ad-rendering-role="share_button"><svg><use href="#i-share"/></svg></div><span>87</span></div></div>
      </div>
     </div></div></div>
 
@@ -229,10 +232,10 @@ div[role="complementary"] h3{font-size:17px;font-weight:600;color:var(--tx2);pad
      <div data-ad-rendering-role="story_message"><div data-ad-preview="message" data-ad-comet-preview="message"><div dir="auto">Pilot z 20-letnim stażem w końcu powiedział prawdę: z samolotu NIGDY nie widać krzywizny. Ziemia jest płaska, a zdjęcia z kosmosu to grafika komputerowa. Udostępnij, zanim to usuną! <a href="#/hashtag/płaskaziemia" role="link">#PłaskaZiemia</a></div></div></div>
      <a class="m-media" href="#/photo/0003" role="link"><img alt="Może być zdjęciem przedstawiającym okno samolotu i tekst" src="../assets/flat-portrait.svg" style="aspect-ratio:1/1;object-fit:cover"></a>
      <div class="m-bar">
-      <div role="button" tabindex="0" aria-label="Zareaguj „Lubię to!” na post Prawda o Ziemi"><div data-ad-rendering-role="like_button"><svg><use href="#i-like"/></svg></div><span>5,8 tys.</span></div>
-      <div role="button" tabindex="0" class="m-pick" aria-label="Zareaguj na post Prawda o Ziemi"><svg><use href="#i-chev"/></svg></div>
-      <div role="button" tabindex="0" aria-label="Skomentuj post Prawda o Ziemi"><div data-ad-rendering-role="comment_button"><svg><use href="#i-cmt"/></svg></div><span>1,1 tys.</span></div>
-      <div role="button" tabindex="0" aria-label="Udostępnij post Prawda o Ziemi"><div data-ad-rendering-role="share_button"><svg><use href="#i-share"/></svg></div><span>3,2 tys.</span></div>
+      <div class="m-ac"><div role="button" tabindex="0" aria-label="Zareaguj „Lubię to!” na post Prawda o Ziemi"><div data-ad-rendering-role="like_button"><svg><use href="#i-like"/></svg></div><span>5,8 tys.</span></div></div>
+      <div class="m-ac"><div role="button" tabindex="0" class="m-pick" aria-label="Zareaguj na post Prawda o Ziemi"><svg><use href="#i-chev"/></svg></div></div>
+      <div class="m-ac"><div role="button" tabindex="0" aria-label="Skomentuj post Prawda o Ziemi"><div data-ad-rendering-role="comment_button"><svg><use href="#i-cmt"/></svg></div><span>1,1 tys.</span></div></div>
+      <div class="m-ac"><div role="button" tabindex="0" aria-label="Udostępnij post Prawda o Ziemi"><div data-ad-rendering-role="share_button"><svg><use href="#i-share"/></svg></div><span>3,2 tys.</span></div></div>
      </div>
     </div></div></div>
 
@@ -249,10 +252,10 @@ div[role="complementary"] h3{font-size:17px;font-weight:600;color:var(--tx2);pad
      <div data-ad-rendering-role="story_message"><div data-ad-preview="message" data-ad-comet-preview="message"><div dir="auto">Pierwszy śnieg w Zakopanem. Kto jedzie w ten weekend?</div></div></div>
      <a class="m-media" href="#/photo/0004" role="link"><img alt="Może być zdjęciem przedstawiającym góry i śnieg" src="../assets/snow-wide.svg"></a>
      <div class="m-bar">
-      <div role="button" tabindex="0" aria-label="Zareaguj „Lubię to!” na post Kuba Nowicki"><div data-ad-rendering-role="like_button"><svg><use href="#i-like"/></svg></div><span>87</span></div>
-      <div role="button" tabindex="0" class="m-pick" aria-label="Zareaguj na post Kuba Nowicki"><svg><use href="#i-chev"/></svg></div>
-      <div role="button" tabindex="0" aria-label="Skomentuj post Kuba Nowicki"><div data-ad-rendering-role="comment_button"><svg><use href="#i-cmt"/></svg></div><span>9</span></div>
-      <div role="button" tabindex="0" aria-label="Udostępnij post Kuba Nowicki"><div data-ad-rendering-role="share_button"><svg><use href="#i-share"/></svg></div></div>
+      <div class="m-ac"><div role="button" tabindex="0" aria-label="Zareaguj „Lubię to!” na post Kuba Nowicki"><div data-ad-rendering-role="like_button"><svg><use href="#i-like"/></svg></div><span>87</span></div></div>
+      <div class="m-ac"><div role="button" tabindex="0" class="m-pick" aria-label="Zareaguj na post Kuba Nowicki"><svg><use href="#i-chev"/></svg></div></div>
+      <div class="m-ac"><div role="button" tabindex="0" aria-label="Skomentuj post Kuba Nowicki"><div data-ad-rendering-role="comment_button"><svg><use href="#i-cmt"/></svg></div><span>9</span></div></div>
+      <div class="m-ac"><div role="button" tabindex="0" aria-label="Udostępnij post Kuba Nowicki"><div data-ad-rendering-role="share_button"><svg><use href="#i-share"/></svg></div></div></div>
      </div>
     </div></div></div>
 

@@ -24,7 +24,7 @@ Zasady wspólne dla wszystkich serwisów:
 | Pasek akcji | `[role="group"]` w poście; dzieci: `[data-testid="reply"]`, `"retweet"`, `"like"`, link statystyk `a[href$="/analytics"]`, `"bookmark"`, Udostępnij (bez testid) |
 | Reklama | `[data-testid="placementTracking"]` obejmuje `article`; etykieta „Reklama” to `span` poza `User-Name`, obok `[data-testid="caret"]`; reklama nie ma `time` |
 
-Miejsce na „Sprawdź”: dopisz `div` jako dziecko `[role="group"]` przed slotem zakładki (pasek to flex: 4 równe sloty po ok. 113 px, potem zakładka i udostępnij). Bezpieczniej: wstaw osobny wiersz zaraz po `[role="group"]`, bo React może przerysować grupę.
+Miejsce na „Sprawdź”: dopisz `div` jako ostatnie dziecko `[role="group"]`. Zmierzone 2026-11-22: zakładka (`[data-testid="bookmark"]` w `div` z `display:grid`) i udostępnij renderują się później niż reszta paska, więc wstawianie „przed zakładką” trafiało raz przed, raz za nią. Na końcu paska przycisk jest zawsze w tym samym miejscu, a makieta ma ten sam układ.
 
 Pułapki:
 - Lista jest wirtualizowana: `cellInnerDiv` ma `position:absolute; transform:translateY(...)`, kontener ma `min-height` całej listy. Komórki poza ekranem są usuwane, a węzły bywają używane ponownie dla innego posta. Makieta renderuje komórki w normalnym przepływie, bez recyklingu.
@@ -46,7 +46,7 @@ Pułapki:
 | Menu posta | `div[role="button"][aria-label="Działania dotyczące tego posta"]`, `a[aria-label^="Ukryj post"]` |
 | Reklama | „Sponsorowane” w miejscu czasu w linii meta (wzorzec znany, nie zmierzony; reklamy ukrył bloker). Historycznie FB rozbija ten tekst na litery w ukrytych spanach, więc sprawdzaj `aria-label`/`aria-labelledby` linku, a nie `textContent` |
 
-Miejsce na „Sprawdź”: dopisz przycisk do rodzica `div[role="button"]`, który zawiera `share_button` (pasek to rząd kompaktowych przycisków ikona+liczba, 44x32, wyrównany do lewej).
+Miejsce na „Sprawdź”: dopisz przycisk do wiersza akcji, czyli najbliższego wspólnego przodka `like_button` i `share_button` (`display:flex`, rząd), zaraz za elementem z udostępnianiem. Zmierzone 2026-11-22: każda akcja siedzi we własnym pudełku `display:flex; flex-direction:column` (makieta: `.m-ac`), więc rodzic `div[role="button"]` to kolumna, a nie wiersz. Przycisk dopisany do niej ląduje pod ikoną, a karta posta (`overflow:hidden`) go ucina. Wiersz ma `color:#1C1E21` także w ciemnym motywie; ikony i liczby biorą kolor z `--secondary-icon` (jasny `#65686C`, ciemny `#B0B3B8`), więc widżet też.
 
 Pułapki:
 - Wirtualizacja: jednostki daleko od ekranu dostają `data-virtualized="true"` i tracą treść (zostaje pusty kontener o tej samej wysokości). Gdy wracają, treść jest renderowana od nowa, więc wstrzyknięty przycisk znika.
@@ -114,7 +114,7 @@ Pułapki:
 | Nawigacja | `[data-e2e="feed-navigation-prev"]`, `"feed-navigation-next"` |
 | Reklama | etykieta „Sponsorowane” przy autorze i przycisk CTA w nakładce (nie zaobserwowane w sesji; brak znanego `data-e2e`, szukaj tekstu w nakładce) |
 
-Miejsce na „Sprawdź”: dopisz element na końcu `section` z akcjami (po `share-icon`), w tym samym formacie co inne akcje (okrągły przycisk 48 px + podpis).
+Miejsce na „Sprawdź”: dopisz element na końcu `section` z akcjami (po `share-icon`), w tym samym formacie co inne akcje (okrągły przycisk 48 px + podpis). Wynik leży na dole samego `section[data-e2e="feed-video"]` (`position:relative`, szerokość kadru). Zmierzone 2026-11-22: rodzic `feed-video` obejmuje też kolumnę akcji (ok. 1320 px przy kadrze 881 px), więc karta zakotwiczona w nim wychodzi poza film i zasłania akcje. Makieta ma ten sam układ: `article > div.m-row > [section feed-video (film i nakładka), section.m-actions]`.
 
 Pułapki:
 - Przewijanie dzieje się w `#column-list-container`, więc nasłuchuj `scroll` na nim, a nie na `window`.

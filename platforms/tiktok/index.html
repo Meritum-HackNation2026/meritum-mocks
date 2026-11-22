@@ -36,11 +36,13 @@ svg{fill:currentColor}
 main#main-content-homepage_hot{flex:1;position:relative;min-width:0}
 #column-list-container{height:100vh;overflow-y:scroll;scroll-snap-type:y mandatory;scrollbar-width:none}
 #column-list-container::-webkit-scrollbar{display:none}
-article[data-e2e="recommend-list-item-container"]{height:100vh;scroll-snap-align:start;display:flex;justify-content:center;align-items:flex-end;gap:16px;padding:16px 0}
-.m-media{position:relative;height:calc(100vh - 32px);aspect-ratio:9/16;flex:none}
-section[data-e2e="feed-video"]{position:absolute;inset:0;border-radius:16px;overflow:hidden;background:#111}
-section[data-e2e="feed-video"] video{display:block;width:100%;height:100%;object-fit:cover}
-.m-ov{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:space-between;color:#fff;pointer-events:none}
+article[data-e2e="recommend-list-item-container"]{height:100vh;scroll-snap-align:start;display:flex;justify-content:center;align-items:flex-end;padding:16px 0}
+/* As on tiktok.com: feed-video is the video frame itself (video and overlay inside), and its parent
+   also holds the action column, so it is wider than the video. */
+.m-row{display:flex;align-items:flex-end;gap:16px;position:relative}
+section[data-e2e="feed-video"]{position:relative;height:calc(100vh - 32px);aspect-ratio:9/16;flex:none;border-radius:16px;background:#111}
+section[data-e2e="feed-video"] video{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:cover;border-radius:16px}
+.m-ov{position:absolute;inset:0;border-radius:16px;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;color:#fff;pointer-events:none}
 .m-ov>*{pointer-events:auto}
 .m-ov-top{display:flex;justify-content:space-between;padding:8px}
 .m-ov-top button{display:grid;place-items:center;width:48px;height:48px;color:#fff}
@@ -122,8 +124,8 @@ section.m-actions{display:flex;flex-direction:column;align-items:center;gap:0;wi
   <div id="column-list-container" data-comment-panel-open="false">
 
    <article id="one-column-item-0" data-scroll-index="0" shape="vertical" data-e2e="recommend-list-item-container">
-    <div class="m-media">
-     <section data-e2e="feed-video"><video muted playsinline preload="none" poster="../assets/train-portrait.svg"></video></section>
+    <div class="m-row">
+     <section data-e2e="feed-video"><video muted playsinline preload="none" poster="../assets/train-portrait.svg"></video>
      <div class="m-ov">
       <div class="m-ov-top"><button type="button" aria-label="Wycisz"><svg><use href="#i-vol"/></svg></button><button type="button" data-e2e="more-menu-icon" aria-label="Więcej opcji"><svg><use href="#i-more"/></svg></button></div>
       <div class="m-ov-bot">
@@ -132,7 +134,7 @@ section.m-actions{display:flex;flex-direction:column;align-items:center;gap:0;wi
        <h4 data-e2e="video-music"><svg><use href="#i-note"/></svg>dźwięk oryginalny – magda_w</h4>
       </div>
      </div>
-    </div>
+     </section>
     <section class="m-actions">
      <div class="m-actav"><a href="#/@magda_w" data-e2e="video-author-avatar"><span class="av" style="--abg:#E4E9DF;--afg:#3E4F2E">MW</span></a><button type="button" data-e2e="feed-follow" aria-label="Obserwuj"><svg><use href="#i-plus"/></svg></button></div>
      <div class="m-act" data-e2e="like-icon" role="button" aria-label="Polub film. 112 polubień"><span><button type="button" tabindex="-1"><svg><use href="#i-heart"/></svg></button></span><strong data-e2e="like-count">112</strong></div>
@@ -141,11 +143,12 @@ section.m-actions{display:flex;flex-direction:column;align-items:center;gap:0;wi
      <div class="m-act" data-e2e="share-icon" role="button" aria-label="Udostępnij film. 2 udostępnienia"><span><button type="button" tabindex="-1"><svg><use href="#i-share"/></svg></button></span><strong data-e2e="share-count">2</strong></div>
      <div class="m-disc" aria-hidden="true"></div>
     </section>
+    </div>
    </article>
 
    <article id="one-column-item-1" data-scroll-index="1" shape="vertical" data-e2e="recommend-list-item-container">
-    <div class="m-media">
-     <section data-e2e="feed-video"><video muted playsinline preload="none" poster="../assets/ad-portrait.svg"></video></section>
+    <div class="m-row">
+     <section data-e2e="feed-video"><video muted playsinline preload="none" poster="../assets/ad-portrait.svg"></video>
      <div class="m-ov">
       <div class="m-ov-top"><button type="button" aria-label="Wycisz"><svg><use href="#i-vol"/></svg></button><button type="button" data-e2e="more-menu-icon" aria-label="Więcej opcji"><svg><use href="#i-more"/></svg></button></div>
       <div class="m-ov-bot">
@@ -155,7 +158,7 @@ section.m-actions{display:flex;flex-direction:column;align-items:center;gap:0;wi
        <a class="m-cta" href="https://inwest-polska24.online/wywiad" target="_blank" rel="nofollow noopener">Dowiedz się więcej</a>
       </div>
      </div>
-    </div>
+     </section>
     <section class="m-actions">
      <div class="m-actav"><a href="#/@finanse_dzis_pl" data-e2e="video-author-avatar"><span class="av" style="--abg:#F1E6C8;--afg:#5B4A1E">FD</span></a><button type="button" data-e2e="feed-follow" aria-label="Obserwuj"><svg><use href="#i-plus"/></svg></button></div>
      <div class="m-act" data-e2e="like-icon" role="button" aria-label="Polub film. 2140 polubień"><span><button type="button" tabindex="-1"><svg><use href="#i-heart"/></svg></button></span><strong data-e2e="like-count">2140</strong></div>
@@ -164,11 +167,12 @@ section.m-actions{display:flex;flex-direction:column;align-items:center;gap:0;wi
      <div class="m-act" data-e2e="share-icon" role="button" aria-label="Udostępnij film. 312 udostępnień"><span><button type="button" tabindex="-1"><svg><use href="#i-share"/></svg></button></span><strong data-e2e="share-count">312</strong></div>
      <div class="m-disc" aria-hidden="true"></div>
     </section>
+    </div>
    </article>
 
    <article id="one-column-item-2" data-scroll-index="2" shape="vertical" data-e2e="recommend-list-item-container">
-    <div class="m-media">
-     <section data-e2e="feed-video"><video muted playsinline preload="none" poster="../assets/flat-portrait.svg"></video></section>
+    <div class="m-row">
+     <section data-e2e="feed-video"><video muted playsinline preload="none" poster="../assets/flat-portrait.svg"></video>
      <div class="m-ov">
       <div class="m-ov-top"><button type="button" aria-label="Wycisz"><svg><use href="#i-vol"/></svg></button><button type="button" data-e2e="more-menu-icon" aria-label="Więcej opcji"><svg><use href="#i-more"/></svg></button></div>
       <div class="m-ov-bot">
@@ -177,7 +181,7 @@ section.m-actions{display:flex;flex-direction:column;align-items:center;gap:0;wi
        <h4 data-e2e="video-music"><svg><use href="#i-note"/></svg>dźwięk oryginalny – prawda_o_ziemi</h4>
       </div>
      </div>
-    </div>
+     </section>
     <section class="m-actions">
      <div class="m-actav"><a href="#/@prawda_o_ziemi" data-e2e="video-author-avatar"><span class="av" style="--abg:#E7E0F0;--afg:#4A3B5E">PZ</span></a><button type="button" data-e2e="feed-follow" aria-label="Obserwuj"><svg><use href="#i-plus"/></svg></button></div>
      <div class="m-act" data-e2e="like-icon" role="button" aria-label="Polub film. 48,2 tys. polubień"><span><button type="button" tabindex="-1"><svg><use href="#i-heart"/></svg></button></span><strong data-e2e="like-count">48.2K</strong></div>
@@ -186,11 +190,12 @@ section.m-actions{display:flex;flex-direction:column;align-items:center;gap:0;wi
      <div class="m-act" data-e2e="share-icon" role="button" aria-label="Udostępnij film. 12,4 tys. udostępnień"><span><button type="button" tabindex="-1"><svg><use href="#i-share"/></svg></button></span><strong data-e2e="share-count">12.4K</strong></div>
      <div class="m-disc" aria-hidden="true"></div>
     </section>
+    </div>
    </article>
 
    <article id="one-column-item-3" data-scroll-index="3" shape="vertical" data-e2e="recommend-list-item-container">
-    <div class="m-media">
-     <section data-e2e="feed-video"><video muted playsinline preload="none" poster="../assets/snow-portrait.svg"></video></section>
+    <div class="m-row">
+     <section data-e2e="feed-video"><video muted playsinline preload="none" poster="../assets/snow-portrait.svg"></video>
      <div class="m-ov">
       <div class="m-ov-top"><button type="button" aria-label="Wycisz"><svg><use href="#i-vol"/></svg></button><button type="button" data-e2e="more-menu-icon" aria-label="Więcej opcji"><svg><use href="#i-more"/></svg></button></div>
       <div class="m-ov-bot">
@@ -199,7 +204,7 @@ section.m-actions{display:flex;flex-direction:column;align-items:center;gap:0;wi
        <h4 data-e2e="video-music"><svg><use href="#i-note"/></svg>dźwięk oryginalny – kubanowicki</h4>
       </div>
      </div>
-    </div>
+     </section>
     <section class="m-actions">
      <div class="m-actav"><a href="#/@kubanowicki" data-e2e="video-author-avatar"><span class="av" style="--abg:#DCE7EE;--afg:#2E4A5E">KN</span></a><button type="button" data-e2e="feed-follow" aria-label="Obserwuj"><svg><use href="#i-plus"/></svg></button></div>
      <div class="m-act" data-e2e="like-icon" role="button" aria-label="Polub film. 3402 polubienia"><span><button type="button" tabindex="-1"><svg><use href="#i-heart"/></svg></button></span><strong data-e2e="like-count">3402</strong></div>
@@ -208,6 +213,7 @@ section.m-actions{display:flex;flex-direction:column;align-items:center;gap:0;wi
      <div class="m-act" data-e2e="share-icon" role="button" aria-label="Udostępnij film. 38 udostępnień"><span><button type="button" tabindex="-1"><svg><use href="#i-share"/></svg></button></span><strong data-e2e="share-count">38</strong></div>
      <div class="m-disc" aria-hidden="true"></div>
     </section>
+    </div>
    </article>
 
   </div>
