@@ -165,9 +165,11 @@
   --radius-pill: 9999px;                     /* buttons, badges, chips */
 
   --text-meta: 0.75rem;     --text-meta--line-height: 1rem;       /* 12px: widget header, axis labels */
-  --text-small: 0.8125rem;  --text-small--line-height: 1.25rem;   /* 13px: sources, captions */
-  --text-body: 0.9375rem;   --text-body--line-height: 1.375rem;   /* 15px: note text */
+  --text-small: 0.875rem;   --text-small--line-height: 1.25rem;   /* 14px: publisher lines, captions */
+  --text-body: 1rem;        --text-body--line-height: 1.5rem;     /* 16px: claims, explanations, quotes */
+  --text-verdict: 1.75rem; --text-verdict--line-height: 2rem;    /* 28px: the verdict word, the first thing a card says */
   --text-title: 1.375rem;   --text-title--line-height: 1.75rem;   /* 22px: dashboard h1 */
+  --text-headline: 1.875rem; --text-headline--line-height: 2.25rem; /* 30px: the welcome tagline of the web page only */
   --text-display: 2.5rem;   --text-display--line-height: 1.05;    /* 40px: slides only */
 
   --ease-out-meritum: cubic-bezier(0.16, 1, 0.3, 1);
@@ -175,6 +177,7 @@
 
   --animate-rise: rise 0.5s var(--ease-out-meritum) both;
   --animate-grow-x: grow-x 0.9s 0.4s var(--ease-out-meritum) both;
+  --animate-enter: rise 0.24s var(--ease-out-meritum) both;   /* a new question entering the conversation */
   @keyframes rise { from { opacity: 0; transform: translateY(8px); } }
   @keyframes grow-x { from { transform: scaleX(0); } }
 }
