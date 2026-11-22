@@ -50,8 +50,9 @@ jobs:
       - name: Public check
         run: |
           # discord: soft check until meritum-infra routes meritum-discord.gburek.app here.
-          for platform in x facebook instagram reddit tiktok discord; do
-            url="https://meritum-$platform.gburek.app/api/health"
+          # -dev hosts go to the same prd container (meritum-infra routes them).
+          for host in x facebook instagram reddit tiktok discord x-dev facebook-dev instagram-dev reddit-dev tiktok-dev; do
+            url="https://meritum-$host.gburek.app/api/health"
             ok=""
             for _ in $(seq 12); do
               if curl -fsS "$url" | grep -q '"database":"ok"'; then ok=1; echo "OK: $url"; break; fi
