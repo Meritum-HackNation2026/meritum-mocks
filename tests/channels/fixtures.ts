@@ -15,6 +15,8 @@ import type { CheckResult, ClaimResult } from '../../contracts/meritum.ts'
 export function decisiveClaim(overrides: Partial<ClaimResult> = {}): ClaimResult {
   return {
     claim: 'Językiem urzędowym w Polsce jest język polski.',
+    claim_date: '2026-11-21',
+    claim_date_source: 'today',
     verdict: 'confirmed',
     explanation: 'Konstytucja mówi to wprost w artykule 27.',
     strength: {
