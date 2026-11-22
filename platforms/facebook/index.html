@@ -84,6 +84,9 @@ div[role="main"]{flex:1;display:flex;justify-content:center;padding:16px 16px 64
 /* action bar: compact icon+count buttons, left aligned (observed 44x32 each) */
 /* As on facebook.com: each action sits in its own column box inside the row, the row keeps the
    light text colour even in dark mode, and icons and counts take --secondary-icon. */
+/* The row lives in a footer of fixed height that clips its content, so anything appended after the row
+   inside it is cut off; post text of ads sits in story_message without data-ad-preview="message". */
+.m-ft{height:48px;overflow:hidden}
 .m-bar{display:flex;align-items:center;gap:0;height:44px;padding:0 4px;margin-top:4px;color:#1C1E21}
 .m-bar>.m-ac{display:flex;flex-direction:column;justify-content:center;position:relative}
 .m-bar>.m-ac>[role="button"]{display:flex;align-items:center;gap:6px;height:32px;min-width:44px;padding:0 10px;border-radius:6px;color:var(--secondary-icon);font-size:15px;font-weight:600}
@@ -183,12 +186,12 @@ div[role="complementary"] h3{font-size:17px;font-weight:600;color:var(--tx2);pad
       <a href="#" role="link" aria-label="Ukryj post Magda W."><svg><use href="#i-x"/></svg></a>
      </div>
      <div data-ad-rendering-role="story_message"><div data-ad-preview="message" data-ad-comet-preview="message"><div dir="auto">Ktoś wie, czy w sobotę pociągi do Gdyni jeżdżą normalnie?</div></div></div>
-     <div class="m-bar">
+     <div class="m-ft"><div class="m-bar">
       <div class="m-ac"><div role="button" tabindex="0" aria-label="Zareaguj „Lubię to!” na post Magda W."><div data-ad-rendering-role="like_button"><svg><use href="#i-like"/></svg></div><span>12</span></div></div>
       <div class="m-ac"><div role="button" tabindex="0" class="m-pick" aria-label="Zareaguj na post Magda W."><svg><use href="#i-chev"/></svg></div></div>
       <div class="m-ac"><div role="button" tabindex="0" aria-label="Skomentuj post Magda W."><div data-ad-rendering-role="comment_button"><svg><use href="#i-cmt"/></svg></div><span>4</span></div></div>
       <div class="m-ac"><div role="button" tabindex="0" aria-label="Udostępnij post Magda W."><div data-ad-rendering-role="share_button"><svg><use href="#i-share"/></svg></div></div></div>
-     </div>
+     </div></div>
     </div></div></div>
 
     <div class="m-unit"><div data-virtualized="false"><div class="m-card m-post">
@@ -201,7 +204,7 @@ div[role="complementary"] h3{font-size:17px;font-weight:600;color:var(--tx2);pad
       <div role="button" aria-label="Działania dotyczące tego posta" aria-haspopup="menu" tabindex="0"><svg><use href="#i-more"/></svg></div>
       <a href="#" role="link" aria-label="Ukryj reklamę Finanse Dziś"><svg><use href="#i-x"/></svg></a>
      </div>
-     <div data-ad-rendering-role="story_message"><div data-ad-preview="message" data-ad-comet-preview="message"><div dir="auto">Tomasz Rewiński po latach zdradza, jak zarabia 1 200 zł dziennie. Bank chciał to ukryć!</div></div></div>
+     <div data-ad-rendering-role="story_message"><div dir="auto">Tomasz Rewiński po latach zdradza, jak zarabia 1 200 zł dziennie. Bank chciał to ukryć!</div></div>
      <a class="m-media" href="https://inwest-polska24.online/wywiad" role="link" target="_blank" rel="nofollow noopener"><img alt="" src="../assets/ad-wide.svg"></a>
      <a class="m-lnk" href="https://inwest-polska24.online/wywiad" role="link" target="_blank" rel="nofollow noopener">
       <div class="m-lnk-t">
@@ -211,12 +214,12 @@ div[role="complementary"] h3{font-size:17px;font-weight:600;color:var(--tx2);pad
       </div>
       <div role="button" class="m-cta" aria-label="Dowiedz się więcej">Dowiedz się więcej</div>
      </a>
-     <div class="m-bar">
+     <div class="m-ft"><div class="m-bar">
       <div class="m-ac"><div role="button" tabindex="0" aria-label="Zareaguj „Lubię to!” na post Finanse Dziś"><div data-ad-rendering-role="like_button"><svg><use href="#i-like"/></svg></div><span>1,4 tys.</span></div></div>
       <div class="m-ac"><div role="button" tabindex="0" class="m-pick" aria-label="Zareaguj na post Finanse Dziś"><svg><use href="#i-chev"/></svg></div></div>
       <div class="m-ac"><div role="button" tabindex="0" aria-label="Skomentuj post Finanse Dziś"><div data-ad-rendering-role="comment_button"><svg><use href="#i-cmt"/></svg></div><span>212</span></div></div>
       <div class="m-ac"><div role="button" tabindex="0" aria-label="Udostępnij post Finanse Dziś"><div data-ad-rendering-role="share_button"><svg><use href="#i-share"/></svg></div><span>87</span></div></div>
-     </div>
+     </div></div>
     </div></div></div>
 
     <div class="m-unit"><div data-virtualized="false"><div class="m-card m-post">
@@ -231,12 +234,12 @@ div[role="complementary"] h3{font-size:17px;font-weight:600;color:var(--tx2);pad
      </div>
      <div data-ad-rendering-role="story_message"><div data-ad-preview="message" data-ad-comet-preview="message"><div dir="auto">Pilot z 20-letnim stażem w końcu powiedział prawdę: z samolotu NIGDY nie widać krzywizny. Ziemia jest płaska, a zdjęcia z kosmosu to grafika komputerowa. Udostępnij, zanim to usuną! <a href="#/hashtag/płaskaziemia" role="link">#PłaskaZiemia</a></div></div></div>
      <a class="m-media" href="#/photo/0003" role="link"><img alt="Może być zdjęciem przedstawiającym okno samolotu i tekst" src="../assets/flat-portrait.svg" style="aspect-ratio:1/1;object-fit:cover"></a>
-     <div class="m-bar">
+     <div class="m-ft"><div class="m-bar">
       <div class="m-ac"><div role="button" tabindex="0" aria-label="Zareaguj „Lubię to!” na post Prawda o Ziemi"><div data-ad-rendering-role="like_button"><svg><use href="#i-like"/></svg></div><span>5,8 tys.</span></div></div>
       <div class="m-ac"><div role="button" tabindex="0" class="m-pick" aria-label="Zareaguj na post Prawda o Ziemi"><svg><use href="#i-chev"/></svg></div></div>
       <div class="m-ac"><div role="button" tabindex="0" aria-label="Skomentuj post Prawda o Ziemi"><div data-ad-rendering-role="comment_button"><svg><use href="#i-cmt"/></svg></div><span>1,1 tys.</span></div></div>
       <div class="m-ac"><div role="button" tabindex="0" aria-label="Udostępnij post Prawda o Ziemi"><div data-ad-rendering-role="share_button"><svg><use href="#i-share"/></svg></div><span>3,2 tys.</span></div></div>
-     </div>
+     </div></div>
     </div></div></div>
 
     <div class="m-unit"><div data-virtualized="false"><div class="m-card m-post">
@@ -251,12 +254,12 @@ div[role="complementary"] h3{font-size:17px;font-weight:600;color:var(--tx2);pad
      </div>
      <div data-ad-rendering-role="story_message"><div data-ad-preview="message" data-ad-comet-preview="message"><div dir="auto">Pierwszy śnieg w Zakopanem. Kto jedzie w ten weekend?</div></div></div>
      <a class="m-media" href="#/photo/0004" role="link"><img alt="Może być zdjęciem przedstawiającym góry i śnieg" src="../assets/snow-wide.svg"></a>
-     <div class="m-bar">
+     <div class="m-ft"><div class="m-bar">
       <div class="m-ac"><div role="button" tabindex="0" aria-label="Zareaguj „Lubię to!” na post Kuba Nowicki"><div data-ad-rendering-role="like_button"><svg><use href="#i-like"/></svg></div><span>87</span></div></div>
       <div class="m-ac"><div role="button" tabindex="0" class="m-pick" aria-label="Zareaguj na post Kuba Nowicki"><svg><use href="#i-chev"/></svg></div></div>
       <div class="m-ac"><div role="button" tabindex="0" aria-label="Skomentuj post Kuba Nowicki"><div data-ad-rendering-role="comment_button"><svg><use href="#i-cmt"/></svg></div><span>9</span></div></div>
       <div class="m-ac"><div role="button" tabindex="0" aria-label="Udostępnij post Kuba Nowicki"><div data-ad-rendering-role="share_button"><svg><use href="#i-share"/></svg></div></div></div>
-     </div>
+     </div></div>
     </div></div></div>
 
    </div>

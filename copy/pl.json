@@ -9,8 +9,14 @@
     ]
   },
   "layout": {
-    "$comment": "Page frame shared by every route. skip_to_content is the first focusable link on each page and moves focus to <main> (meritum-frontend#89).",
-    "skip_to_content": "Przejdź do treści"
+    "$comment": "Page frame shared by every route. skip_to_content is the first focusable link on each page and moves focus to <main> (meritum-frontend#89). error_* and not_found_* are the route error page and the 404 page (meritum-frontend#115).",
+    "skip_to_content": "Przejdź do treści",
+    "error_title": "Coś poszło nie tak",
+    "error_text": "Ta strona nie mogła się wyświetlić. To nie jest ocena żadnej informacji. Spróbuj jeszcze raz albo wróć na stronę główną.",
+    "error_retry": "Spróbuj jeszcze raz",
+    "not_found_title": "Nie ma takiej strony",
+    "not_found_text": "Adres jest błędny albo strona została usunięta. Wróć na stronę główną i sprawdź informację od początku.",
+    "back_home": "Wróć na stronę główną"
   },
   "form": {
     "$comment": "audio_transcription_warning is shown next to the audio field before sending; result.transcript_hint is shown on the result card next to the transcript (meritum-frontend#22, frontend/007). audio_provider, audio_cost and audio_retention sit under the audio field; {days} is the same check-record retention as in form.privacy (design-system#69). image_cost and image_retention sit under the image field the same way. delete_session_* confirm „Usuń moje sprawdzenia” on the page (design-system#74).",
@@ -88,6 +94,7 @@
     "delete_account_text": "Usuniemy twoje konto i całą historię sprawdzeń zapisaną na naszym serwerze. Tego nie da się cofnąć. Bez konta możesz dalej sprawdzać informacje.",
     "delete_account_yes": "Usuń konto",
     "stored": "Zapisujemy imię i nazwisko, adres e-mail i identyfikator konta od Google albo Microsoft. Zapisujemy też historię sprawdzeń z ukrytymi danymi osobowymi.",
+    "stored_demo": "To konto demonstracyjne, bez logowania przez Google ani Microsoft. Nie zapisujemy z niego imienia, nazwiska ani adresu e-mail. Zapisujemy tylko historię sprawdzeń z ukrytymi danymi osobowymi.",
     "signed_in_as": "Zalogowano jako {email}.",
     "signed_out": "Wylogowano. Historia zostaje na koncie i zobaczysz ją po ponownym zalogowaniu.",
     "sign_in_failed": "Nie udało się zalogować. Spróbuj jeszcze raz albo sprawdzaj bez konta.",
@@ -725,6 +732,9 @@
     "download": "Pobierz kopię",
     "copy_hash": "Kopiuj skrót",
     "copied": "Skopiowano skrót.",
+    "id": "Numer kopii",
+    "copy_id": "Kopiuj numer",
+    "copied_id": "Skopiowano numer.",
     "delete": "Usuń kopię",
     "deleted": "Usunęliśmy kopię.",
     "not_in_sources": "Kopia nie trafia do źródeł, z których Meritum korzysta przy sprawdzaniu.",
